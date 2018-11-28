@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.IBinder
 import com.snatik.storage.Storage
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import me.bakumon.moneykeeper.api.Network
 import me.bakumon.moneykeeper.database.AppDatabase
@@ -20,6 +21,7 @@ import okhttp3.RequestBody
  */
 class CloudBackupService : Service() {
 
+    private val mDisposable = CompositeDisposable()
     private var isShowSuccessTip = false
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -29,7 +31,7 @@ class CloudBackupService : Service() {
     }
 
     private fun backup() {
-        Network.davService().list(BackupConstant.BACKUP_DIR)
+        mDisposable.add(Network.davService().list(BackupConstant.BACKUP_DIR)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -42,10 +44,11 @@ class CloudBackupService : Service() {
                 ) {
                     onCloudBackupFail(it.message)
                 }
+        )
     }
 
     private fun createDir() {
-        Network.davService().createDir(BackupConstant.BACKUP_DIR)
+        mDisposable.add(Network.davService().createDir(BackupConstant.BACKUP_DIR)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -57,6 +60,7 @@ class CloudBackupService : Service() {
                 ) {
                     onCloudBackupFail(it.message)
                 }
+        )
     }
 
     private fun backupUpload() {
@@ -65,7 +69,7 @@ class CloudBackupService : Service() {
         val file = storage.getFile(path)
         val body = RequestBody.create(MediaType.parse("application/octet-stream"), file)
 
-        Network.davService().uploadCall(BackupConstant.BACKUP_FILE, body)
+        mDisposable.add(Network.davService().uploadCall(BackupConstant.BACKUP_FILE, body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -77,6 +81,7 @@ class CloudBackupService : Service() {
                 ) {
                     onCloudBackupFail(it.message)
                 }
+        )
     }
 
     private fun onCloudBackupSuccess() {
@@ -93,6 +98,11 @@ class CloudBackupService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mDisposable.clear()
     }
 
     companion object {
