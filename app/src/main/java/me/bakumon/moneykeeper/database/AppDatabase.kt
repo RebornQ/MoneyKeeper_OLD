@@ -111,6 +111,7 @@ abstract class AppDatabase : RoomDatabase() {
                     synchronized(AppDatabase::class) {
                         if (INSTANCE == null) {
                             INSTANCE = Room.databaseBuilder(App.instance, AppDatabase::class.java, DB_NAME)
+                                    .setJournalMode(JournalMode.TRUNCATE)
                                     .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                                     .build()
                         }
