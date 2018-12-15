@@ -52,13 +52,13 @@
     <style name="LinearRecyclerView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="layoutManager">android.support.v7.widget.LinearLayoutManager</item>
+        <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
         <item name="android:overScrollMode">never</item>
     </style>
 
     <style name="AddFAB">
-        <item name="android:layout_width">60dp</item>
-        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">bottom|center</item>
         <item name="android:layout_margin">25dp</item>
         <item name="srcCompat">@drawable/ic_add</item>

@@ -18,8 +18,6 @@ package me.bakumon.moneykeeper.ui.home
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -27,15 +25,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.layout_head_page.view.*
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.database.entity.AssetsMoneyBean
 import me.bakumon.moneykeeper.database.entity.RecordType
 import me.bakumon.moneykeeper.database.entity.SumMoneyBean
+import me.bakumon.moneykeeper.ui.assets.AssetsActivity
+import me.bakumon.moneykeeper.ui.settings.SettingsActivity
 import me.bakumon.moneykeeper.utill.BigDecimalUtil
-import me.drakeet.floo.Floo
 import java.math.BigDecimal
 
 /**
@@ -43,7 +43,8 @@ import java.math.BigDecimal
  *
  * @author Bakumon https://bakumon.me
  */
-class HeadPageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
+class HeadPageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    LinearLayout(context, attrs, defStyleAttr) {
 
     private val inflater = LayoutInflater.from(context)
 
@@ -89,7 +90,8 @@ class HeadPageView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val tvRightContent: TextView = pagerView!!.findViewById(R.id.tvRightContent)
         val llRightContent: LinearLayout = pagerView!!.findViewById(R.id.llRightContent)
 
-        val text = if (ConfigManager.symbol.isEmpty()) "" else "(" + ConfigManager.symbol + ")"
+        val symbol = DefaultSPHelper.symbol
+        val text = if (symbol.isBlank()) "" else "($symbol)"
         tvLeftTitle.text = context.getText(R.string.text_month_outlay).toString() + text
         tvRightTitle.text = context.getText(R.string.text_month_remaining_budget).toString() + text
 
@@ -112,9 +114,11 @@ class HeadPageView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }
         }
-        val budget = ConfigManager.budget
-        if (budget > 0) {
-            val budgetStr = BigDecimalUtil.fen2YuanWithText(BigDecimal(ConfigManager.budget).multiply(BigDecimal(100)).subtract(outlay))
+        val budget = DefaultSPHelper.budget
+        if (BigDecimal(budget) > BigDecimal(0)) {
+            val budgetStr = BigDecimalUtil.fen2YuanWithText(
+                BigDecimal(budget).multiply(BigDecimal(100)).subtract(outlay)
+            )
             tvRightContent.text = budgetStr
             tvRightContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 34f)
         } else {
@@ -122,8 +126,7 @@ class HeadPageView @JvmOverloads constructor(context: Context, attrs: AttributeS
             tvRightContent.text = tvRightContent.context.getString(R.string.text_set_budget)
         }
         llRightContent.setOnClickListener {
-            Floo.navigation(llRightContent.context, Router.Url.URL_SETTING)
-                    .start()
+            SettingsActivity.open(context)
         }
         return pagerView!!
     }
@@ -139,7 +142,8 @@ class HeadPageView @JvmOverloads constructor(context: Context, attrs: AttributeS
         val tvRightContent: TextView = pagerView1!!.findViewById(R.id.tvRightContent)
         val llRightContent: LinearLayout = pagerView1!!.findViewById(R.id.llRightContent)
 
-        val text = if (ConfigManager.symbol.isEmpty()) "" else "(" + ConfigManager.symbol + ")"
+        val symbol = DefaultSPHelper.symbol
+        val text = if (symbol.isBlank()) "" else "($symbol)"
         tvLeftTitle.text = context.getText(R.string.text_month_income).toString() + text
         tvRightTitle.text = context.getText(R.string.text_assets).toString() + text
 
@@ -155,8 +159,7 @@ class HeadPageView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         tvRightContent.text = BigDecimalUtil.fen2YuanWithText(assetsMontyBean.netAssets)
         llRightContent.setOnClickListener {
-            Floo.navigation(llRightContent.context, Router.Url.URL_ASSETS)
-                    .start()
+            AssetsActivity.open(context)
         }
         return pagerView1!!
     }

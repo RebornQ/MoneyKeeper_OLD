@@ -17,32 +17,31 @@
 package me.bakumon.moneykeeper.ui.assets.detail
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v7.widget.Toolbar
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.RadioGroup
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import kotlinx.android.synthetic.main.activity_assets_detail.*
 import kotlinx.android.synthetic.main.layout_three_choose.view.*
 import kotlinx.android.synthetic.main.layout_tool_bar.view.*
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.Assets
+import me.bakumon.moneykeeper.ui.assets.add.AddAssetsActivity
 import me.bakumon.moneykeeper.ui.common.BaseActivity
 import me.bakumon.moneykeeper.utill.BigDecimalUtil
 import me.bakumon.moneykeeper.utill.ResourcesUtil
 import me.bakumon.moneykeeper.utill.ToastUtils
-import me.drakeet.floo.Floo
-import java.util.*
 
 /**
  * AddAssetsActivity
@@ -69,7 +68,7 @@ class AssetsDetailActivity : BaseActivity() {
     }
 
     override fun onInit(savedInstanceState: Bundle?) {
-        val extra = intent.getSerializableExtra(Router.ExtraKey.KEY_ASSETS)
+        val extra = intent.getSerializableExtra(KEY_ASSETS)
         if (extra == null) {
             finish()
         }
@@ -78,7 +77,10 @@ class AssetsDetailActivity : BaseActivity() {
         val transferListFragment = TransferListFragment.newInstance(mAssets.id!!)
         val orderListFragment = OrderListFragment.newInstance(mAssets.id!!)
         val modifyListFragment = ModifyListFragment.newInstance(mAssets.id!!)
-        val adapter = FragmentViewPagerAdapter(supportFragmentManager, arrayListOf(transferListFragment, orderListFragment, modifyListFragment))
+        val adapter = FragmentViewPagerAdapter(
+            supportFragmentManager,
+            arrayListOf(transferListFragment, orderListFragment, modifyListFragment)
+        )
 
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3
@@ -124,34 +126,30 @@ class AssetsDetailActivity : BaseActivity() {
             tvRemark.visibility = View.VISIBLE
             tvRemark.text = assets.remark
         }
-        val text = if (ConfigManager.symbol.isEmpty()) "" else "(" + ConfigManager.symbol + ")"
+        val text = if (DefaultSPHelper.symbol.isBlank()) "" else "(" + DefaultSPHelper.symbol + ")"
         tvMoneyTitle.text = getText(R.string.text_assets_balance).toString() + text
         tvMoney.text = BigDecimalUtil.fen2YuanWithText(assets.money)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_assets_detail, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun getMenuRes(): Int {
+        return R.menu.menu_assets_detail
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         when (menuItem?.itemId) {
-            R.id.action_edit -> Floo.navigation(this, Router.Url.URL_ADD_ASSETS)
-                    .putExtra(Router.ExtraKey.KEY_ASSETS, mAssets)
-                    .start()
+            R.id.action_edit -> AddAssetsActivity.open(this, assets = mAssets)
             R.id.action_delete -> showDeleteDialog()
-            android.R.id.home -> finish()
         }
-        return true
+        return super.onOptionsItemSelected(menuItem)
     }
 
     private fun showDeleteDialog() {
         MaterialDialog(this)
-                .title(R.string.text_delete)
-                .message(R.string.text_tip_delete_assets)
-                .negativeButton(R.string.text_cancel)
-                .positiveButton(R.string.text_affirm_delete) { deleteAssets() }
-                .show()
+            .title(R.string.text_delete)
+            .message(R.string.text_tip_delete_assets)
+            .negativeButton(R.string.text_cancel)
+            .positiveButton(R.string.text_affirm_delete) { deleteAssets() }
+            .show()
     }
 
     /**
@@ -177,7 +175,8 @@ class AssetsDetailActivity : BaseActivity() {
         })
     }
 
-    inner class FragmentViewPagerAdapter(fm: FragmentManager, private val fragments: ArrayList<Fragment>) : FragmentPagerAdapter(fm) {
+    inner class FragmentViewPagerAdapter(fm: FragmentManager, private val fragments: ArrayList<Fragment>) :
+        FragmentPagerAdapter(fm) {
         override fun getItem(position: Int): Fragment {
             return fragments[position]
         }
@@ -186,5 +185,14 @@ class AssetsDetailActivity : BaseActivity() {
             return fragments.size
         }
 
+    }
+
+    companion object {
+        private const val KEY_ASSETS = "KEY_ASSETS"
+        fun open(context: Context, assets: Assets) {
+            val intent = Intent(context, AssetsDetailActivity::class.java)
+            intent.putExtra(KEY_ASSETS, assets)
+            context.startActivity(intent)
+        }
     }
 }

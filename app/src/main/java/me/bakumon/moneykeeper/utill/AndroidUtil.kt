@@ -16,13 +16,11 @@
 
 package me.bakumon.moneykeeper.utill
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
-import me.bakumon.moneykeeper.Constant
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import me.bakumon.moneykeeper.R
 
 /**
@@ -45,16 +43,16 @@ object AndroidUtil {
         }
     }
 
-    /**
-     * 去支付宝捐赠
-     */
-    fun alipay(activity: Activity) {
-        if (AlipayZeroSdk.hasInstalledAlipayClient(activity)) {
-            AlipayZeroSdk.startAlipayClient(activity, Constant.ALIPAY_CODE)
-        } else {
-            ToastUtils.show(R.string.toast_not_install_alipay)
-        }
-    }
+//    /**
+//     * 去支付宝捐赠
+//     */
+//    fun alipay(activity: Activity) {
+//        if (AlipayZeroSdk.hasInstalledAlipayClient(activity)) {
+//            AlipayZeroSdk.startAlipayClient(activity, Constant.ALIPAY_CODE)
+//        } else {
+//            ToastUtils.show(R.string.toast_not_install_alipay)
+//        }
+//    }
 
     /**
      * 通过浏览器打开
@@ -62,8 +60,7 @@ object AndroidUtil {
      */
     fun openWeb(context: Context, url: String) {
         val builder = CustomTabsIntent.Builder()
-        // github 黑色把
-        builder.setToolbarColor(Color.parseColor("#ff24292d"))
+        builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorWindowBackground))
         val customTabsIntent = builder.build()
         customTabsIntent.launchUrl(context, Uri.parse(url))
     }

@@ -34,7 +34,7 @@
         android:layout_height="180dp"
         android:layout_margin="20dp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvReports"
         style="@style/LinearRecyclerView"
         android:clipToPadding="false"

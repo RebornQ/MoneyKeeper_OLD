@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018 Bakumon. https://github.com/Bakumon
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.bakumon.moneykeeper.api
 
 import com.burgstaller.okhttp.AuthenticationCacheInterceptor
@@ -7,7 +22,7 @@ import com.burgstaller.okhttp.basic.BasicAuthenticator
 import com.burgstaller.okhttp.digest.CachingAuthenticator
 import com.burgstaller.okhttp.digest.DigestAuthenticator
 import me.bakumon.moneykeeper.BuildConfig
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -40,7 +55,7 @@ object Network {
     fun updateDavServiceConfig() {
 
         val authCache = ConcurrentHashMap<String, CachingAuthenticator>()
-        val credentials = com.burgstaller.okhttp.digest.Credentials(ConfigManager.webDavAccount, ConfigManager.webDAVPsw)
+        val credentials = com.burgstaller.okhttp.digest.Credentials(DefaultSPHelper.webdavUserName, DefaultSPHelper.webdavPsw)
         val basicAuthenticator = BasicAuthenticator(credentials)
         val digestAuthenticator = DigestAuthenticator(credentials)
 
@@ -64,7 +79,7 @@ object Network {
                 .addCallAdapterFactory(LiveDataCallAdapterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
-        val url = ConfigManager.webDavUrl
+        val url = DefaultSPHelper.webdavUrl
         if (url.isEmpty()) {
             return
         }

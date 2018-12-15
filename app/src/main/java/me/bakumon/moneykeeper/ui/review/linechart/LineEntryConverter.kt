@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.ui.review.linechart
 
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet

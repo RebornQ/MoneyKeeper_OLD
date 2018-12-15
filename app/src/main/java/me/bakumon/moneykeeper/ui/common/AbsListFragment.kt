@@ -17,7 +17,7 @@
 package me.bakumon.moneykeeper.ui.common
 
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_list.*
 import me.bakumon.moneykeeper.R
 import me.drakeet.multitype.Items

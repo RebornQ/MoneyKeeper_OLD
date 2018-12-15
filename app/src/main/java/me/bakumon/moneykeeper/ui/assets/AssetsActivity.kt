@@ -17,35 +17,37 @@
 package me.bakumon.moneykeeper.ui.assets
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Gravity
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.activity_assets.*
 import kotlinx.android.synthetic.main.layout_sort_tip.view.*
 import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.Assets
 import me.bakumon.moneykeeper.database.entity.AssetsMoneyBean
+import me.bakumon.moneykeeper.ui.add.AddRecordActivity
+import me.bakumon.moneykeeper.ui.assets.choose.ChooseAssetsActivity
 import me.bakumon.moneykeeper.ui.common.BaseActivity
 import me.bakumon.moneykeeper.ui.common.Empty
 import me.bakumon.moneykeeper.ui.common.EmptyViewBinder
 import me.bakumon.moneykeeper.ui.common.SortDragCallback
 import me.bakumon.moneykeeper.utill.BigDecimalUtil
 import me.bakumon.moneykeeper.utill.ToastUtils
-import me.drakeet.floo.Floo
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.register
 
 /**
- * AssetsActivity
+ * 资产首页（资产列表）
  *
  * @author bakumon https://bakumon.me
  * @date 2018/8/28
@@ -67,13 +69,9 @@ class AssetsActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        btnAdd.setOnClickListener {
-            Floo.navigation(this, Router.Url.URL_ADD_RECORD)
-                    .putExtra(Router.ExtraKey.KEY_IS_TRANSFER, true)
-                    .start()
-        }
+        btnAdd.setOnClickListener { AddRecordActivity.open(this, isTransfer = true) }
 
-        val text = if (ConfigManager.symbol.isEmpty()) "" else "(" + ConfigManager.symbol + ")"
+        val text = if (DefaultSPHelper.symbol.isBlank()) "" else "(" + DefaultSPHelper.symbol + ")"
         tvNetAssetsTitle.text = getString(R.string.text_assets) + text
 
         category.text = getString(R.string.text_assets_account)
@@ -122,10 +120,10 @@ class AssetsActivity : BaseActivity() {
 
     private fun setItems(list: List<Assets>) {
         if (list.size < 2) {
-            btnAdd.visibility = View.GONE
+            btnAdd.hide()
             sortTip.visibility = View.GONE
         } else {
-            btnAdd.visibility = View.VISIBLE
+            btnAdd.show()
             // 排序提示在用户点击或用户手动排序一次后隐藏，并且将不会显示
             if (ConfigManager.isShowSortTip) {
                 sortTip.visibility = View.VISIBLE
@@ -147,6 +145,9 @@ class AssetsActivity : BaseActivity() {
         mAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * 防止重复提交
+     */
     private var isSaving = false
 
     private fun saveSort() {
@@ -169,17 +170,20 @@ class AssetsActivity : BaseActivity() {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_assets, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun getMenuRes(): Int {
+        return R.menu.menu_assets
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         when (menuItem?.itemId) {
-            R.id.action_add -> Floo.navigation(this, Router.Url.URL_CHOOSE_ASSETS).start()
-            android.R.id.home -> finish()
+            R.id.action_add -> ChooseAssetsActivity.open(this)
         }
-        return true
+        return super.onOptionsItemSelected(menuItem)
     }
 
+    companion object {
+        fun open(context: Context) {
+            context.startActivity(Intent(context, AssetsActivity::class.java))
+        }
+    }
 }

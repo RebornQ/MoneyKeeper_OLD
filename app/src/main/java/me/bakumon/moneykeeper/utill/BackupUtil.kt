@@ -19,9 +19,9 @@ package me.bakumon.moneykeeper.utill
 import com.snatik.storage.Storage
 import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.BuildConfig
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.database.AppDatabase
-import me.bakumon.moneykeeper.ui.setting.BackupBean
+import me.bakumon.moneykeeper.ui.settings.backup.BackupBean
 import org.ocpsoft.prettytime.PrettyTime
 import java.io.File
 import java.util.*
@@ -68,11 +68,11 @@ object BackupUtil {
 
     private fun getRootPath(): String {
         val storage = Storage(App.instance)
-        val backupPath = ConfigManager.backupFolder
-        return if (backupPath.isEmpty()) {
+        val backupPath = DefaultSPHelper.localBackupFilePath
+        return if (backupPath.isNullOrBlank()) {
             storage.externalStorageDirectory + File.separator + BACKUP_DIR
         } else {
-            backupPath
+            backupPath!!
         }
     }
 
@@ -87,10 +87,10 @@ object BackupUtil {
         for (i in files.indices) {
             fileTemp = files[i]
             bean = BackupBean(
-                    fileTemp,
-                    fileTemp.name,
-                    storage.getReadableSize(fileTemp),
-                    prettyTime.format(Date(fileTemp.lastModified()))
+                fileTemp,
+                fileTemp.name,
+                storage.getReadableSize(fileTemp),
+                prettyTime.format(Date(fileTemp.lastModified()))
             )
             backupBeans.add(bean)
         }

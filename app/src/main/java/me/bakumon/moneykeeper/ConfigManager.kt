@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper
 
-import android.support.annotation.IntDef
+import androidx.annotation.LongDef
 import me.bakumon.moneykeeper.utill.SPUtils
 
 /**
@@ -26,7 +26,7 @@ import me.bakumon.moneykeeper.utill.SPUtils
  */
 object ConfigManager {
 
-    @IntDef(MODE_NO, MODE_LAUNCHER_APP, MODE_EXIT_APP)
+    @LongDef(MODE_NO, MODE_LAUNCHER_APP, MODE_EXIT_APP)
     @Retention(AnnotationRetention.SOURCE)
     annotation class CloudBackupMode
 
@@ -62,7 +62,10 @@ object ConfigManager {
         get() = SPUtils.getInstance(SP_NAME)!!.getInt(KEY_BUDGET, 0)
 
     val symbol: String
-        get() = SPUtils.getInstance(SP_NAME)!!.getString(KEY_SYMBOL, App.instance.resources.getStringArray(R.array.simple_symbol)[0])
+        get() = SPUtils.getInstance(SP_NAME)!!.getString(
+            KEY_SYMBOL,
+            App.instance.resources.getStringArray(R.array.simple_symbol)[0]
+        )
 
     val webDavUrl: String
         get() = SPUtils.getInstance(SP_NAME)!!.getString(KEY_WEBDAV_URL, "")

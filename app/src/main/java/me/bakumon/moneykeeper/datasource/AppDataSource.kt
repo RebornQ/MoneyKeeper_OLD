@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.datasource
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import io.reactivex.Completable
 import me.bakumon.moneykeeper.database.entity.*
 import me.bakumon.moneykeeper.ui.addtype.TypeImgBean

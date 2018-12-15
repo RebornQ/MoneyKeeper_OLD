@@ -16,21 +16,16 @@
 
 package me.bakumon.moneykeeper.ui.home
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.FlowableOnSubscribe
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import me.bakumon.moneykeeper.ConfigManager
 import me.bakumon.moneykeeper.base.Resource
 import me.bakumon.moneykeeper.database.entity.AssetsMoneyBean
 import me.bakumon.moneykeeper.database.entity.RecordWithType
 import me.bakumon.moneykeeper.database.entity.SumMoneyBean
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
-import me.bakumon.moneykeeper.utill.EncryptUtil
 
 /**
  * 主页 ViewModel
@@ -38,34 +33,6 @@ import me.bakumon.moneykeeper.utill.EncryptUtil
  * @author Bakumon https://bakumon.me
  */
 class HomeViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
-
-    private lateinit var pswLiveData: MutableLiveData<Resource<String>>
-
-    fun getPsw(): LiveData<Resource<String>> {
-        pswLiveData = MutableLiveData()
-        getClearPsw()
-        return pswLiveData
-    }
-
-    private fun getClearPsw() {
-        val key = EncryptUtil.key
-        val salt = EncryptUtil.salt
-
-        mDisposable.add(Flowable.create(FlowableOnSubscribe<String> {
-            val displayPsw = ConfigManager.webDavEncryptPsw
-            val psw = if (displayPsw.isEmpty()) "" else EncryptUtil.decrypt(displayPsw, key, salt)
-            it.onNext(psw)
-        }, BackpressureStrategy.BUFFER)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    pswLiveData.value = Resource.create(it)
-                })
-                { throwable ->
-                    pswLiveData.value = Resource.create(throwable)
-                }
-        )
-    }
 
     val currentMonthRecordWithTypes: LiveData<List<RecordWithType>>
         get() = mDataSource.getRecordWithTypesRecent()
@@ -76,28 +43,28 @@ class HomeViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
     fun initRecordTypes(): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.initRecordTypes()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    liveData.value = Resource.create(true)
-                }
-                ) { throwable ->
-                    liveData.value = Resource.create(throwable)
-                })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                liveData.value = Resource.create(true)
+            }
+            ) { throwable ->
+                liveData.value = Resource.create(throwable)
+            })
         return liveData
     }
 
     fun deleteRecord(record: RecordWithType): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.deleteRecord(record)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    liveData.value = Resource.create(true)
-                }
-                ) { throwable ->
-                    liveData.value = Resource.create(throwable)
-                })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                liveData.value = Resource.create(true)
+            }
+            ) { throwable ->
+                liveData.value = Resource.create(throwable)
+            })
         return liveData
     }
 

@@ -16,8 +16,8 @@
 
 package me.bakumon.moneykeeper.database.dao
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import me.bakumon.moneykeeper.database.entity.AssetsTransferRecord
 import me.bakumon.moneykeeper.database.entity.AssetsTransferRecordWithAssets
 

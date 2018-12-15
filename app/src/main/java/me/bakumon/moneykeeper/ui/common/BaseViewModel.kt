@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.ui.common
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import me.bakumon.moneykeeper.datasource.AppDataSource
 

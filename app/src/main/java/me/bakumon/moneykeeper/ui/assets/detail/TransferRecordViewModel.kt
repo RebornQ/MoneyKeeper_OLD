@@ -16,8 +16,8 @@
 
 package me.bakumon.moneykeeper.ui.assets.detail
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.bakumon.moneykeeper.base.Resource
@@ -39,14 +39,14 @@ class TransferRecordViewModel(dataSource: AppDataSource) : BaseViewModel(dataSou
     fun deleteTransferRecord(transferRecord: AssetsTransferRecordWithAssets): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.deleteTransferRecord(transferRecord)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    liveData.value = Resource.create(true)
-                }
-                ) { throwable ->
-                    liveData.value = Resource.create(throwable)
-                })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                liveData.value = Resource.create(true)
+            }
+            ) { throwable ->
+                liveData.value = Resource.create(throwable)
+            })
         return liveData
     }
 }

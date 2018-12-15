@@ -23,7 +23,7 @@
     android:orientation="vertical"
     android:paddingEnd="20dp"
     android:paddingStart="20dp"
-    tools:context="me.bakumon.moneykeeper.ui.add.TransferAssetsFragment">
+    tools:context="me.bakumon.moneykeeper.ui.add.transfer.TransferAssetsFragment">
 
     <TextView
         android:id="@+id/tvSortTip"

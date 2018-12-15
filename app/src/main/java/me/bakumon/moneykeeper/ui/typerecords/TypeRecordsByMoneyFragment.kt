@@ -16,12 +16,11 @@
 
 package me.bakumon.moneykeeper.ui.typerecords
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.Gravity
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.layout_list.*
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.RecordWithType
@@ -56,10 +55,10 @@ class TypeRecordsByMoneyFragment : BaseFragment() {
     override fun onInit(savedInstanceState: Bundle?) {
         val bundle = arguments
         if (bundle != null) {
-            mRecordType = bundle.getInt(Router.ExtraKey.KEY_RECORD_TYPE)
-            mRecordTypeId = bundle.getInt(Router.ExtraKey.KEY_RECORD_TYPE_ID)
-            mYear = bundle.getInt(Router.ExtraKey.KEY_YEAR)
-            mMonth = bundle.getInt(Router.ExtraKey.KEY_MONTH)
+            mRecordType = bundle.getInt(KEY_RECORD_TYPE)
+            mRecordTypeId = bundle.getInt(KEY_RECORD_TYPE_ID)
+            mYear = bundle.getInt(KEY_YEAR)
+            mMonth = bundle.getInt(KEY_MONTH)
         }
 
         mAdapter = MultiTypeAdapter()
@@ -109,15 +108,18 @@ class TypeRecordsByMoneyFragment : BaseFragment() {
     }
 
     companion object {
-        private val TAG = TypeRecordsByMoneyFragment::class.java.simpleName
+        private const val KEY_RECORD_TYPE = "KEY_RECORD_TYPE"
+        private const val KEY_RECORD_TYPE_ID = "KEY_RECORD_TYPE_ID"
+        private const val KEY_YEAR = "KEY_YEAR"
+        private const val KEY_MONTH = "KEY_MONTH"
 
         fun newInstance(recordType: Int, recordTypeId: Int, year: Int, month: Int): TypeRecordsByMoneyFragment {
             val fragment = TypeRecordsByMoneyFragment()
             val bundle = Bundle()
-            bundle.putInt(Router.ExtraKey.KEY_RECORD_TYPE, recordType)
-            bundle.putInt(Router.ExtraKey.KEY_RECORD_TYPE_ID, recordTypeId)
-            bundle.putInt(Router.ExtraKey.KEY_YEAR, year)
-            bundle.putInt(Router.ExtraKey.KEY_MONTH, month)
+            bundle.putInt(KEY_RECORD_TYPE, recordType)
+            bundle.putInt(KEY_RECORD_TYPE_ID, recordTypeId)
+            bundle.putInt(KEY_YEAR, year)
+            bundle.putInt(KEY_MONTH, month)
             fragment.arguments = bundle
             return fragment
         }

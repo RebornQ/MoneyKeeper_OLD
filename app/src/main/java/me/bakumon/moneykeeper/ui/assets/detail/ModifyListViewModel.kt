@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.ui.assets.detail
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import me.bakumon.moneykeeper.database.entity.AssetsModifyRecord
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel

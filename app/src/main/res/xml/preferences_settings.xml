@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2018 Bakumon. https://github.com/Bakumon
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:key="settings">
+
+    <PreferenceCategory
+            android:title="@string/text_money"
+            android:key="money"
+            app:iconSpaceReserved="false">
+
+        <me.bakumon.moneykeeper.ui.settings.NumberTextPreference
+                android:key="budget"
+                android:title="@string/text_monty_budget"
+                app:iconSpaceReserved="false"/>
+
+        <ListPreference
+                android:defaultValue="¥"
+                android:entries="@array/symbol"
+                android:entryValues="@array/simple_symbol"
+                android:key="symbol"
+                app:iconSpaceReserved="false"
+                android:summary="@string/text_content_symbol"
+                android:title="@string/text_title_symbol"/>
+
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="fast"
+                android:summary="@string/text_fast_tip"
+                android:title="@string/text_fast_accounting"
+                app:iconSpaceReserved="false"/>
+
+        <Preference
+                android:key="successive"
+                android:title="@string/text_successive_record"
+                android:summary="@string/text_successive_record_tip"
+                app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="管理"
+            android:key="manager"
+            app:iconSpaceReserved="false">
+
+        <Preference
+                android:key="recordType"
+                android:summary="@string/text_setting_type_manage_content"
+                android:title="@string/text_setting_type_manage"
+                app:iconSpaceReserved="false">
+            <intent android:targetPackage="@string/packageName"
+                    android:targetClass="me.bakumon.moneykeeper.ui.typemanage.TypeManageActivity"/>
+        </Preference>
+
+        <Preference
+                android:key="assets"
+                android:summary="@string/text_assets_manager_content"
+                android:title="@string/text_assets_manager"
+                app:iconSpaceReserved="false">
+            <intent android:targetPackage="@string/packageName"
+                    android:targetClass="me.bakumon.moneykeeper.ui.assets.AssetsActivity"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="备份与恢复"
+            android:key="backup"
+            app:iconSpaceReserved="false">
+        <Preference
+                android:title="备份"
+                android:key="backups"
+                android:summary="本地和云端备份"
+                android:icon="@drawable/ic_cloud">
+            <intent android:targetPackage="@string/packageName"
+                    android:targetClass="me.bakumon.moneykeeper.ui.settings.backup.BackupActivity"/>
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory
+            android:title="外观"
+            android:key="display"
+            app:iconSpaceReserved="false">
+        <ListPreference
+                android:defaultValue="dark"
+                android:entries="@array/theme_titles"
+                android:entryValues="@array/theme_values"
+                android:key="theme"
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true"
+                android:title="@string/text_theme"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/text_luck"
+            android:key="screen"
+            app:iconSpaceReserved="false">
+        <ListPreference
+                android:defaultValue="off"
+                android:entries="@array/lockScreen_titles"
+                android:entryValues="@array/lockScreen_values"
+                android:key="lockScreen"
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true"
+                android:title="@string/text_luck_screen"/>
+        <Preference
+                android:key="screenTip"
+                android:title="@string/text_luck_screen_add"
+                android:summary="@string/text_luck_screen_add_tip"
+                app:iconSpaceReserved="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+            android:key="more"
+            android:title="@string/text_about_and_more"
+            app:iconSpaceReserved="false">
+        <Preference
+                android:key="about"
+                android:title="@string/text_about"
+                android:summary="@string/text_about_content"
+                app:iconSpaceReserved="false">
+            <intent android:targetPackage="@string/packageName"
+                    android:targetClass="me.bakumon.moneykeeper.ui.about.AboutActivity"/>
+        </Preference>
+        <Preference
+                android:key="feedback"
+                android:title="@string/text_feedback"
+                android:summary="@string/text_feedback_help"
+                app:iconSpaceReserved="false"/>
+        <Preference
+                android:key="other"
+                android:title="@string/text_other_setting"
+                app:iconSpaceReserved="false">
+            <intent android:targetPackage="@string/packageName"
+                    android:targetClass="me.bakumon.moneykeeper.ui.settings.other.OtherSettingsActivity"/>
+        </Preference>
+        <Preference
+                android:key="privacy"
+                android:summary="@string/text_privacy_policy"
+                app:iconSpaceReserved="false"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

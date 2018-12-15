@@ -16,13 +16,13 @@
 
 package me.bakumon.moneykeeper.viewmodel
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.add.AddRecordViewModel
-import me.bakumon.moneykeeper.ui.add.OptionViewModel
-import me.bakumon.moneykeeper.ui.add.RecordTypeViewModel
-import me.bakumon.moneykeeper.ui.add.TransferAssetsViewModel
+import me.bakumon.moneykeeper.ui.add.option.OptionViewModel
+import me.bakumon.moneykeeper.ui.add.recordtype.RecordTypeViewModel
+import me.bakumon.moneykeeper.ui.add.transfer.TransferAssetsViewModel
 import me.bakumon.moneykeeper.ui.addtype.AddTypeViewModel
 import me.bakumon.moneykeeper.ui.assets.AssetsViewModel
 import me.bakumon.moneykeeper.ui.assets.add.AddAssetsViewModel
@@ -30,18 +30,15 @@ import me.bakumon.moneykeeper.ui.assets.detail.AssetsDetailViewModel
 import me.bakumon.moneykeeper.ui.assets.detail.ModifyListViewModel
 import me.bakumon.moneykeeper.ui.assets.detail.OrderListViewModel
 import me.bakumon.moneykeeper.ui.assets.detail.TransferRecordViewModel
-//import me.bakumon.moneykeeper.ui.assets.transfer.TransferViewModel
 import me.bakumon.moneykeeper.ui.home.HomeViewModel
 import me.bakumon.moneykeeper.ui.review.ReviewViewModel
-import me.bakumon.moneykeeper.ui.setting.SettingViewModel
-import me.bakumon.moneykeeper.ui.setting.backup.BackupViewModel
-import me.bakumon.moneykeeper.ui.setting.other.OtherSettingViewModel
+import me.bakumon.moneykeeper.ui.settings.backup.BackupViewModel
+import me.bakumon.moneykeeper.ui.settings.other.OtherSettingsViewModel
 import me.bakumon.moneykeeper.ui.statistics.bill.BillViewModel
 import me.bakumon.moneykeeper.ui.statistics.reports.ReportsViewModel
 import me.bakumon.moneykeeper.ui.typemanage.TypeManageViewModel
 import me.bakumon.moneykeeper.ui.typerecords.TypeRecordsViewModel
 import me.bakumon.moneykeeper.ui.typesort.TypeSortViewModel
-
 
 /**
  * ViewModel 工厂
@@ -54,9 +51,15 @@ class ViewModelFactory(private val mDataSource: AppDataSource) : ViewModelProvid
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(AddRecordViewModel::class.java) -> AddRecordViewModel(mDataSource) as T
-            modelClass.isAssignableFrom(RecordTypeViewModel::class.java) -> RecordTypeViewModel(mDataSource) as T
-            modelClass.isAssignableFrom(TransferAssetsViewModel::class.java) -> TransferAssetsViewModel(mDataSource) as T
-            modelClass.isAssignableFrom(OptionViewModel::class.java) -> OptionViewModel(mDataSource) as T
+            modelClass.isAssignableFrom(RecordTypeViewModel::class.java) -> RecordTypeViewModel(
+                mDataSource
+            ) as T
+            modelClass.isAssignableFrom(TransferAssetsViewModel::class.java) -> TransferAssetsViewModel(
+                mDataSource
+            ) as T
+            modelClass.isAssignableFrom(OptionViewModel::class.java) -> OptionViewModel(
+                mDataSource
+            ) as T
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(mDataSource) as T
             modelClass.isAssignableFrom(TypeManageViewModel::class.java) -> TypeManageViewModel(mDataSource) as T
             modelClass.isAssignableFrom(TypeSortViewModel::class.java) -> TypeSortViewModel(mDataSource) as T
@@ -65,9 +68,10 @@ class ViewModelFactory(private val mDataSource: AppDataSource) : ViewModelProvid
             modelClass.isAssignableFrom(ReportsViewModel::class.java) -> ReportsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(TypeRecordsViewModel::class.java) -> TypeRecordsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(ReviewViewModel::class.java) -> ReviewViewModel(mDataSource) as T
-            modelClass.isAssignableFrom(SettingViewModel::class.java) -> SettingViewModel(mDataSource) as T
-            modelClass.isAssignableFrom(OtherSettingViewModel::class.java) -> OtherSettingViewModel(mDataSource) as T
+//            modelClass.isAssignableFrom(SettingViewModel::class.java) -> SettingViewModel(mDataSource) as T
+            modelClass.isAssignableFrom(OtherSettingsViewModel::class.java) -> OtherSettingsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(BackupViewModel::class.java) -> BackupViewModel(mDataSource) as T
+//            modelClass.isAssignableFrom(BackupViewModel::class.java) -> BackupViewModel(mDataSource) as T
             modelClass.isAssignableFrom(AssetsViewModel::class.java) -> AssetsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(AddAssetsViewModel::class.java) -> AddAssetsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(AssetsDetailViewModel::class.java) -> AssetsDetailViewModel(mDataSource) as T

@@ -14,9 +14,9 @@
   ~  limitations under the License.
   -->
 
-<me.bakumon.moneykeeper.ui.add.TypePageView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/typePage"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="me.bakumon.moneykeeper.ui.add.RecordTypeFragment" />
+<me.bakumon.moneykeeper.ui.add.recordtype.TypePageView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                       xmlns:tools="http://schemas.android.com/tools"
+                                                       android:id="@+id/typePage"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       tools:context="me.bakumon.moneykeeper.ui.add.recordtype.RecordTypeFragment"/>

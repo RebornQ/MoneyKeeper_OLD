@@ -16,12 +16,11 @@
 
 package me.bakumon.moneykeeper.ui.statistics.reports
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.Gravity
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_reports.*
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.database.entity.RecordType
 import me.bakumon.moneykeeper.database.entity.TypeSumMoneyBean
 import me.bakumon.moneykeeper.ui.common.BaseFragment
@@ -29,8 +28,8 @@ import me.bakumon.moneykeeper.ui.common.Empty
 import me.bakumon.moneykeeper.ui.common.EmptyViewBinder
 import me.bakumon.moneykeeper.ui.statistics.reports.piechart.PieColorsCreator
 import me.bakumon.moneykeeper.ui.statistics.reports.piechart.PieEntryConverter
+import me.bakumon.moneykeeper.ui.typerecords.TypeRecordsActivity
 import me.bakumon.moneykeeper.utill.DateUtils
-import me.drakeet.floo.Floo
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.register
@@ -92,13 +91,21 @@ class ReportsFragment : BaseFragment() {
 
     private fun navTypeRecords(typeName: String, typeId: Int) {
         if (context != null) {
-            Floo.navigation(context!!, Router.Url.URL_TYPE_RECORDS)
-                    .putExtra(Router.ExtraKey.KEY_TYPE_NAME, typeName)
-                    .putExtra(Router.ExtraKey.KEY_RECORD_TYPE, mType)
-                    .putExtra(Router.ExtraKey.KEY_RECORD_TYPE_ID, typeId)
-                    .putExtra(Router.ExtraKey.KEY_YEAR, mYear)
-                    .putExtra(Router.ExtraKey.KEY_MONTH, mMonth)
-                    .start()
+//            Floo.navigation(context!!, Router.Url.URL_TYPE_RECORDS)
+//                    .putExtra(Router.ExtraKey.KEY_TYPE_NAME, typeName)
+//                    .putExtra(Router.ExtraKey.KEY_RECORD_TYPE, mType)
+//                    .putExtra(Router.ExtraKey.KEY_RECORD_TYPE_ID, typeId)
+//                    .putExtra(Router.ExtraKey.KEY_YEAR, mYear)
+//                    .putExtra(Router.ExtraKey.KEY_MONTH, mMonth)
+//                    .start()
+            TypeRecordsActivity.open(
+                context!!,
+                name = typeName,
+                recordType = mType,
+                recordTypeId = typeId,
+                year = mYear,
+                month = mMonth
+            )
         }
     }
 

@@ -17,8 +17,8 @@
 package me.bakumon.moneykeeper.ui.assets.choose
 
 import android.os.Bundle
-import android.support.annotation.IntDef
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.IntDef
+import androidx.recyclerview.widget.RecyclerView
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.ui.common.AbsListFragment
 import me.drakeet.multitype.Items
@@ -32,14 +32,14 @@ import me.drakeet.multitype.register
  */
 class AssetsListFragment : AbsListFragment() {
 
-    private var mType: Long? = TYPE_NORMAL
+    private var mType: Int? = TYPE_NORMAL
 
     override fun onAdapterCreated(adapter: MultiTypeAdapter) {
         adapter.register(AssetsType::class, AssetsListViewBinder())
     }
 
     override fun onItemsCreated(items: Items) {
-        mType = arguments?.getLong(KEY_TYPE)
+        mType = arguments?.getInt(KEY_TYPE)
         when (mType) {
             TYPE_NORMAL -> {
                 items.add(AssetsType(getString(R.string.text_assets_type_cash), "assets_wallet", 1))
@@ -70,17 +70,17 @@ class AssetsListFragment : AbsListFragment() {
 
     companion object {
         const val KEY_TYPE = "type"
-        const val TYPE_NORMAL = 0L
-        const val TYPE_INVEST = 1L
+        const val TYPE_NORMAL = 0
+        const val TYPE_INVEST = 1
 
         @IntDef(TYPE_NORMAL, TYPE_INVEST)
         @Retention(AnnotationRetention.SOURCE)
         annotation class AssetsTabType
 
-        fun newInstance(@AssetsTabType type: Long): AssetsListFragment {
+        fun newInstance(@AssetsTabType type: Int): AssetsListFragment {
             val fragment = AssetsListFragment()
             val bundle = Bundle()
-            bundle.putLong(KEY_TYPE, type)
+            bundle.putInt(KEY_TYPE, type)
             fragment.arguments = bundle
             return fragment
         }

@@ -16,12 +16,11 @@
 
 package me.bakumon.moneykeeper.ui.typemanage
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.RecordType
@@ -52,7 +51,7 @@ class TypeListFragment : AbsListFragment() {
 
     override fun onParentInitDone(recyclerView: RecyclerView, savedInstanceState: Bundle?) {
         recyclerView.setPadding(0, 0, 0, 200)
-        mType = arguments?.getInt(Router.ExtraKey.KEY_TYPE, RecordType.TYPE_OUTLAY)
+        mType = arguments?.getInt(KEY_TYPE, RecordType.TYPE_OUTLAY)
         mViewModel = getViewModel()
         initData()
     }
@@ -109,10 +108,11 @@ class TypeListFragment : AbsListFragment() {
     }
 
     companion object {
+        private const val KEY_TYPE = "KEY_TYPE"
         fun newInstance(type: Int): TypeListFragment {
             val fragment = TypeListFragment()
             val bundle = Bundle()
-            bundle.putInt(Router.ExtraKey.KEY_TYPE, type)
+            bundle.putInt(KEY_TYPE, type)
             fragment.arguments = bundle
             return fragment
         }

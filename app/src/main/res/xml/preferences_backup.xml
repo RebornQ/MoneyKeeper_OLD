@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2018 Bakumon. https://github.com/Bakumon
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:key="backup">
+
+    <PreferenceCategory
+            android:title="本地备份"
+            android:key="localBackup"
+            app:iconSpaceReserved="false">
+
+        <Preference
+                android:key="localBackupNow"
+                android:summary="备份文件将保存在"
+                android:title="立即备份"
+                app:iconSpaceReserved="false"/>
+
+        <Preference
+                android:key="localRestore"
+                android:summary="将从xxx恢复"
+                android:title="恢复备份"
+                app:iconSpaceReserved="false"/>
+
+        <!-- 只用于显示 -->
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="localAutoBackupShow"
+                android:summary="数据有改变时备份（不可手动关闭）"
+                android:title="自动备份"
+                android:selectable="false"
+                app:iconSpaceReserved="false"/>
+
+        <!-- 实际控制是否可自动备份 -->
+        <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="localAutoBackup"
+                android:summary="数据有改变时备份（不可手动关闭）"
+                android:title="自动备份"
+                app:isPreferenceVisible="false"
+                android:selectable="false"
+                app:iconSpaceReserved="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="云备份"
+            android:key="cloudBackup"
+            app:iconSpaceReserved="false">
+        <EditTextPreference
+                android:key="webdavUrl"
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true"
+                android:title="WebDAV地址"/>
+
+        <EditTextPreference
+                android:key="webdavUserName"
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true"
+                android:title="WebDAV授权账户"/>
+
+        <EditTextPreference
+                android:key="webdavPsw"
+                app:iconSpaceReserved="false"
+                android:title="WebDAV授权密码"/>
+
+        <Preference
+                android:key="cloudBackupNow"
+                android:summary="备份文件将保存在"
+                android:title="立即备份"
+                android:enabled="false"
+                app:iconSpaceReserved="false"/>
+
+        <Preference
+                android:key="cloudRestore"
+                android:summary="将从xxx恢复"
+                android:title="恢复备份"
+                android:enabled="false"
+                app:iconSpaceReserved="false"/>
+        <!--DropDownPreference-->
+        <ListPreference
+                android:key="cloudAutoBackupMode"
+                app:iconSpaceReserved="false"
+                android:defaultValue="off"
+                android:enabled="false"
+                app:useSimpleSummaryProvider="true"
+                android:entries="@array/cloud_auto_backup_mode_titles"
+                android:entryValues="@array/cloud_auto_backup_mode_values"
+                android:title="自动备份模式"/>
+
+        <Preference
+                android:key="webdavHelp"
+                android:title="坚果云授权教程"
+                android:summary="http://help.jianguoyun.com/?p=2064"
+                app:iconSpaceReserved="false"/>
+
+        <CheckBoxPreference
+                android:key="webdavEnable"
+                android:title="云备份测试"
+                android:enabled="false"
+                android:defaultValue="false"
+                app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

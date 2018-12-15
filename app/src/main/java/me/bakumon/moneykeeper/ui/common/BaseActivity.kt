@@ -19,18 +19,21 @@ package me.bakumon.moneykeeper.ui.common
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.KeyguardManager
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.annotation.MenuRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProviders
 import com.wei.android.lib.fingerprintidentify.FingerprintIdentify
 import me.bakumon.moneykeeper.App
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.Injection
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.ui.UnlockActivity
@@ -38,10 +41,9 @@ import me.bakumon.moneykeeper.ui.add.AddRecordActivity
 import me.bakumon.moneykeeper.utill.StatusBarUtil
 import me.bakumon.moneykeeper.utill.ToastUtils
 
-
 /**
- * 1.沉浸式状态栏
- * 2.mDisposable
+ * 1.日间夜间模式
+ * 2.沉浸式状态栏
  *
  * @author Bakumon
  * @date 18-1-17
@@ -49,11 +51,7 @@ import me.bakumon.moneykeeper.utill.ToastUtils
 abstract class BaseActivity : AppCompatActivity() {
 
     init {
-        if (ConfigManager.isThemeDark) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+        DefaultSPHelper.initTheme()
     }
 
     /**
@@ -111,7 +109,7 @@ abstract class BaseActivity : AppCompatActivity() {
             return
         }
         StatusBarUtil.immersive(this)
-        if (isChangeStatusColor() && AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+        if (isChangeStatusColor() && AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_YES) {
             StatusBarUtil.darkMode(this)
         }
         for (view in views) {
@@ -151,41 +149,67 @@ abstract class BaseActivity : AppCompatActivity() {
         return ViewModelProviders.of(this, viewModelFactory).get(T::class.java)
     }
 
+    ////////////////////
+    //////////菜单 start
+    ////////////////////
+
+    @MenuRes
+    open fun getMenuRes(): Int {
+        return 0
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if (getMenuRes() != 0) {
+            menuInflater.inflate(getMenuRes(), menu)
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
+        when (menuItem?.itemId) {
+            android.R.id.home -> finish()
+        }
+        return true
+    }
+
+    ////////////////////
+    //////////菜单 end
+    ////////////////////
+
     // 锁屏
     private fun lockScreen() {
         createCount++
         if (createCount == 1) {
-
-            when (ConfigManager.lockScreenState) {
-                0 -> {
-                }
-                1 -> {
+            // 可直接进入"记一笔"界面
+            if (this is AddRecordActivity) {
+                return
+            }
+            when (DefaultSPHelper.lockScreenMode) {
+                "system" -> {
                     // 系统解锁界面
-                    if (!(this is AddRecordActivity && ConfigManager.lockAdd)) {
-                        // 自定义指纹解锁
-                        val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager?
-                        if (keyguardManager != null && keyguardManager.isKeyguardSecure) {
-                            val intent = keyguardManager.createConfirmDeviceCredentialIntent(getString(R.string.text_unlock), getString(R.string.text_unlock_to_billing))
-                            startActivityForResult(intent, REQUEST_CODE_KEYGUARD)
-                        } else {
-                            ConfigManager.setLockScreenState(0)
-                            ToastUtils.show(R.string.text_unlock_close_system)
-                        }
-                    }
-                }
-                2 -> {
                     // 自定义指纹解锁
-                    if (!(this is AddRecordActivity && ConfigManager.lockAdd)) {
-                        val fingerprintIdentify = FingerprintIdentify(App.instance.applicationContext)
-                        if (fingerprintIdentify.isFingerprintEnable) {
-                            startActivityForResult(Intent(this, UnlockActivity::class.java), REQUEST_CODE_CUSTOMER)
-                        } else {
-                            ConfigManager.setLockScreenState(0)
-                            ToastUtils.show(R.string.text_unlock_close_customer)
-                        }
+                    val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager?
+                    if (keyguardManager != null && keyguardManager.isKeyguardSecure) {
+                        val intent = keyguardManager.createConfirmDeviceCredentialIntent(
+                            getString(R.string.text_unlock),
+                            getString(R.string.text_unlock_to_billing)
+                        )
+                        startActivityForResult(intent, REQUEST_CODE_KEYGUARD)
+                    } else {
+                        DefaultSPHelper.turnOffLockScreen()
+                        ToastUtils.show(R.string.text_unlock_close_system)
                     }
                 }
-                else -> {
+                "custom" -> {
+                    // 自定义指纹解锁
+                    val fingerprintIdentify = FingerprintIdentify(App.instance.applicationContext)
+                    fingerprintIdentify.init()
+                    if (fingerprintIdentify.isFingerprintEnable) {
+                        startActivityForResult(Intent(this, UnlockActivity::class.java), REQUEST_CODE_CUSTOMER)
+                    } else {
+                        DefaultSPHelper.turnOffLockScreen()
+                        ToastUtils.show(R.string.text_unlock_close_customer)
+                    }
                 }
             }
         }
@@ -199,18 +223,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_KEYGUARD) {
-            // 系统解锁界面，解锁结果
-            if (resultCode != Activity.RESULT_OK) {
-                // 解锁失败
-                finish()
-            }
-        } else if (requestCode == REQUEST_CODE_CUSTOMER) {
-            // 自定义指纹解锁
-            if (resultCode != Activity.RESULT_OK) {
-                // 解锁失败
-                finish()
-            }
+        when (requestCode) {
+            REQUEST_CODE_KEYGUARD, REQUEST_CODE_CUSTOMER ->
+                // 系统解锁界面 or 自定义指纹解锁
+                if (resultCode != Activity.RESULT_OK) {
+                    // 解锁失败
+                    finish()
+                }
         }
     }
 

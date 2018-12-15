@@ -16,16 +16,17 @@
 
 package me.bakumon.moneykeeper.ui.typesort
 
-import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.RecordType
@@ -67,24 +68,25 @@ class TypeSortActivity : AbsListActivity() {
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        mType = intent.getIntExtra(Router.ExtraKey.KEY_TYPE, RecordType.TYPE_OUTLAY)
+        mType = intent.getIntExtra(KEY_TYPE, RecordType.TYPE_OUTLAY)
         mViewModel = getViewModel()
         initData()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_sort, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun getMenuRes(): Int {
+        return R.menu.menu_sort
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         when (menuItem?.itemId) {
             R.id.action_done -> sortRecordTypes()
-            android.R.id.home -> finish()
         }
-        return true
+        return super.onOptionsItemSelected(menuItem)
     }
 
+    /**
+     * 防止重复提交
+     */
     private var isSaving = false
 
     private fun sortRecordTypes() {
@@ -116,5 +118,14 @@ class TypeSortActivity : AbsListActivity() {
         items.addAll(data)
         mAdapter.items = items
         mAdapter.notifyDataSetChanged()
+    }
+
+    companion object {
+        private const val KEY_TYPE = "KEY_TYPE"
+        fun open(context: Context, type: Int = RecordType.TYPE_OUTLAY) {
+            val intent = Intent(context, TypeSortActivity::class.java)
+            intent.putExtra(KEY_TYPE, type)
+            context.startActivity(intent)
+        }
     }
 }

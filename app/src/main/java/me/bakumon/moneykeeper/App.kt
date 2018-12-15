@@ -20,11 +20,6 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import com.squareup.leakcanary.LeakCanary
-import me.drakeet.floo.Floo
-import me.drakeet.floo.Target
-import me.drakeet.floo.extensions.LogInterceptor
-import me.drakeet.floo.extensions.OpenDirectlyHandler
-import java.util.*
 
 /**
  * @author Bakumon https://bakumon.me
@@ -41,33 +36,6 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         }
         LeakCanary.install(this)
         // Normal app init code...
-        val mappings = HashMap<String, Target>(16)
-        mappings[Router.Url.URL_HOME] = Target("mk://bakumon.me/home")
-        mappings[Router.Url.URL_ADD_RECORD] = Target("mk://bakumon.me/addRecord")
-        mappings[Router.Url.URL_TYPE_MANAGE] = Target("mk://bakumon.me/typeManage")
-        mappings[Router.Url.URL_TYPE_SORT] = Target("mk://bakumon.me/typeSort")
-        mappings[Router.Url.URL_ADD_TYPE] = Target("mk://bakumon.me/addType")
-        mappings[Router.Url.URL_STATISTICS] = Target("mk://bakumon.me/statistics")
-        mappings[Router.Url.URL_TYPE_RECORDS] = Target("mk://bakumon.me/typeRecords")
-        mappings[Router.Url.URL_SETTING] = Target("mk://bakumon.me/setting")
-        mappings[Router.Url.URL_ABOUT] = Target("mk://bakumon.me/about")
-        mappings[Router.Url.URL_REVIEW] = Target("mk://bakumon.me/review")
-        mappings[Router.Url.URL_BACKUP] = Target("mk://bakumon.me/backup")
-        mappings[Router.Url.URL_OTHER_SETTING] = Target("mk://bakumon.me/other_setting")
-        mappings[Router.Url.URL_ASSETS] = Target("mk://bakumon.me/assets")
-        mappings[Router.Url.URL_CHOOSE_ASSETS] = Target("mk://bakumon.me/choose_assets")
-        mappings[Router.Url.URL_ADD_ASSETS] = Target("mk://bakumon.me/add_assets")
-        mappings[Router.Url.URL_ASSETS_DETAIL] = Target("mk://bakumon.me/assets_detail")
-
-        Floo.configuration()
-                .setDebugEnabled(BuildConfig.DEBUG)
-                .addRequestInterceptor(PureSchemeInterceptor(getString(R.string.scheme)))
-                .addRequestInterceptor(LogInterceptor("Request"))
-                .addTargetInterceptor(PureSchemeInterceptor(getString(R.string.scheme)))
-                .addTargetInterceptor(LogInterceptor("Target"))
-                .addTargetNotFoundHandler(OpenDirectlyHandler())
-
-        Floo.apply(mappings)
 
         registerActivityLifecycleCallbacks(this)
     }

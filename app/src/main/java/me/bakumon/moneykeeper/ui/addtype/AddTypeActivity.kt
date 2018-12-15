@@ -17,18 +17,17 @@
 package me.bakumon.moneykeeper.ui.addtype
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import android.view.animation.AnimationUtils
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_add_type.*
 import kotlinx.android.synthetic.main.layout_tool_bar.view.*
-import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.RecordType
@@ -64,11 +63,12 @@ class AddTypeActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun onInit(savedInstanceState: Bundle?) {
-        mType = intent.getIntExtra(Router.ExtraKey.KEY_TYPE, RecordType.TYPE_OUTLAY)
-        mRecordType = intent.getSerializableExtra(Router.ExtraKey.KEY_TYPE_BEAN) as RecordType?
+        mType = intent.getIntExtra(KEY_TYPE, RecordType.TYPE_OUTLAY)
+        mRecordType = intent.getSerializableExtra(KEY_TYPE_BEAN) as RecordType?
 
         val prefix = if (mRecordType == null) getString(R.string.text_add) else getString(R.string.text_modify)
-        val type = if (mType == RecordType.TYPE_OUTLAY) getString(R.string.text_outlay_type) else getString(R.string.text_income_type)
+        val type =
+            if (mType == RecordType.TYPE_OUTLAY) getString(R.string.text_outlay_type) else getString(R.string.text_income_type)
 
         toolbarLayout.tvTitle.text = prefix + type
 
@@ -83,17 +83,15 @@ class AddTypeActivity : BaseActivity() {
         getAllTypeImg()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_add_type, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun getMenuRes(): Int {
+        return R.menu.menu_add_type
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         when (menuItem?.itemId) {
             R.id.action_save -> saveType()
-            android.R.id.home -> finish()
         }
-        return true
+        return super.onOptionsItemSelected(menuItem)
     }
 
     private fun checkedItem(position: Int) {
@@ -157,5 +155,16 @@ class AddTypeActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    companion object {
+        private const val KEY_TYPE = "KEY_TYPE"
+        private const val KEY_TYPE_BEAN = "KEY_TYPE_BEAN"
+        fun open(context: Context, type: Int = RecordType.TYPE_OUTLAY, recordType: RecordType? = null) {
+            val intent = Intent(context, AddTypeActivity::class.java)
+            intent.putExtra(KEY_TYPE, type)
+            intent.putExtra(KEY_TYPE_BEAN, recordType)
+            context.startActivity(intent)
+        }
     }
 }

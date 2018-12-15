@@ -17,9 +17,9 @@
 package me.bakumon.moneykeeper.ui.common
 
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.layout_tool_bar.view.*
 import me.bakumon.moneykeeper.R

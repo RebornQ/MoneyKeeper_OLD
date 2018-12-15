@@ -43,20 +43,20 @@ object ShortcutUtil {
         val intentAdd = Intent(context, AddRecordActivity::class.java)
         intentAdd.action = "LOCATION_SHORTCUT"
         val shortcutAdd = ShortcutInfo.Builder(context, "add")
-                .setShortLabel(context.getString(R.string.shortcuts_add_record))
-                .setLongLabel(context.getString(R.string.shortcuts_add_record))
-                .setIcon(Icon.createWithResource(context, R.drawable.shortcuts_add))
-                .setIntent(intentAdd)
-                .build()
+            .setShortLabel(context.getString(R.string.shortcuts_add_record))
+            .setLongLabel(context.getString(R.string.shortcuts_add_record))
+            .setIcon(Icon.createWithResource(context, R.drawable.shortcuts_add))
+            .setIntent(intentAdd)
+            .build()
 
         val intentStatistics = Intent(context, StatisticsActivity::class.java)
         intentStatistics.action = "LOCATION_SHORTCUT"
         val shortcutStatistics = ShortcutInfo.Builder(context, "statistics")
-                .setShortLabel(context.getString(R.string.shortcuts_statistics))
-                .setLongLabel(context.getString(R.string.shortcuts_statistics))
-                .setIcon(Icon.createWithResource(context, R.drawable.shortcuts_statistics))
-                .setIntent(intentStatistics)
-                .build()
+            .setShortLabel(context.getString(R.string.shortcuts_statistics))
+            .setLongLabel(context.getString(R.string.shortcuts_statistics))
+            .setIcon(Icon.createWithResource(context, R.drawable.shortcuts_statistics))
+            .setIntent(intentStatistics)
+            .build()
         if (shortcutManager != null) {
             shortcutManager.dynamicShortcuts = Arrays.asList(shortcutAdd, shortcutStatistics)
         }

@@ -18,8 +18,8 @@ package me.bakumon.moneykeeper.view
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.design.widget.BottomSheetDialog
 import android.view.LayoutInflater
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import me.bakumon.moneykeeper.R
 
 /**
@@ -27,7 +27,12 @@ import me.bakumon.moneykeeper.R
  *
  * @author Bakumon https://bakumon.me
  */
-class KeyboardDialog(private val mContext: Context, var text: String, var mOnAffirmClickListener: ((String) -> Unit)) {
+class KeyboardDialog(
+    private val mContext: Context,
+    private val text: String?,
+    private val isAllowedEmpty: Boolean = false,
+    private val mOnAffirmClickListener: ((String) -> Unit)
+) {
     private lateinit var mDialog: BottomSheetDialog
 
     init {
@@ -47,6 +52,7 @@ class KeyboardDialog(private val mContext: Context, var text: String, var mOnAff
             mDialog.dismiss()
         }
         keyboardView.setText(text)
+        keyboardView.isAllowedEmpty = isAllowedEmpty
         keyboardView.isShowMinus = true
         keyboardView.maxIntegerNumber = 8
 

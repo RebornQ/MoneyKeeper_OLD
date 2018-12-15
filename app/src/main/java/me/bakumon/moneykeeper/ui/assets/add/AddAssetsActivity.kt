@@ -16,19 +16,19 @@
 
 package me.bakumon.moneykeeper.ui.assets.add
 
-import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.afollestad.materialdialogs.list.customListAdapter
 import kotlinx.android.synthetic.main.activity_add_assets.*
 import kotlinx.android.synthetic.main.layout_tool_bar.view.*
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.Assets
@@ -36,7 +36,6 @@ import me.bakumon.moneykeeper.ui.assets.choose.AssetsType
 import me.bakumon.moneykeeper.ui.common.BaseActivity
 import me.bakumon.moneykeeper.utill.*
 import me.bakumon.moneykeeper.view.KeyboardDialog
-import me.drakeet.floo.Floo
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.register
@@ -72,9 +71,9 @@ class AddAssetsActivity : BaseActivity() {
 
     override fun onInit(savedInstanceState: Bundle?) {
         // 新建
-        mAssetsType = intent.getSerializableExtra(Router.ExtraKey.KEY_ASSETS_TYPE) as? AssetsType
+        mAssetsType = intent.getSerializableExtra(KEY_ASSETS_TYPE) as? AssetsType
         // 修改
-        mAssets = intent.getSerializableExtra(Router.ExtraKey.KEY_ASSETS) as? Assets
+        mAssets = intent.getSerializableExtra(KEY_ASSETS) as? Assets
         mType = if (mAssets == null) 0 else 1
 
         setView()
@@ -135,17 +134,15 @@ class AddAssetsActivity : BaseActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_add_type, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun getMenuRes(): Int {
+        return R.menu.menu_add_type
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         when (menuItem?.itemId) {
             R.id.action_save -> saveAssets()
-            android.R.id.home -> finish()
         }
-        return true
+        return super.onOptionsItemSelected(menuItem)
     }
 
     private var isDialogShow = false
@@ -161,10 +158,10 @@ class AddAssetsActivity : BaseActivity() {
         }
         isDialogShow = true
         mDialog = MaterialDialog(this)
-                .title(R.string.text_choose_bank)
-                .customListAdapter(adapter)
-                .positiveButton(res = R.string.text_cancel)
-                .onDismiss { isDialogShow = false }
+            .title(R.string.text_choose_bank)
+            .customListAdapter(adapter)
+            .positiveButton(res = R.string.text_cancel)
+            .onDismiss { isDialogShow = false }
         mDialog?.show()
     }
 
@@ -198,7 +195,14 @@ class AddAssetsActivity : BaseActivity() {
 
         val liveData = if (mType == 0) {
             // 新增
-            val assets = Assets(name = typeName, imgName = mParamImgName, type = mAssetsType!!.type, remark = remark, money = money, initMoney = money)
+            val assets = Assets(
+                name = typeName,
+                imgName = mParamImgName,
+                type = mAssetsType!!.type,
+                remark = remark,
+                money = money,
+                initMoney = money
+            )
             mViewModel.addAssets(assets)
         } else {
             // 修改
@@ -213,7 +217,8 @@ class AddAssetsActivity : BaseActivity() {
             when (it) {
                 is SuccessResource<Boolean> -> {
                     if (mType == 0) {
-                        Floo.stack(this).popCount(2).start()
+                        // TODO 关闭上一个界面
+                        finish()
                     } else {
                         finish()
                     }
@@ -224,5 +229,16 @@ class AddAssetsActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    companion object {
+        private const val KEY_ASSETS_TYPE = "KEY_ASSETS_TYPE"
+        private const val KEY_ASSETS = "KEY_ASSETS"
+        fun open(context: Context, assetsType: AssetsType? = null, assets: Assets? = null) {
+            val intent = Intent(context, AddAssetsActivity::class.java)
+            intent.putExtra(KEY_ASSETS_TYPE, assetsType)
+            intent.putExtra(KEY_ASSETS, assets)
+            context.startActivity(intent)
+        }
     }
 }

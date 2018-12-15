@@ -16,8 +16,8 @@
 
 package me.bakumon.moneykeeper.utill
 
-import android.support.annotation.StringRes
 import android.widget.Toast
+import androidx.annotation.StringRes
 
 import me.bakumon.moneykeeper.App
 

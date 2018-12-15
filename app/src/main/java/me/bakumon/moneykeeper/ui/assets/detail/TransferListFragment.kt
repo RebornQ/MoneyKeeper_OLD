@@ -16,12 +16,11 @@
 
 package me.bakumon.moneykeeper.ui.assets.detail
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.view.Gravity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.AssetsTransferRecordWithAssets
@@ -53,7 +52,7 @@ class TransferListFragment : AbsListFragment() {
     }
 
     override fun onParentInitDone(recyclerView: RecyclerView, savedInstanceState: Bundle?) {
-        mAssetsId = arguments?.getInt(Router.ExtraKey.KEY_ASSETS_ID)
+        mAssetsId = arguments?.getInt(KEY_ASSETS_ID)
 
         mViewModel = getViewModel()
         initData()
@@ -95,10 +94,11 @@ class TransferListFragment : AbsListFragment() {
     }
 
     companion object {
+        private const val KEY_ASSETS_ID = "KEY_ASSETS_ID"
         fun newInstance(assetsId: Int): TransferListFragment {
             val fragment = TransferListFragment()
             val bundle = Bundle()
-            bundle.putInt(Router.ExtraKey.KEY_ASSETS_ID, assetsId)
+            bundle.putInt(KEY_ASSETS_ID, assetsId)
             fragment.arguments = bundle
             return fragment
         }

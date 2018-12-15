@@ -16,7 +16,6 @@
 
 package me.bakumon.moneykeeper.view
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.text.TextUtils
@@ -36,12 +35,24 @@ import me.bakumon.moneykeeper.utill.ViewUtil
  *
  * @author Bakumon https://bakumon.me
  */
-class KeyboardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
+class KeyboardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    LinearLayout(context, attrs, defStyleAttr) {
 
     var mOnAffirmClickListener: ((String) -> Unit)? = null
 
+    /**
+     * 可输入的整数最大长度
+     */
     var maxIntegerNumber = 6
 
+    /**
+     * 是否允许输入框为空
+     */
+    var isAllowedEmpty = false
+
+    /**
+     * 是否显示小数点
+     */
     var isShowMinus = false
         set(value) {
             tvMinus.visibility = if (value) View.VISIBLE else View.GONE
@@ -55,7 +66,7 @@ class KeyboardView @JvmOverloads constructor(context: Context, attrs: AttributeS
         tvAffirm.isEnabled = enable
     }
 
-    fun setText(text: String) {
+    fun setText(text: String?) {
         editInput.setText(text)
         editInput.setSelection(editInput.text.length)
         SoftInputUtils.hideSoftInput(editInput)
@@ -68,11 +79,11 @@ class KeyboardView @JvmOverloads constructor(context: Context, attrs: AttributeS
         editInput.requestFocus()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun init(context: Context) {
         // 当前 activity 打开时不弹出软键盘
-        val activity = context as Activity
-        activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        if (context is Activity) {
+            context.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        }
         orientation = LinearLayout.VERTICAL
         LayoutInflater.from(context).inflate(R.layout.layout_keyboard, this, true)
 
@@ -81,37 +92,45 @@ class KeyboardView @JvmOverloads constructor(context: Context, attrs: AttributeS
             SoftInputUtils.hideSoftInput(editInput)
             editInput.requestFocus()
             // 返回 true，拦截了默认的点击和长按操作，这是一个妥协的做法
-            // 不再考虑多选粘贴的情况
+            // 不再考虑多选和粘贴的情况
             true
         }
 
-        setInputTextViews(tvNum0, tvNum1,
-                tvNum2, tvNum3,
-                tvNum4, tvNum5,
-                tvNum6, tvNum7,
-                tvNum8, tvNum9,
-                tvPoint)
+        setInputTextViews(
+            tvNum0, tvNum1,
+            tvNum2, tvNum3,
+            tvNum4, tvNum5,
+            tvNum6, tvNum7,
+            tvNum8, tvNum9,
+            tvPoint
+        )
         setDeleteView(llDelete)
 
         tvMinus.setOnClickListener {
             when {
                 editInput.text.isEmpty() -> setText("-")
-                TextUtils.equals(editInput.text.first().toString(), "-") -> setText(editInput.text.toString().replace("-", ""))
+                TextUtils.equals(
+                    editInput.text.first().toString(),
+                    "-"
+                ) -> setText(editInput.text.toString().replace("-", ""))
                 else -> setText("-" + editInput.text.toString())
             }
         }
 
         tvAffirm.setOnClickListener {
             val text = editInput.text.toString()
-            val isDigital = (!TextUtils.isEmpty(text)
-                    && !TextUtils.equals("0", text)
-                    && !TextUtils.equals("0.", text)
-                    && !TextUtils.equals("0.0", text)
-                    && !TextUtils.equals("0.00", text))
-            if (!isDigital) {
+            if (TextUtils.equals("0", text)
+                || TextUtils.equals("0.", text)
+                || TextUtils.equals("0.0", text)
+                || TextUtils.equals("0.00", text)
+            ) {
                 ViewUtil.startShake(editInput)
             } else {
-                mOnAffirmClickListener?.invoke(text)
+                if (isAllowedEmpty || !TextUtils.isEmpty(text)) {
+                    mOnAffirmClickListener?.invoke(text)
+                } else {
+                    ViewUtil.startShake(editInput)
+                }
             }
         }
     }
@@ -126,7 +145,7 @@ class KeyboardView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
         for (i in textViews.indices) {
             textViews[i].setOnClickListener {
-                val sb = StringBuilder(target.text.toString().trim { it <= ' ' })
+                val sb = StringBuilder(target.text.toString().trim())
                 val result = inputFilter(sb, textViews[i].text.toString())
                 setText(result)
             }
@@ -188,14 +207,14 @@ class KeyboardView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun setDeleteView(deleteView: View) {
         val target = editInput
         deleteView.setOnClickListener {
-            val sb = StringBuilder(target.text.toString().trim { it <= ' ' })
+            val sb = StringBuilder(target.text.toString().trim())
             if (sb.isNotEmpty()) {
                 sb.deleteCharAt(sb.length - 1)
                 setText(sb.toString())
             }
         }
         deleteView.setOnLongClickListener {
-            val sb = StringBuilder(target.text.toString().trim { it <= ' ' })
+            val sb = StringBuilder(target.text.toString().trim())
             if (sb.isNotEmpty()) {
                 setText("")
             }

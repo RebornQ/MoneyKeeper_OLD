@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018 Bakumon. https://github.com/Bakumon
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.bakumon.moneykeeper.widget
 
 import android.app.IntentService
@@ -8,7 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import me.bakumon.moneykeeper.App
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.Injection
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.database.entity.RecordType
@@ -23,16 +38,29 @@ import java.math.BigDecimal
 class UpdateWidgetService : IntentService("UpdateWidgetService") {
 
     override fun onHandleIntent(intent: Intent?) {
-        val pendingIntent = PendingIntent.getActivity(this, 0,
-                Intent(this, HomeActivity::class.java),
-                PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, HomeActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         val views = RemoteViews(packageName, R.layout.layout_widget)
-        val text = if (ConfigManager.symbol.isEmpty()) "" else "(" + ConfigManager.symbol + ")"
 
-        views.setTextViewText(R.id.tv_today_outlay_text, applicationContext.getText(R.string.text_widget_today_outlay).toString() + text)
-        views.setTextViewText(R.id.tv_month_outlay_text, applicationContext.getText(R.string.text_widget_month_outlay).toString() + text)
-        views.setTextViewText(R.id.tv_budget_text, applicationContext.getText(R.string.text_widget_month_budget).toString() + text)
+        val symbol = DefaultSPHelper.symbol
+        val text = if (symbol.isBlank()) "" else "($symbol)"
+
+        views.setTextViewText(
+            R.id.tv_today_outlay_text,
+            applicationContext.getText(R.string.text_widget_today_outlay).toString() + text
+        )
+        views.setTextViewText(
+            R.id.tv_month_outlay_text,
+            applicationContext.getText(R.string.text_widget_month_outlay).toString() + text
+        )
+        views.setTextViewText(
+            R.id.tv_budget_text,
+            applicationContext.getText(R.string.text_widget_month_budget).toString() + text
+        )
         views.setOnClickPendingIntent(R.id.ll_root, pendingIntent)
 
         setData(views)
@@ -69,9 +97,9 @@ class UpdateWidgetService : IntentService("UpdateWidgetService") {
         }
         views.setTextViewText(R.id.tv_month_outlay, monthOutlayStr)
 
+        val budget = DefaultSPHelper.budget
 
-        val budget = ConfigManager.budget
-        val budgetStr = if (budget > 0) {
+        val budgetStr = if (BigDecimal(budget) > BigDecimal(0)) {
             val budgetStr = BigDecimalUtil.fen2Yuan(BigDecimal(budget).multiply(BigDecimal(100)).subtract(outlay))
             budgetStr
         } else {

@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.database.entity
 
-import android.arch.persistence.room.Relation
+import androidx.room.Relation
 
 /**
  * 包含 RecordType 的 Record

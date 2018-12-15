@@ -232,3 +232,6 @@
 
 # SmsungFingerprint
 -keep class com.samsung.android.sdk.** { *; }
+
+# yanzhenjie.permission
+-dontwarn com.yanzhenjie.permission.**

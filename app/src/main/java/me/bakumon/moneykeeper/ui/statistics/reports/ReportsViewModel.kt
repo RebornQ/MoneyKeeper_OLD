@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.ui.statistics.reports
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import me.bakumon.moneykeeper.database.entity.SumMoneyBean
 import me.bakumon.moneykeeper.database.entity.TypeSumMoneyBean
 import me.bakumon.moneykeeper.datasource.AppDataSource

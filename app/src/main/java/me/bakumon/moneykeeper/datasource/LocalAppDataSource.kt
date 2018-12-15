@@ -16,17 +16,18 @@
 
 package me.bakumon.moneykeeper.datasource
 
-import android.arch.lifecycle.LiveData
 import android.text.TextUtils
+import androidx.lifecycle.LiveData
 import io.reactivex.Completable
 import me.bakumon.moneykeeper.App
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.database.AppDatabase
 import me.bakumon.moneykeeper.database.entity.*
 import me.bakumon.moneykeeper.ui.addtype.TypeImgBean
 import me.bakumon.moneykeeper.utill.BackupUtil
 import me.bakumon.moneykeeper.utill.DateUtils
+import me.bakumon.moneykeeper.utill.ToastUtils
 import java.math.BigDecimal
 import java.util.*
 
@@ -42,10 +43,10 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
      */
     @Throws(Exception::class)
     private fun autoBackup() {
-        if (ConfigManager.isAutoBackup) {
+        if (DefaultSPHelper.isLocalAutoBackup) {
             val isSuccess = BackupUtil.autoBackup()
             if (!isSuccess) {
-                throw BackupFailException()
+                ToastUtils.show("自动备份失败，请检查是否授权存储权限")
             }
         }
     }
@@ -120,7 +121,12 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
                         mAppDatabase.recordTypeDao().deleteRecordType(oldRecordType)
                     } else {
                         // 提示用户该类型已经存在
-                        throw IllegalStateException(App.instance.getString(R.string.toast_type_is_exist, recordType.name))
+                        throw IllegalStateException(
+                            App.instance.getString(
+                                R.string.toast_type_is_exist,
+                                recordType.name
+                            )
+                        )
                     }
                 } else {
                     mAppDatabase.recordTypeDao().updateRecordTypes(recordType)
@@ -209,7 +215,14 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         }
     }
 
-    override fun updateRecord(oldMoney: BigDecimal, oldType: Int, type: Int, oldAssets: Assets?, assets: Assets?, record: Record): Completable {
+    override fun updateRecord(
+        oldMoney: BigDecimal,
+        oldType: Int,
+        type: Int,
+        oldAssets: Assets?,
+        assets: Assets?,
+        record: Record
+    ): Completable {
         return Completable.fromAction {
             mAppDatabase.recordDao().updateRecords(record)
             // 太灾难了
@@ -326,11 +339,21 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         return mAppDatabase.recordDao().getRangeRecordWithTypes(dateFrom, dateTo, type)
     }
 
-    override fun getRecordWithTypes(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordWithType>> {
+    override fun getRecordWithTypes(
+        dateFrom: Date,
+        dateTo: Date,
+        type: Int,
+        typeId: Int
+    ): LiveData<List<RecordWithType>> {
         return mAppDatabase.recordDao().getRangeRecordWithTypes(dateFrom, dateTo, type, typeId)
     }
 
-    override fun getRecordWithTypesSortMoney(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordWithType>> {
+    override fun getRecordWithTypesSortMoney(
+        dateFrom: Date,
+        dateTo: Date,
+        type: Int,
+        typeId: Int
+    ): LiveData<List<RecordWithType>> {
         return mAppDatabase.recordDao().getRecordWithTypesSortMoney(dateFrom, dateTo, type, typeId)
     }
 
@@ -418,7 +441,11 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         return mAppDatabase.assetsModifyRecordDao().getAssetsRecordsById(id)
     }
 
-    override fun insertTransferRecord(outAssets: Assets, inAssets: Assets, transferRecord: AssetsTransferRecord): Completable {
+    override fun insertTransferRecord(
+        outAssets: Assets,
+        inAssets: Assets,
+        transferRecord: AssetsTransferRecord
+    ): Completable {
         return Completable.fromAction {
             mAppDatabase.assetsTransferRecordDao().insertTransferRecord(transferRecord)
             outAssets.money = outAssets.money.subtract(transferRecord.money)
@@ -433,7 +460,14 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         }
     }
 
-    override fun updateTransferRecord(oldMoney: BigDecimal, oldOutAssets: Assets, oldInAssets: Assets, outAssets: Assets, inAssets: Assets, transferRecord: AssetsTransferRecord): Completable {
+    override fun updateTransferRecord(
+        oldMoney: BigDecimal,
+        oldOutAssets: Assets,
+        oldInAssets: Assets,
+        outAssets: Assets,
+        inAssets: Assets,
+        transferRecord: AssetsTransferRecord
+    ): Completable {
         return Completable.fromAction {
             mAppDatabase.assetsTransferRecordDao().updateTransferRecord(transferRecord)
 

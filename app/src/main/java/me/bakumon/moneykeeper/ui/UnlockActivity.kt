@@ -18,13 +18,15 @@ package me.bakumon.moneykeeper.ui
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.wei.android.lib.fingerprintidentify.FingerprintIdentify
 import com.wei.android.lib.fingerprintidentify.base.BaseFingerprint
 import kotlinx.android.synthetic.main.activity_unlock.*
 import me.bakumon.moneykeeper.App
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.utill.StatusBarUtil
+import me.bakumon.moneykeeper.utill.ToastUtils
 
 /**
  * 指纹解锁
@@ -45,16 +47,19 @@ class UnlockActivity : AppCompatActivity() {
         super.onResume()
         // 构造对象
         mFingerprintIdentify = FingerprintIdentify(App.instance.applicationContext)
+        mFingerprintIdentify.init()
 
         // 指纹硬件可用并已经录入指纹 mFingerprintIdentify.isFingerprintEnable
         // 指纹硬件是否可用 mFingerprintIdentify.isHardwareEnable
         // 是否已经录入指纹 mFingerprintIdentify.isRegisteredFingerprint
         if (!mFingerprintIdentify.isFingerprintEnable) {
             setResult(Activity.RESULT_OK)
+            DefaultSPHelper.turnOffLockScreen()
+            ToastUtils.show(R.string.text_unlock_close_customer)
             finish()
             return
         }
-        mFingerprintIdentify.startIdentify(5, object : BaseFingerprint.FingerprintIdentifyListener {
+        mFingerprintIdentify.startIdentify(5, object : BaseFingerprint.IdentifyListener {
             override fun onSucceed() {
                 // 验证成功，自动结束指纹识别
                 setResult(Activity.RESULT_OK)

@@ -16,10 +16,12 @@
 
 package me.bakumon.moneykeeper.ui.review
 
-import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.Gravity
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_review.*
 import kotlinx.android.synthetic.main.layout_tool_bar.view.*
 import me.bakumon.moneykeeper.R
@@ -114,5 +116,11 @@ class ReviewActivity : BaseActivity() {
         }
         mAdapter.items = items
         mAdapter.notifyDataSetChanged()
+    }
+
+    companion object {
+        fun open(context: Context) {
+            context.startActivity(Intent(context, ReviewActivity::class.java))
+        }
     }
 }

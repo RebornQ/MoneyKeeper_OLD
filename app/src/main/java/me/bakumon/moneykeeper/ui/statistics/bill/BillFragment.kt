@@ -16,9 +16,9 @@
 
 package me.bakumon.moneykeeper.ui.statistics.bill
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.Gravity
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_bill.*
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.base.ErrorResource

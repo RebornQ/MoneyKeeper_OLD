@@ -17,14 +17,14 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerType"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:overScrollMode="never" />
 
-    <me.bakumon.moneykeeper.view.CircleIndicator
+    <me.relex.circleindicator.CircleIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

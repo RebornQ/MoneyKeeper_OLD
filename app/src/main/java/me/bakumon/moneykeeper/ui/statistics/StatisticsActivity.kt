@@ -16,19 +16,19 @@
 
 package me.bakumon.moneykeeper.ui.statistics
 
-import android.support.v4.app.Fragment
-import android.view.Menu
+import android.content.Context
+import android.content.Intent
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_two_tab.*
 import kotlinx.android.synthetic.main.layout_tool_bar.view.*
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.ui.common.AbsTwoTabActivity
+import me.bakumon.moneykeeper.ui.review.ReviewActivity
 import me.bakumon.moneykeeper.ui.statistics.bill.BillFragment
 import me.bakumon.moneykeeper.ui.statistics.reports.ReportsFragment
 import me.bakumon.moneykeeper.utill.DateUtils
-import me.drakeet.floo.Floo
 import java.util.*
 
 /**
@@ -61,17 +61,15 @@ class StatisticsActivity : AbsTwoTabActivity() {
         return arrayListOf(mBillFragment, mReportsFragment)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_statistics, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun getMenuRes(): Int {
+        return R.menu.menu_statistics
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         when (menuItem?.itemId) {
-            R.id.action_review -> Floo.navigation(this, Router.Url.URL_REVIEW).start()
-            android.R.id.home -> finish()
+            R.id.action_review -> ReviewActivity.open(this)
         }
-        return true
+        return super.onOptionsItemSelected(menuItem)
     }
 
     private fun chooseMonth() {
@@ -88,5 +86,11 @@ class StatisticsActivity : AbsTwoTabActivity() {
             mReportsFragment.setYearMonth(year, month)
         }
         chooseMonthDialog.show()
+    }
+
+    companion object {
+        fun open(context: Context) {
+            context.startActivity(Intent(context, StatisticsActivity::class.java))
+        }
     }
 }

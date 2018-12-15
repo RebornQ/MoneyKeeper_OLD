@@ -14,41 +14,41 @@
   ~  limitations under the License.
   -->
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="me.bakumon.moneykeeper.ui.home.HomeActivity">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                     xmlns:tools="http://schemas.android.com/tools"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="match_parent"
+                                                     tools:context="me.bakumon.moneykeeper.ui.home.HomeActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_gradient"
-        android:paddingBottom="10dp">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationContentDescription="@string/text_setting"
-            app:navigationIcon="@drawable/ic_setting" />
-
-        <me.bakumon.moneykeeper.ui.home.HeadPageView
-            android:id="@+id/headPageView"
+    <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:layout_height="150dp" />
+            android:background="@drawable/bg_gradient"
+            android:paddingBottom="10dp">
 
-    </android.support.design.widget.AppBarLayout>
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationContentDescription="@string/text_setting"
+                app:navigationIcon="@drawable/ic_setting"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvRecords"
-        style="@style/LinearRecyclerView"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/item_record" />
+        <me.bakumon.moneykeeper.ui.home.HeadPageView
+                android:id="@+id/headPageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_height="150dp"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnAdd"
-        style="@style/AddFAB" />
-</android.support.design.widget.CoordinatorLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRecords"
+            style="@style/LinearRecyclerView"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/item_record"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAdd"
+            style="@style/AddFAB"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

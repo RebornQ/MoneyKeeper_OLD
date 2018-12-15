@@ -16,7 +16,7 @@
 package me.bakumon.moneykeeper.api
 
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import io.reactivex.Observable
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

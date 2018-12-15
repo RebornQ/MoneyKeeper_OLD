@@ -17,10 +17,10 @@
 package me.bakumon.moneykeeper.view
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.LinearSnapHelper
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by 钉某人
@@ -67,6 +67,10 @@ class PickerLayoutManager : LinearLayoutManager {
         mLinearSnapHelper!!.attachToRecyclerView(view)
     }
 
+    override fun isAutoMeasureEnabled(): Boolean {
+        return false
+    }
+
     /**
      * 没有指定显示条目的数量时，RecyclerView的宽高由自身确定
      * 指定显示条目的数量时，根据方向分别计算RecyclerView的宽高
@@ -76,10 +80,10 @@ class PickerLayoutManager : LinearLayoutManager {
      * @param widthSpec
      * @param heightSpec
      */
-    override fun onMeasure(recycler: RecyclerView.Recycler?, state: RecyclerView.State?, widthSpec: Int, heightSpec: Int) {
+    override fun onMeasure(recycler: RecyclerView.Recycler, state: RecyclerView.State, widthSpec: Int, heightSpec: Int) {
         if (itemCount != 0 && mItemCount != 0) {
 
-            val view = recycler!!.getViewForPosition(0)
+            val view = recycler.getViewForPosition(0)
             measureChildWithMargins(view, widthSpec, heightSpec)
 
             mItemViewWidth = view.measuredWidth
@@ -133,7 +137,7 @@ class PickerLayoutManager : LinearLayoutManager {
         val mid = width / 2.0f
         for (i in 0 until childCount) {
             val child = getChildAt(i)
-            val childMid = (getDecoratedLeft(child) + getDecoratedRight(child)) / 2.0f
+            val childMid = (getDecoratedLeft(child!!) + getDecoratedRight(child)) / 2.0f
             val scale = 1.0f + -1 * (1 - mScale) * Math.min(mid, Math.abs(mid - childMid)) / mid
             child.scaleX = scale
             child.scaleY = scale
@@ -150,7 +154,7 @@ class PickerLayoutManager : LinearLayoutManager {
         val mid = height / 2.0f
         for (i in 0 until childCount) {
             val child = getChildAt(i)
-            val childMid = (getDecoratedTop(child) + getDecoratedBottom(child)) / 2.0f
+            val childMid = (getDecoratedTop(child!!) + getDecoratedBottom(child)) / 2.0f
             val scale = 1.0f + -1 * (1 - mScale) * Math.min(mid, Math.abs(mid - childMid)) / mid
             child.scaleX = scale
             child.scaleY = scale

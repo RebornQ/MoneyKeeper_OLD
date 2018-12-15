@@ -16,20 +16,24 @@
 
 package me.bakumon.moneykeeper.ui.add
 
-import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.widget.RadioGroup
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_add_record.*
 import kotlinx.android.synthetic.main.layout_three_choose.view.*
 import kotlinx.android.synthetic.main.layout_tool_bar.view.*
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.*
+import me.bakumon.moneykeeper.ui.add.option.OptionFragment
+import me.bakumon.moneykeeper.ui.add.recordtype.RecordTypeFragment
+import me.bakumon.moneykeeper.ui.add.transfer.TransferAssetsFragment
 import me.bakumon.moneykeeper.ui.common.BaseActivity
 import me.bakumon.moneykeeper.ui.common.FragmentViewPagerAdapter
 import me.bakumon.moneykeeper.utill.BigDecimalUtil
@@ -81,12 +85,12 @@ class AddRecordActivity : BaseActivity() {
     override fun onInit(savedInstanceState: Bundle?) {
         mViewModel = getViewModel()
 
-        mIsSuccessive = intent.getBooleanExtra(Router.ExtraKey.KEY_IS_SUCCESSIVE, false)
-        mRecord = intent.getSerializableExtra(Router.ExtraKey.KEY_RECORD_BEAN) as RecordWithType?
-        mTransfer = intent.getSerializableExtra(Router.ExtraKey.KEY_TRANSFER) as AssetsTransferRecordWithAssets?
+        mIsSuccessive = intent.getBooleanExtra(KEY_IS_SUCCESSIVE, false)
+        mRecord = intent.getSerializableExtra(KEY_RECORD_BEAN) as RecordWithType?
+        mTransfer = intent.getSerializableExtra(KEY_TRANSFER) as AssetsTransferRecordWithAssets?
 
 
-        mIsTransfer = intent.getBooleanExtra(Router.ExtraKey.KEY_IS_TRANSFER, false)
+        mIsTransfer = intent.getBooleanExtra(KEY_IS_TRANSFER, false)
 
 
         val isModify: Boolean
@@ -115,15 +119,17 @@ class AddRecordActivity : BaseActivity() {
             }
         }
 
-        mOptionFragment = OptionFragment.newInstance(isShowChooseAssets = !mIsTransfer,
-                isModify = isModify,
-                assetsId = assetsId,
-                date = date,
-                remark = remark)
+        mOptionFragment = OptionFragment.newInstance(
+            isShowChooseAssets = !mIsTransfer,
+            isModify = isModify,
+            assetsId = assetsId,
+            date = date,
+            remark = remark
+        )
         mOptionFragment.setEditDoneListener { keyboard.setEditTextFocus() }
         supportFragmentManager.beginTransaction()
-                .add(R.id.flOptions, mOptionFragment)
-                .commit()
+            .add(R.id.flOptions, mOptionFragment)
+            .commit()
 
         // 切换【支出】【转账】【收入】
         (typeChoose as RadioGroup).setOnCheckedChangeListener { _, checkedId ->
@@ -165,7 +171,8 @@ class AddRecordActivity : BaseActivity() {
         if (mRecord == null) {
             // 新增
             // 设置标题
-            toolbarLayout.tvTitle.text = getString(if (mIsSuccessive) R.string.text_add_record_successive else R.string.text_add_record)
+            toolbarLayout.tvTitle.text =
+                    getString(if (mIsSuccessive) R.string.text_add_record_successive else R.string.text_add_record)
             // 设置 fragment
             mOutlayTypeFragment = RecordTypeFragment.newInstance(RecordType.TYPE_OUTLAY)
             mIncomeTypeFragment = RecordTypeFragment.newInstance(RecordType.TYPE_INCOME)
@@ -176,7 +183,10 @@ class AddRecordActivity : BaseActivity() {
             } else {
                 mTransferAssetsFragment = TransferAssetsFragment.newInstance()
             }
-            val adapter = FragmentViewPagerAdapter(supportFragmentManager, arrayListOf(mOutlayTypeFragment, mTransferAssetsFragment, mIncomeTypeFragment))
+            val adapter = FragmentViewPagerAdapter(
+                supportFragmentManager,
+                arrayListOf(mOutlayTypeFragment, mTransferAssetsFragment, mIncomeTypeFragment)
+            )
             viewPager.adapter = adapter
             viewPager.offscreenPageLimit = 3
             // 设置【转账】是否显示
@@ -190,7 +200,8 @@ class AddRecordActivity : BaseActivity() {
             // 设置 fragment
             mOutlayTypeFragment = RecordTypeFragment.newInstance(RecordType.TYPE_OUTLAY, mRecord)
             mIncomeTypeFragment = RecordTypeFragment.newInstance(RecordType.TYPE_INCOME, mRecord)
-            val adapter = FragmentViewPagerAdapter(supportFragmentManager, arrayListOf(mOutlayTypeFragment, mIncomeTypeFragment))
+            val adapter =
+                FragmentViewPagerAdapter(supportFragmentManager, arrayListOf(mOutlayTypeFragment, mIncomeTypeFragment))
             viewPager.adapter = adapter
             viewPager.offscreenPageLimit = 2
             // 设置【转账】是否显示
@@ -227,7 +238,7 @@ class AddRecordActivity : BaseActivity() {
         else
             mIncomeTypeFragment.getType()!!.id
 
-        mViewModel.insertRecord(mCurrentType, mOptionFragment.getNewAssets(), record).observe(this, android.arch.lifecycle.Observer {
+        mViewModel.insertRecord(mCurrentType, mOptionFragment.getNewAssets(), record).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> insertRecordDone()
                 is ErrorResource<Boolean> -> {
@@ -271,10 +282,16 @@ class AddRecordActivity : BaseActivity() {
         // 防止重复提交
         keyboard.setAffirmEnable(false)
         isSubmitting = true
-        val transferRecord = AssetsTransferRecord(mTransferAssetsFragment.getOutAssets()!!.id!!,
-                mTransferAssetsFragment.getInAssets()!!.id!!,
-                BigDecimalUtil.yuan2FenBD(input), mOptionFragment.getDate()!!, mOptionFragment.getRemark())
-        mViewModel.addTransferRecord(mTransferAssetsFragment.getOutAssets()!!, mTransferAssetsFragment.getInAssets()!!, transferRecord).observe(this, Observer {
+        val transferRecord = AssetsTransferRecord(
+            mTransferAssetsFragment.getOutAssets()!!.id!!,
+            mTransferAssetsFragment.getInAssets()!!.id!!,
+            BigDecimalUtil.yuan2FenBD(input), mOptionFragment.getDate()!!, mOptionFragment.getRemark()
+        )
+        mViewModel.addTransferRecord(
+            mTransferAssetsFragment.getOutAssets()!!,
+            mTransferAssetsFragment.getInAssets()!!,
+            transferRecord
+        ).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> {
                     addTransferDone()
@@ -336,12 +353,14 @@ class AddRecordActivity : BaseActivity() {
         mTransfer!!.money = BigDecimalUtil.yuan2FenBD(text)
         mTransfer!!.remark = mOptionFragment.getRemark()
 
-        mViewModel.updateTransferRecord(oldMoney = oldMoney,
-                oldOutAssets = mTransferAssetsFragment.getOldOutAssets()!!,
-                oldInAssets = mTransferAssetsFragment.getOldInAssets()!!,
-                outAssets = mTransferAssetsFragment.getOutAssets()!!,
-                inAssets = mTransferAssetsFragment.getInAssets()!!,
-                transferRecord = mTransfer!!).observe(this, Observer {
+        mViewModel.updateTransferRecord(
+            oldMoney = oldMoney,
+            oldOutAssets = mTransferAssetsFragment.getOldOutAssets()!!,
+            oldInAssets = mTransferAssetsFragment.getOldInAssets()!!,
+            outAssets = mTransferAssetsFragment.getOutAssets()!!,
+            inAssets = mTransferAssetsFragment.getInAssets()!!,
+            transferRecord = mTransfer!!
+        ).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> {
                     isSubmitting = false
@@ -370,7 +389,14 @@ class AddRecordActivity : BaseActivity() {
         else
             mIncomeTypeFragment.getType()!!.id
 
-        mViewModel.updateRecord(oldMoney, oldType, mCurrentType, mOptionFragment.getOldAssets(), mOptionFragment.getNewAssets(), mRecord!!).observe(this, Observer {
+        mViewModel.updateRecord(
+            oldMoney,
+            oldType,
+            mCurrentType,
+            mOptionFragment.getOldAssets(),
+            mOptionFragment.getNewAssets(),
+            mRecord!!
+        ).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> {
                     // 更新 widget
@@ -404,5 +430,25 @@ class AddRecordActivity : BaseActivity() {
 
     companion object {
         private const val TYPE_TRANSFER = 2
+
+        private const val KEY_IS_SUCCESSIVE = "KEY_IS_SUCCESSIVE"
+        private const val KEY_RECORD_BEAN = "KEY_RECORD_BEAN"
+        private const val KEY_TRANSFER = "KEY_TRANSFER"
+        private const val KEY_IS_TRANSFER = "KEY_IS_TRANSFER"
+
+        fun open(
+            context: Context,
+            isSuccessive: Boolean = false,
+            record: RecordWithType? = null,
+            transferRecord: AssetsTransferRecordWithAssets? = null,
+            isTransfer: Boolean = false
+        ) {
+            val intent = Intent(context, AddRecordActivity::class.java)
+            intent.putExtra(KEY_IS_SUCCESSIVE, isSuccessive)
+            intent.putExtra(KEY_RECORD_BEAN, record)
+            intent.putExtra(KEY_TRANSFER, transferRecord)
+            intent.putExtra(KEY_IS_TRANSFER, isTransfer)
+            context.startActivity(intent)
+        }
     }
 }

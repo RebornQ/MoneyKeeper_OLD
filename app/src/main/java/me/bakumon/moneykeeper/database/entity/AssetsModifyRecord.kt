@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.database.entity
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import java.io.Serializable
 import java.math.BigDecimal
 import java.util.*
@@ -26,13 +26,16 @@ import java.util.*
  *
  * @author bakumon https://bakumon.me
  */
-@Entity(foreignKeys = [ForeignKey(
+@Entity(
+    foreignKeys = [ForeignKey(
         entity = Assets::class,
         parentColumns = ["id"],
         onDelete = ForeignKey.CASCADE,
-        childColumns = ["assets_id"])
-],
-        indices = [(Index(value = arrayOf("assets_id", "create_time")))])
+        childColumns = ["assets_id"]
+    )
+    ],
+    indices = [(Index(value = arrayOf("assets_id", "create_time")))]
+)
 open class AssetsModifyRecord : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

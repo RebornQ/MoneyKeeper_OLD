@@ -196,14 +196,48 @@
         <item>£</item>
         <item>₹</item>
         <item>¤</item>
-        <item />
+        <item/>
+    </string-array>
+    <string-array name="theme_titles">
+        <item>暗色主题</item>
+        <item>亮色主题</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
+
+    <string-array name="lockScreen_titles">
+        <item>关闭</item>
+        <item>使用系统解锁界面</item>
+        <item>使用指纹解锁界面</item>
+    </string-array>
+
+    <string-array name="lockScreen_values">
+        <item>off</item>
+        <item>system</item>
+        <item>custom</item>
+    </string-array>
+
+    <string-array name="cloud_auto_backup_mode_titles">
+        <item>不自动备份</item>
+        <item>打开应用时备份</item>
+        <item>退出应用时备份</item>
+    </string-array>
+
+    <string-array name="cloud_auto_backup_mode_values">
+        <item>off</item>
+        <item>openApp</item>
+        <item>quitApp</item>
     </string-array>
 
     <!-- 关于 -->
     <string name="text_about">关于</string>
     <string name="text_slogan">简单、纯粹的记账应用</string>
     <string name="text_about_Introduction">简介</string>
-    <string name="text_about_detail">　　一款轻量级的记账工具。\n\n　　这是我第一个用心的作品，起源于从小到大的一个「不可思议」（钱到底花在了哪儿），工作以后尤为明显。于是「那样记账」诞生了，目的是让大家以最简单、直接的方式来记账，让这个「不可思议」不再不可思议，慢慢建立起良好的消费习惯。\n\n　　没有任何多余的权限，没有广告，没有用户系统，不保存用户任何信息，只是单纯的记录收支情况。\n\n　　「那样记账」名称取自一个人名字「娜」的谐音。</string>
+    <string name="text_about_detail">
+        　　一款轻量级的记账工具。\n\n　　这是我第一个用心的作品，起源于从小到大的一个「不可思议」（钱到底花在了哪儿），工作以后尤为明显。于是「那样记账」诞生了，目的是让大家以最简单、直接的方式来记账，让这个「不可思议」不再不可思议，慢慢建立起良好的消费习惯。\n\n　　没有任何多余的权限，没有广告，没有用户系统，不保存用户任何信息，只是单纯的记录收支情况。\n\n　　「那样记账」名称取自一个人名字「娜」的谐音。
+    </string>
     <string name="text_dev_designer">设计和开发</string>
     <string name="text_designer">总体设计</string>
     <string name="text_launcher_designer">启动图标设计</string>
@@ -211,7 +245,9 @@
     <string name="text_links">链接</string>
     <string name="text_score">评分</string>
     <string name="text_donate">捐赠作者</string>
-    <string name="text_contact_author" formatted="true">加入我们的 QQ 交流群： %1$s \n\n加入我们的 Telegram 交流群： %2$s \n\n联系作者： %3$s \n\n更多帮助：%4$s \n\n本应用已开源，欢迎贡献代码。\n开源地址：%5$s\n\n*本应用遵循《Android绿色应用公约》\n %6$s</string>
+    <string name="text_contact_author" formatted="true">加入我们的 QQ 交流群： %1$s \n\n加入我们的 Telegram 交流群： %2$s \n\n联系作者： %3$s
+        \n\n更多帮助：%4$s \n\n本应用已开源，欢迎贡献代码。\n开源地址：%5$s\n\n*本应用遵循《Android绿色应用公约》\n %6$s
+    </string>
     <string name="text_license">开源许可证</string>
     <string name="text_privacy_policy">隐私政策</string>
     <string name="text_display">外观</string>
@@ -226,7 +262,9 @@
     <string name="text_luck_screen_add">直接进入记一笔界面</string>
     <string name="text_luck_screen_add_tip">关闭后从 Shortcut 进入，需要解锁</string>
     <string name="text_statement">声明</string>
-    <string name="text_statement_tip">「那样记账」为开源软件，本人编译上架的市场目前只有酷安和 Google Play，包名都为 me.bakumon.moneykeeper，其他市场不同名称或包名的极相似应用可能是其他人获取源码后修改的版本。</string>
+    <string name="text_statement_tip">「那样记账」为开源软件，本人编译上架的市场目前只有酷安和 Google Play，包名都为
+        me.bakumon.moneykeeper，其他市场不同名称或包名的极相似应用可能是其他人获取源码后修改的版本。
+    </string>
 
     <!-- 云备份 -->
     <string name="text_webdav">WebDAV云盘</string>

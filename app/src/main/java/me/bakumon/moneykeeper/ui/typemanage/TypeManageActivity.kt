@@ -16,20 +16,22 @@
 
 package me.bakumon.moneykeeper.ui.typemanage
 
-import android.support.v4.app.Fragment
+import android.content.Context
+import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_type_manager.*
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.database.entity.RecordType
+import me.bakumon.moneykeeper.ui.addtype.AddTypeActivity
 import me.bakumon.moneykeeper.ui.common.AbsTwoTabActivity
-import me.drakeet.floo.Floo
+import me.bakumon.moneykeeper.ui.typesort.TypeSortActivity
 import java.util.*
 
 /**
- * 统计
+ * 分类管理
  *
  * @author Bakumon https://bakumon
  */
@@ -53,7 +55,7 @@ class TypeManageActivity : AbsTwoTabActivity() {
     }
 
     override fun onParentInitDone() {
-        val type = intent.getIntExtra(Router.ExtraKey.KEY_TYPE, RecordType.TYPE_OUTLAY)
+        val type = intent.getIntExtra(KEY_TYPE, RecordType.TYPE_OUTLAY)
         if (type == RecordType.TYPE_OUTLAY) {
             setCurrentItem(0)
         } else {
@@ -61,9 +63,7 @@ class TypeManageActivity : AbsTwoTabActivity() {
         }
 
         btnAdd.setOnClickListener {
-            Floo.navigation(this, Router.Url.URL_ADD_TYPE)
-                    .putExtra(Router.ExtraKey.KEY_TYPE, getCurrentType())
-                    .start()
+            AddTypeActivity.open(this, getCurrentType())
         }
     }
 
@@ -74,18 +74,23 @@ class TypeManageActivity : AbsTwoTabActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_type_manage, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun getMenuRes(): Int {
+        return R.menu.menu_type_manage
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         when (menuItem?.itemId) {
-            R.id.action_sort -> Floo.navigation(this, Router.Url.URL_TYPE_SORT)
-                    .putExtra(Router.ExtraKey.KEY_TYPE, getCurrentType())
-                    .start()
-            android.R.id.home -> finish()
+            R.id.action_sort -> TypeSortActivity.open(this, getCurrentType())
         }
-        return true
+        return super.onOptionsItemSelected(menuItem)
+    }
+
+    companion object {
+        private const val KEY_TYPE = "KEY_TYPE"
+        fun open(context: Context, type: Int = RecordType.TYPE_OUTLAY) {
+            val intent = Intent(context, TypeManageActivity::class.java)
+            intent.putExtra(KEY_TYPE, type)
+            context.startActivity(intent)
+        }
     }
 }

@@ -22,9 +22,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.RadioGroup
 import kotlinx.android.synthetic.main.layout_sum_money_choose.view.*
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.database.entity.RecordType
 import me.bakumon.moneykeeper.database.entity.SumMoneyBean
@@ -37,7 +36,11 @@ import java.math.BigDecimal
  *
  * @author Bakumon https://bakumon.me
  */
-class SumMoneyChooseView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
+class SumMoneyChooseView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val inflater = LayoutInflater.from(context)
 
@@ -96,12 +99,14 @@ class SumMoneyChooseView @JvmOverloads constructor(context: Context, attrs: Attr
                 }
             }
         }
-        rbOutlay.text = context.getString(R.string.text_outlay) + " " + ConfigManager.symbol + BigDecimalUtil.fen2YuanWithText(outlay)
-        rbIncome.text = context.getString(R.string.text_income) + " " + ConfigManager.symbol + BigDecimalUtil.fen2YuanWithText(income)
+        rbOutlay.text = context.getString(R.string.text_outlay) + " " + DefaultSPHelper.symbol +
+                BigDecimalUtil.fen2YuanWithText(outlay)
+        rbIncome.text = context.getString(R.string.text_income) + " " + DefaultSPHelper.symbol +
+                BigDecimalUtil.fen2YuanWithText(income)
 
         if (income > BigDecimal(0)) {
             tvOverage.visibility = View.VISIBLE
-            val prefix2 = tvOverage.context.getString(R.string.text_overage) + " " + ConfigManager.symbol
+            val prefix2 = tvOverage.context.getString(R.string.text_overage) + " " + DefaultSPHelper.symbol
             val overage = prefix2 + BigDecimalUtil.fen2YuanWithText(income.subtract(outlay))
             tvOverage.text = overage
         } else {

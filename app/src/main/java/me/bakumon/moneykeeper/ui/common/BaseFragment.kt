@@ -16,13 +16,13 @@
 
 package me.bakumon.moneykeeper.ui.common
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import me.bakumon.moneykeeper.Injection
 
 

@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.database.entity
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import java.io.Serializable
 import java.math.BigDecimal
 import java.util.*
@@ -27,20 +27,20 @@ import java.util.*
  * @author bakumon https://bakumon.me
  */
 @Entity(
-        foreignKeys = [ForeignKey(
-                entity = Assets::class,
-                parentColumns = ["id"],
-                onDelete = ForeignKey.CASCADE,
-                childColumns = ["assets_id_form"]
+    foreignKeys = [ForeignKey(
+        entity = Assets::class,
+        parentColumns = ["id"],
+        onDelete = ForeignKey.CASCADE,
+        childColumns = ["assets_id_form"]
+    )
+        , ForeignKey(
+            entity = Assets::class,
+            parentColumns = ["id"],
+            onDelete = ForeignKey.CASCADE,
+            childColumns = ["assets_id_to"]
         )
-            , ForeignKey(
-                    entity = Assets::class,
-                    parentColumns = ["id"],
-                    onDelete = ForeignKey.CASCADE,
-                    childColumns = ["assets_id_to"]
-            )
-        ],
-        indices = [(Index(value = arrayOf("assets_id_form", "assets_id_to")))]
+    ],
+    indices = [(Index(value = arrayOf("assets_id_form", "assets_id_to")))]
 
 )
 open class AssetsTransferRecord : Serializable {

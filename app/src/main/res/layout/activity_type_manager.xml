@@ -14,7 +14,7 @@
   ~  limitations under the License.
   -->
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,7 +22,7 @@
     android:orientation="vertical"
     tools:context="me.bakumon.moneykeeper.ui.typemanage.TypeManageActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -36,7 +36,7 @@
             android:id="@+id/typeChoose"
             layout="@layout/layout_type_choose" />
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <me.bakumon.moneykeeper.view.NotPagingViewPager
         android:id="@+id/viewPager"
@@ -45,13 +45,7 @@
         android:layout_marginTop="5dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnAdd"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="25dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:srcCompat="@drawable/ic_add" />
-</android.support.design.widget.CoordinatorLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAdd"
+            style="@style/AddFAB"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -17,7 +17,7 @@
 package me.bakumon.moneykeeper.api
 
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback

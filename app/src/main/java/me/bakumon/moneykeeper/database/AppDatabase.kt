@@ -16,12 +16,12 @@
 
 package me.bakumon.moneykeeper.database
 
-import android.arch.persistence.db.SupportSQLiteDatabase
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.TypeConverters
-import android.arch.persistence.room.migration.Migration
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.database.converters.Converters
 import me.bakumon.moneykeeper.database.dao.*
@@ -33,7 +33,10 @@ import me.bakumon.moneykeeper.database.entity.*
  *
  * @author Bakumon https:bakumon.me
  */
-@Database(entities = [Record::class, RecordType::class, Assets::class, AssetsModifyRecord::class, AssetsTransferRecord::class, Label::class], version = 4)
+@Database(
+    entities = [Record::class, RecordType::class, Assets::class, AssetsModifyRecord::class, AssetsTransferRecord::class, Label::class],
+    version = 4
+)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -111,9 +114,15 @@ abstract class AppDatabase : RoomDatabase() {
                     synchronized(AppDatabase::class) {
                         if (INSTANCE == null) {
                             INSTANCE = Room.databaseBuilder(App.instance, AppDatabase::class.java, DB_NAME)
-                                    .setJournalMode(JournalMode.TRUNCATE)
-                                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
-                                    .build()
+                                /*
+                                * 关闭 WAL
+                                * JournalMode 默认为系统自动选择
+                                * 如果系统选择了 WRITE_AHEAD_LOGGING，会生成 wal 文件，db 文件 size 变小
+                                * 导致恢复备份异常
+                                * */
+                                .setJournalMode(JournalMode.TRUNCATE)
+                                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                                .build()
                         }
                     }
                 }

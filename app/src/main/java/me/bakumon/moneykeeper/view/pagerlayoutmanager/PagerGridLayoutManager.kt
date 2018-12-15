@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Bakumon. https://github.com/Bakumon
+ * Copyright 2017 GcsSloop
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,7 +11,13 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- *  limitations under the License.
+ * limitations under the License.
+ *
+ * Last modified 2017-09-20 16:32:43
+ *
+ * GitHub: https://github.com/GcsSloop
+ * WeiBo: http://weibo.com/GcsSloop
+ * WebSite: http://www.gcssloop.com
  */
 
 package me.bakumon.moneykeeper.view.pagerlayoutmanager
@@ -19,18 +25,15 @@ package me.bakumon.moneykeeper.view.pagerlayoutmanager
 import android.annotation.SuppressLint
 import android.graphics.PointF
 import android.graphics.Rect
-import android.support.annotation.IntDef
-import android.support.annotation.IntRange
-import android.support.v7.widget.LinearSmoothScroller
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.SparseArray
 import android.view.View
-import android.view.ViewGroup
-
-import android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE
 import android.view.View.MeasureSpec.EXACTLY
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup
+import androidx.annotation.IntDef
+import androidx.annotation.IntRange
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import me.bakumon.moneykeeper.view.pagerlayoutmanager.PagerConfig.Loge
 import me.bakumon.moneykeeper.view.pagerlayoutmanager.PagerConfig.Logi
 
@@ -42,6 +45,8 @@ import me.bakumon.moneykeeper.view.pagerlayoutmanager.PagerConfig.Logi
  * 1. 网格布局
  * 2. 支持水平分页和垂直分页
  * 3. 杜绝高内存占用
+ *
+ * 修改说明：将java代码转换为了kotlin，并将 support 依赖改成了 androidx
  */
 class PagerGridLayoutManager
 /**
@@ -51,12 +56,13 @@ class PagerGridLayoutManager
  * @param columns     列数
  * @param orientation 方向
  */
-(@param:IntRange(from = 1, to = 100) private val mRows: Int                              // 行数
- ,
- @param:IntRange(from = 1, to = 100) private val mColumns: Int                           // 列数
- ,
- @param:OrientationType @field:OrientationType
- private var mOrientation: Long                       // 默认水平滚动
+    (
+    @param:IntRange(from = 1, to = 100) private val mRows: Int                              // 行数
+    ,
+    @param:IntRange(from = 1, to = 100) private val mColumns: Int                           // 列数
+    ,
+    @param:OrientationType @field:OrientationType
+    private var mOrientation: Int                       // 默认水平滚动
 ) : RecyclerView.LayoutManager(), RecyclerView.SmoothScroller.ScrollVectorProvider {
 
     /**
@@ -85,7 +91,7 @@ class PagerGridLayoutManager
 
     private var mMaxScrollX: Int = 0                        // 最大允许滑动的宽度
     private var mMaxScrollY: Int = 0                        // 最大允许滑动的高度
-    private var mScrollState = SCROLL_STATE_IDLE   // 滚动状态
+    private var mScrollState = RecyclerView.SCROLL_STATE_IDLE   // 滚动状态
 
     /**
      * 是否允许连续滚动，默认为允许
@@ -198,7 +204,7 @@ class PagerGridLayoutManager
      * @param recycler Recycler
      * @param state    State
      */
-    override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+    override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
         Logi("Item onLayoutChildren")
         Logi("Item onLayoutChildren isPreLayout = " + state!!.isPreLayout)
         Logi("Item onLayoutChildren isMeasuring = " + state.isMeasuring)
@@ -297,8 +303,10 @@ class PagerGridLayoutManager
      * @param isStart  是否从头开始，用于控制View遍历方向，true 为从头到尾，false 为从尾到头
      */
     @SuppressLint("CheckResult")
-    private fun recycleAndFillItems(recycler: RecyclerView.Recycler?, state: RecyclerView.State,
-                                    isStart: Boolean) {
+    private fun recycleAndFillItems(
+        recycler: RecyclerView.Recycler, state: RecyclerView.State,
+        isStart: Boolean
+    ) {
         if (state.isPreLayout) {
             return
         }
@@ -307,8 +315,10 @@ class PagerGridLayoutManager
         Logi("mOffsetY = $offsetY")
 
         // 计算显示区域区前后多存储一列或则一行
-        val displayRect = Rect(offsetX - mItemWidth, offsetY - mItemHeight,
-                usableWidth + offsetX + mItemWidth, usableHeight + offsetY + mItemHeight)
+        val displayRect = Rect(
+            offsetX - mItemWidth, offsetY - mItemHeight,
+            usableWidth + offsetX + mItemWidth, usableHeight + offsetY + mItemHeight
+        )
         // 对显显示区域进行修正(计算当前显示区域和最大显示区域对交集)
         displayRect.intersect(0, 0, mMaxScrollX + usableWidth, mMaxScrollY + usableHeight)
         Loge("displayRect = " + displayRect.toString())
@@ -359,11 +369,13 @@ class PagerGridLayoutManager
             addView(child)
             measureChildWithMargins(child, mWidthUsed, mHeightUsed)
             val lp = child.layoutParams as RecyclerView.LayoutParams
-            layoutDecorated(child,
-                    rect.left - offsetX + lp.leftMargin + paddingLeft,
-                    rect.top - offsetY + lp.topMargin + paddingTop,
-                    rect.right - offsetX - lp.rightMargin + paddingLeft,
-                    rect.bottom - offsetY - lp.bottomMargin + paddingTop)
+            layoutDecorated(
+                child,
+                rect.left - offsetX + lp.leftMargin + paddingLeft,
+                rect.top - offsetY + lp.topMargin + paddingTop,
+                rect.right - offsetX - lp.rightMargin + paddingLeft,
+                rect.bottom - offsetY - lp.bottomMargin + paddingTop
+            )
         }
     }
 
@@ -378,7 +390,7 @@ class PagerGridLayoutManager
      * @param state    滚动状态
      * @return 实际滚动距离
      */
-    override fun scrollHorizontallyBy(dx: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
+    override fun scrollHorizontallyBy(dx: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State): Int {
         val newX = offsetX + dx
         var result = dx
         if (newX > mMaxScrollX) {
@@ -405,7 +417,7 @@ class PagerGridLayoutManager
      * @param state    滚动状态
      * @return 实际滚动距离
      */
-    override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
+    override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State): Int {
         val newY = offsetY + dy
         var result = dy
         if (newY > mMaxScrollY) {
@@ -511,8 +523,10 @@ class PagerGridLayoutManager
      * @return 默认布局参数
      */
     override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
-        return RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
+        return RecyclerView.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     /**
@@ -523,7 +537,12 @@ class PagerGridLayoutManager
      * @param widthMeasureSpec  宽度属性
      * @param heightMeasureSpec 高估属性
      */
-    override fun onMeasure(recycler: RecyclerView.Recycler?, state: RecyclerView.State?, widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    override fun onMeasure(
+        recycler: RecyclerView.Recycler,
+        state: RecyclerView.State,
+        widthMeasureSpec: Int,
+        heightMeasureSpec: Int
+    ) {
         super.onMeasure(recycler, state, widthMeasureSpec, heightMeasureSpec)
         val widthsize = View.MeasureSpec.getSize(widthMeasureSpec)      //取出宽度的确切数值
         var widthmode = View.MeasureSpec.getMode(widthMeasureSpec)      //取出宽度的测量模式
@@ -538,8 +557,10 @@ class PagerGridLayoutManager
         if (heightmode != EXACTLY && heightsize > 0) {
             heightmode = EXACTLY
         }
-        setMeasuredDimension(View.MeasureSpec.makeMeasureSpec(widthsize, widthmode),
-                View.MeasureSpec.makeMeasureSpec(heightsize, heightmode))
+        setMeasuredDimension(
+            View.MeasureSpec.makeMeasureSpec(widthsize, widthmode),
+            View.MeasureSpec.makeMeasureSpec(heightsize, heightmode)
+        )
     }
 
     /**
@@ -657,7 +678,7 @@ class PagerGridLayoutManager
         }
         val targetPos = pageIndexByOffset * mOnePageSize   // 目标Pos
         for (i in 0 until childCount) {
-            val childPos = getPosition(getChildAt(i))
+            val childPos = getPosition(getChildAt(i)!!)
             if (childPos == targetPos) {
                 return getChildAt(i)
             }
@@ -721,7 +742,7 @@ class PagerGridLayoutManager
      * @return 最终的滚动方向
      */
     @OrientationType
-    fun setOrientationType(@OrientationType orientation: Long): Long {
+    fun setOrientationType(@OrientationType orientation: Int): Int {
         if (mOrientation == orientation || mScrollState != SCROLL_STATE_IDLE) return mOrientation
         mOrientation = orientation
         mItemFrames.clear()
@@ -865,7 +886,7 @@ class PagerGridLayoutManager
     companion object {
         private val TAG = PagerGridLayoutManager::class.java.simpleName
 
-        const val VERTICAL: Long = 0           // 垂直滚动
-        const val HORIZONTAL: Long = 1         // 水平滚动
+        const val VERTICAL = 0           // 垂直滚动
+        const val HORIZONTAL = 1         // 水平滚动
     }
 }

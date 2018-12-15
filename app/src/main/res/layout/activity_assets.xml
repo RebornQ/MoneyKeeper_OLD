@@ -14,20 +14,20 @@
   ~  limitations under the License.
   -->
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="me.bakumon.moneykeeper.ui.assets.AssetsActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_gradient"
         android:paddingBottom="10dp">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -114,7 +114,7 @@
                     tools:text="10,000" />
             </LinearLayout>
         </LinearLayout>
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -162,7 +162,7 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAssets"
             style="@style/LinearRecyclerView"
             android:clipToPadding="false"
@@ -170,8 +170,8 @@
             tools:listitem="@layout/item_assets" />
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAdd"
         style="@style/AddFAB"
         app:srcCompat="@drawable/ic_transfer" />
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -16,38 +16,35 @@
 
 package me.bakumon.moneykeeper.ui.home
 
-import android.Manifest
-import android.arch.lifecycle.Observer
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
-import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.Observer
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_home.*
 import me.bakumon.moneykeeper.CloudBackupService
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
-import me.bakumon.moneykeeper.Router
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.database.entity.RecordWithType
+import me.bakumon.moneykeeper.ui.add.AddRecordActivity
 import me.bakumon.moneykeeper.ui.common.BaseActivity
 import me.bakumon.moneykeeper.ui.common.Empty
 import me.bakumon.moneykeeper.ui.common.EmptyViewBinder
+import me.bakumon.moneykeeper.ui.settings.SettingsActivity
+import me.bakumon.moneykeeper.ui.statistics.StatisticsActivity
+import me.bakumon.moneykeeper.utill.PermissionUtil
 import me.bakumon.moneykeeper.utill.ShortcutUtil
 import me.bakumon.moneykeeper.utill.ToastUtils
 import me.bakumon.moneykeeper.widget.WidgetProvider
-import me.drakeet.floo.Floo
-import me.drakeet.floo.StackCallback
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.register
-import pub.devrel.easypermissions.AppSettingsDialog
-import pub.devrel.easypermissions.EasyPermissions
-import pub.devrel.easypermissions.PermissionRequest
 
 /**
  * HomeActivity
@@ -55,51 +52,49 @@ import pub.devrel.easypermissions.PermissionRequest
  * @author bakumon https://bakumon.me
  * @date 2018/4/9
  */
-class HomeActivity : BaseActivity(), StackCallback, EasyPermissions.PermissionCallbacks, EasyPermissions.RationaleCallbacks {
+class HomeActivity : BaseActivity() {
     private lateinit var mViewModel: HomeViewModel
-    private lateinit var mAdapter: MultiTypeAdapter
-    private var isUserFirst: Boolean = false
+    private val mAdapter: MultiTypeAdapter = MultiTypeAdapter()
 
     override val layoutId: Int
         get() = R.layout.activity_home
 
     override fun isChangeStatusColor(): Boolean {
+        // light（日间）模式下状态状态蓝文字颜色不改变，保持白色
         return false
     }
 
     override fun onInitView(savedInstanceState: Bundle?) {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        btnAdd.setOnClickListener { Floo.navigation(this, Router.Url.URL_ADD_RECORD).start() }
+        btnAdd.setOnClickListener {
+            AddRecordActivity.open(this)
+        }
         btnAdd.setOnLongClickListener {
-            Floo.navigation(this, Router.Url.URL_ADD_RECORD)
-                    .putExtra(Router.ExtraKey.KEY_IS_SUCCESSIVE, true)
-                    .start()
-            false
+            AddRecordActivity.open(this, isSuccessive = true)
+            true
         }
     }
 
     override fun onInit(savedInstanceState: Bundle?) {
         Fabric.with(this, Crashlytics(), Answers())
         // 快速记账
-        if (ConfigManager.isFast) {
-            Floo.navigation(this, Router.Url.URL_ADD_RECORD).start()
+        if (DefaultSPHelper.isFast) {
+            AddRecordActivity.open(this)
         }
+        PermissionUtil.requestStoragePermissionSimple(this)
         // 设置 MultiTypeAdapter
-        mAdapter = MultiTypeAdapter()
         mAdapter.register(RecordWithType::class, RecordViewBinder { deleteRecord(it) })
         mAdapter.register(String::class, FooterViewBinder())
         mAdapter.register(Empty::class, EmptyViewBinder())
         rvRecords.adapter = mAdapter
 
-        checkPermissionForBackup()
-
-        mViewModel = getViewModel()
         initData()
-        getOldPsw()
+        cloudBackup()
     }
 
     private fun initData() {
+        mViewModel = getViewModel()
         initRecordTypes()
         getCurrentMonthRecords()
     }
@@ -112,32 +107,16 @@ class HomeActivity : BaseActivity(), StackCallback, EasyPermissions.PermissionCa
         WidgetProvider.updateWidget(this)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_home, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun getMenuRes(): Int {
+        return R.menu.menu_home
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem?): Boolean {
         when (menuItem?.itemId) {
-            R.id.action_statistics -> Floo.navigation(this, Router.Url.URL_STATISTICS).start()
-            android.R.id.home -> Floo.navigation(this, Router.Url.URL_SETTING).start()
+            R.id.action_statistics -> StatisticsActivity.open(this)
+            android.R.id.home -> SettingsActivity.open(this)
         }
         return true
-    }
-
-    private fun getOldPsw() {
-        mViewModel.getPsw().observe(this, Observer {
-            when (it) {
-                is SuccessResource<String> -> {
-                    ConfigManager.webDAVPsw = it.body
-                    // 自动云备份
-                    if (ConfigManager.cloudEnable && ConfigManager.cloudBackupMode == ConfigManager.MODE_LAUNCHER_APP) {
-                        CloudBackupService.startBackup(this)
-                    }
-                }
-                is ErrorResource<String> -> ToastUtils.show(it.errorMessage)
-            }
-        })
     }
 
     private fun deleteRecord(record: RecordWithType) {
@@ -193,101 +172,26 @@ class HomeActivity : BaseActivity(), StackCallback, EasyPermissions.PermissionCa
         mAdapter.notifyDataSetChanged()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun cloudBackup() {
         // 自动云备份
-        if (ConfigManager.cloudEnable && ConfigManager.cloudBackupMode == ConfigManager.MODE_EXIT_APP) {
+        if (DefaultSPHelper.isCloudBackupEnable && DefaultSPHelper.isCloudBackupWhenOpenApp) {
             CloudBackupService.startBackup(this)
         }
     }
 
-    override fun indexKeyForStackTarget(): String? {
-        return Router.IndexKey.INDEX_KEY_HOME
-    }
-
-    override fun onReceivedResult(result: Any?) {
-        initData()
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
-    private fun checkPermissionForBackup() {
-        if (!ConfigManager.isAutoBackup) {
-            return
-        }
-        if (EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            return
-        }
-        // 当自动备份打开，并且没有存储权限，提示用户需要申请权限
-        EasyPermissions.requestPermissions(
-                PermissionRequest.Builder(this, REQUEST_CODE_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        .setRationale(R.string.text_storage_content)
-                        .setPositiveButtonText(R.string.text_affirm)
-                        .setNegativeButtonText(R.string.text_cancel)
-                        .build())
-    }
-
-    private fun updateConfig(isAutoBackup: Boolean) {
-        if (isAutoBackup) {
-            ConfigManager.setIsAutoBackup(true)
-        } else {
-            if (ConfigManager.setIsAutoBackup(false)) {
-                ToastUtils.show(R.string.toast_open_auto_backup)
-            }
-        }
-    }
-
-    override fun onRationaleAccepted(requestCode: Int) {
-        isUserFirst = true
-    }
-
-    override fun onRationaleDenied(requestCode: Int) {
-        isUserFirst = true
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        updateConfig(true)
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            if (!isUserFirst) {
-                AppSettingsDialog.Builder(this)
-                        .setRationale(R.string.text_storage_permission_tip)
-                        .setTitle(R.string.text_storage)
-                        .setPositiveButton(R.string.text_affirm)
-                        .setNegativeButton(R.string.text_cancel)
-                        .build()
-                        .show()
-            }
-        } else {
-            updateConfig(false)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-            if (EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                updateConfig(true)
-            } else {
-                updateConfig(false)
-            }
+    override fun onDestroy() {
+        super.onDestroy()
+        // 自动云备份
+        if (DefaultSPHelper.isCloudBackupEnable && DefaultSPHelper.isCloudBackupWhenQuitApp) {
+            CloudBackupService.startBackup(this)
         }
     }
 
     companion object {
-
         private const val MAX_ITEM_TIP = 5
-
-        ///////////////////////////////
-        //// 自动备份打开时，检查是否有权限
-        ///////////////////////////////
-
-        private const val REQUEST_CODE_STORAGE = 11
+        fun open(context: Context) {
+            context.startActivity(Intent(context, HomeActivity::class.java))
+        }
     }
 
 }

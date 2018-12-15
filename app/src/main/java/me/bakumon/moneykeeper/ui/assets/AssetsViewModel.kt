@@ -16,8 +16,8 @@
 
 package me.bakumon.moneykeeper.ui.assets
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.bakumon.moneykeeper.base.Resource
@@ -44,14 +44,14 @@ class AssetsViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
     fun sortAssets(assert: List<Assets>): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.sortAssets(assert)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    liveData.value = Resource.create(true)
-                }
-                ) { throwable ->
-                    liveData.value = Resource.create(throwable)
-                })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                liveData.value = Resource.create(true)
+            }
+            ) { throwable ->
+                liveData.value = Resource.create(throwable)
+            })
         return liveData
     }
 }

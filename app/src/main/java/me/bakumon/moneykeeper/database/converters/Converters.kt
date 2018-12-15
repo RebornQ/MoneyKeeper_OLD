@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.database.converters
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import java.math.BigDecimal
 import java.util.*
 

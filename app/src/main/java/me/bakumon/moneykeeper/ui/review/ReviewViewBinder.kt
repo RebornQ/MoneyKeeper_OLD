@@ -1,12 +1,27 @@
+/*
+ * Copyright 2018 Bakumon. https://github.com/Bakumon
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.bakumon.moneykeeper.ui.review
 
 import android.annotation.SuppressLint
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import me.bakumon.moneykeeper.ConfigManager
+import androidx.recyclerview.widget.RecyclerView
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.utill.BigDecimalUtil
 import me.drakeet.multitype.ItemViewBinder
@@ -25,9 +40,9 @@ class ReviewViewBinder : ItemViewBinder<ReviewItemBean, ReviewViewBinder.ViewHol
     override fun onBindViewHolder(holder: ViewHolder, item: ReviewItemBean) {
         holder.tvMonth.text = item.month + holder.tvMonth.context.getString(R.string.text_month)
         holder.tvYear.text = item.year + holder.tvYear.context.getString(R.string.text_year)
-        holder.tvOutlay.text = ConfigManager.symbol + BigDecimalUtil.fen2Yuan(item.outlay)
-        holder.tvIncome.text = ConfigManager.symbol + BigDecimalUtil.fen2Yuan(item.income)
-        holder.tvOverage.text = ConfigManager.symbol + BigDecimalUtil.fen2Yuan(item.overage)
+        holder.tvOutlay.text = DefaultSPHelper.symbol + BigDecimalUtil.fen2Yuan(item.outlay)
+        holder.tvIncome.text = DefaultSPHelper.symbol + BigDecimalUtil.fen2Yuan(item.income)
+        holder.tvOverage.text = DefaultSPHelper.symbol + BigDecimalUtil.fen2Yuan(item.overage)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

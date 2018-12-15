@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.database.entity
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import java.io.Serializable
 
 /**

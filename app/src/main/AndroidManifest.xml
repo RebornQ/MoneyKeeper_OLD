@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright 2018 Bakumon. https://github.com/Bakumon
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,379 +16,121 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="me.bakumon.moneykeeper">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="me.bakumon.moneykeeper">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 指纹 -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <uses-permission android:name="com.fingerprints.service.ACCESS_FINGERPRINT_MANAGER"/>
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
 
     <application
-        android:name=".App"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="false"
-        android:theme="@style/AppTheme"
-        tools:replace="android:supportsRtl">
+            android:name=".App"
+            android:allowBackup="false"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:supportsRtl="false"
+            android:theme="@style/AppTheme"
+            tools:replace="android:supportsRtl"
+            tools:ignore="GoogleAppIndexingWarning">
         <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="78cc0e1b5afde4c17c153efa4cf5bcb10265d7e1" />
-
+                android:name="io.fabric.ApiKey"
+                android:value="78cc0e1b5afde4c17c153efa4cf5bcb10265d7e1"/>
         <activity-alias
-            android:name=".LauncherActivity"
-            android:targetActivity=".ui.LauncherActivity">
+                android:name=".LauncherActivity"
+                android:targetActivity=".ui.LauncherActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity-alias>
-
-        <activity
-            android:name=".ui.LauncherActivity"
-            android:theme="@style/AppTheme.Launcher" />
-
-        <activity
-            android:name=".ui.UnlockActivity"
-            android:screenOrientation="portrait" />
-
-        <!-- 设置成 singleTask 是因为恢复备份失败，使用 process_phoenix 重新启动进程，HomeActivity 会存在两个 -->
-        <activity
-            android:name=".ui.home.HomeActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/home"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.add.AddRecordActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.home.HomeActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/addRecord"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.typemanage.TypeManageActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/typeManage"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.typesort.TypeSortActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/typeSort"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.addtype.AddTypeActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/addType"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.statistics.StatisticsActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/statistics"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.typerecords.TypeRecordsActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.statistics.StatisticsActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/typeRecords"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.setting.SettingActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/setting"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.about.AboutActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/About"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/about"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.review.ReviewActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.statistics.StatisticsActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/review"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.setting.backup.BackupActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.setting.SettingActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/backup"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.setting.other.OtherSettingActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.setting.SettingActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/other_setting"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-
-        <service
-            android:name=".CloudBackupService"
-            android:exported="false" />
-
         <receiver android:name=".widget.WidgetProvider">
             <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_provider_info" />
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/widget_provider_info"/>
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
         </receiver>
-
         <service
-            android:name=".widget.UpdateWidgetService"
-            android:exported="false" />
-
+                android:name=".widget.UpdateWidgetService"
+                android:exported="false"/>
+        <service
+                android:name=".CloudBackupService"
+                android:exported="false"/>
         <activity
-            android:name=".ui.assets.AssetsActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/assets"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-
+                android:name=".ui.UnlockActivity"
+                android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.assets.choose.ChooseAssetsActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.assets.AssetsActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/choose_assets"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-
+                android:name=".ui.LauncherActivity"
+                android:theme="@style/AppTheme.Launcher"/>
         <activity
-            android:name=".ui.assets.add.AddAssetsActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.assets.AssetsActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/add_assets"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
-
+                android:name=".ui.home.HomeActivity"
+                android:launchMode="singleTask"
+                android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.assets.detail.AssetsDetailActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.assets.AssetsActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="AppLinkUrlError">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="bakumon.me"
-                    android:path="/assets_detail"
-                    android:scheme="@string/scheme" />
-            </intent-filter>
-        </activity>
+                android:name=".ui.settings.SettingsActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.settings.backup.BackupActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.settings.other.OtherSettingsActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.about.AboutActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.add.AddRecordActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.addtype.AddTypeActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.typemanage.TypeManageActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.typesort.TypeSortActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.assets.AssetsActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.assets.detail.AssetsDetailActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.assets.add.AddAssetsActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.typerecords.TypeRecordsActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.assets.choose.ChooseAssetsActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.statistics.StatisticsActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".ui.review.ReviewActivity"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"/>
     </application>
-
 </manifest>

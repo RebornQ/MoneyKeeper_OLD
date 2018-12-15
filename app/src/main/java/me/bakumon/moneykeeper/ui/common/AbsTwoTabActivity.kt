@@ -17,13 +17,13 @@
 package me.bakumon.moneykeeper.ui.common
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.layout_tool_bar.view.*
 import kotlinx.android.synthetic.main.layout_type_choose.view.*
 import me.bakumon.moneykeeper.R

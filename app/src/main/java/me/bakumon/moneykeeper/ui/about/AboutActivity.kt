@@ -17,6 +17,8 @@
 package me.bakumon.moneykeeper.ui.about
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -72,7 +74,10 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
     override fun onItemsCreated(items: Items) {
         adapter.register(CardWithAction::class, CardWithActionViewBinder())
         items.add(Category(getString(R.string.text_about_Introduction)))
-        items.add(CardWithAction(getString(R.string.text_about_detail), getString(R.string.text_donate)) { AndroidUtil.alipay(this) })
+        items.add(CardWithAction(getString(R.string.text_about_detail), getString(R.string.text_donate)) {
+            //            AndroidUtil.alipay(this)
+            ToastUtils.show("感谢")
+        })
 
         items.add(Category(getString(R.string.text_dev_designer)))
         items.add(Contributor(R.mipmap.avatar_markcrs, "Markcrs", getString(R.string.text_designer)))
@@ -80,13 +85,15 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
         items.add(Contributor(R.mipmap.avatar_bakumon, "Bakumon", getString(R.string.text_developer_designer), Constant.AUTHOR_URL))
 
         items.add(Category(getString(R.string.text_links)))
-        val linksText = getString(R.string.text_contact_author,
-                Constant.QQ_GROUP,
-                Constant.TG_GROUP,
-                Constant.AUTHOR_EMAIL,
-                Constant.URL_HELP,
-                Constant.APP_OPEN_SOURCE_URL,
-                Constant.URL_GREEN_ANDROID)
+        val linksText = getString(
+            R.string.text_contact_author,
+            Constant.QQ_GROUP,
+            Constant.TG_GROUP,
+            Constant.AUTHOR_EMAIL,
+            Constant.URL_HELP,
+            Constant.APP_OPEN_SOURCE_URL,
+            Constant.URL_GREEN_ANDROID
+        )
         items.add(Card(linksText))
 
         items.add(Category(getString(R.string.text_statement)))
@@ -121,5 +128,11 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
             R.id.action_favorite -> AndroidUtil.goMarket(this)
         }
         return true
+    }
+
+    companion object {
+        fun open(context: Context) {
+            context.startActivity(Intent(context, AboutActivity::class.java))
+        }
     }
 }

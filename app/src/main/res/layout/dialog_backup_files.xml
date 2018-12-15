@@ -50,11 +50,11 @@
         android:textColor="@color/colorTextHintBottomSheetDialog"
         android:textSize="14sp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_files"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_backup_file" />
 
 </LinearLayout>

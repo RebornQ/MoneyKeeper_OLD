@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "a5917343050323ca78b2828e54fb4b49",
+    "identityHash": "075bb6e0c808b2c5a246f8a9ad81415e",
     "entities": [
       {
         "tableName": "Record",
@@ -440,9 +440,10 @@
         "foreignKeys": []
       }
     ],
+    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a5917343050323ca78b2828e54fb4b49\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"075bb6e0c808b2c5a246f8a9ad81415e\")"
     ]
   }
 }

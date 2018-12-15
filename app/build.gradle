@@ -1,56 +1,35 @@
-apply plugin: 'cipher.so'
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'AndResGuard'
 
-/*
- * Copyright 2018 Bakumon. https://github.com/Bakumon
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- *  limitations under the License.
- */
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'io.fabric'
 
 // 加载 keystore.properties 文件
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
-// 加载 encrypt.properties 文件
-def encryptPropertiesFile = rootProject.file("encrypt.properties")
-def encryptProperties = new Properties()
-encryptProperties.load(new FileInputStream(encryptPropertiesFile))
-
 android {
-    compileSdkVersion build_versions.compile_sdk
+    compileSdkVersion 28
     defaultConfig {
         applicationId "me.bakumon.moneykeeper"
-        minSdkVersion build_versions.min_sdk
-        targetSdkVersion build_versions.target_sdk
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode 28
         versionName "3.4.1"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // 指定room.schemaLocation生成的文件路径
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
-        ndk {
-            abiFilters 'armeabi-v7a'
-        }
     }
+    // MaterialDateTimePicker 库用到了 java8 的特性
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -75,12 +54,12 @@ android {
             signingConfig signingConfigs.debug
             versionNameSuffix ".debug"
             applicationIdSuffix ".debug"
-            resValue "string", "scheme", "mk-debug"
+            resValue "string", "packageName", "me.bakumon.moneykeeper.debug"
         }
         release {
             // 签名
             signingConfig signingConfigs.release
-            resValue "string", "scheme", "mk"
+            resValue "string", "packageName", "me.bakumon.moneykeeper"
             // Zipalign优化
             zipAlignEnabled true
             // 移除无用的resource文件
@@ -96,186 +75,73 @@ android {
             }
         }
     }
-}
 
-cipher.so {
-    keys {
-        aesKey {
-            value = encryptProperties['KEY']
-        }
-        aesSalt {
-            value = encryptProperties['SALT']
-        }
-    }
-    encryptSeed = encryptProperties['CIPHER_SO_SEED']
-}
-
-andResGuard {
-    // mappingFile = file("./resource_mapping.txt")
-    mappingFile = null
-    use7zip = true
-    useSign = true
-    // it will keep the origin path of your resources when it's true
-    keepRoot = false
-
-    whiteList = [
-            // fabric
-            "me.bakumon.moneykeeper.R.string.com.crashlytics.*",
-            // 收支类型
-            "R.mipmap.type_item_default",
-            "R.mipmap.type_item_setting",
-            "R.mipmap.type_3c",
-            "R.mipmap.type_calendar",
-            "R.mipmap.type_candy",
-            "R.mipmap.type_cigarette",
-            "R.mipmap.type_clothes",
-            "R.mipmap.type_eat",
-            "R.mipmap.type_fitness",
-            "R.mipmap.type_humanity",
-            "R.mipmap.type_pet",
-            "R.mipmap.type_pill",
-            "R.mipmap.type_pluralism",
-            "R.mipmap.type_salary",
-            "R.mipmap.type_sim",
-            "R.mipmap.type_study",
-            "R.mipmap.type_train",
-            "R.mipmap.type_plain",
-            "R.mipmap.type_bus",
-            "R.mipmap.type_home",
-            "R.mipmap.type_insure",
-            "R.mipmap.type_wifi",
-            "R.mipmap.type_wallet",
-            "R.mipmap.type_income_red",
-            "R.mipmap.type_outlay_red",
-            "R.mipmap.type_adventure",
-            "R.mipmap.type_movie",
-            "R.mipmap.type_back_money",
-            "R.mipmap.type_handling_fee",
-            "R.mipmap.type_interest",
-            "R.mipmap.type_unexpected_income",
-            "R.mipmap.type_reduce",
-            "R.mipmap.type_shopping",
-            // 资产类型
-            "R.mipmap.assets_alipay",
-            "R.mipmap.assets_bus_card",
-            "R.mipmap.assets_card",
-            "R.mipmap.assets_funding",
-            "R.mipmap.assets_jd",
-            "R.mipmap.assets_monetary",
-            "R.mipmap.assets_other",
-            "R.mipmap.assets_rice_card",
-            "R.mipmap.assets_stock",
-            "R.mipmap.assets_wallet",
-            "R.mipmap.assets_wechat",
-            // 银行
-            "R.mipmap.bank_abchina",
-            "R.mipmap.bank_bankcomm",
-            "R.mipmap.bank_boc",
-            "R.mipmap.bank_ccb",
-            "R.mipmap.bank_cebbank",
-            "R.mipmap.bank_chinapost",
-            "R.mipmap.bank_cib",
-            "R.mipmap.bank_citicbank",
-            "R.mipmap.bank_cmbc",
-            "R.mipmap.bank_icbc",
-            "R.mipmap.bank_pingan",
-            "R.mipmap.bank_zhaoshang",
-            // 其他
-            "R.mipmap.ic_balance",
-            "R.mipmap.ic_transform",
-            "R.mipmap.ic_no_account",
-            "R.mipmap.ic_add_account"
-    ]
-    compressFilePattern = [
-            "*.png",
-            "*.jpg",
-            "*.jpeg",
-            "*.gif",
-    ]
-    sevenzip {
-        artifact = 'com.tencent.mm:SevenZip:1.2.13'
-        //path = "/usr/local/bin/7za"
-    }
-
-    /**
-     * Optional: if finalApkBackupPath is null, AndResGuard will overwrite final apk
-     * to the path which assemble[Task] write to
-     **/
-    // finalApkBackupPath = "${project.rootDir}/final.apk"
-
-    /**
-     * Optional: Specifies the name of the message digest algorithm to user when digesting the entries of JAR file
-     * Only works in V1signing, default value is "SHA-1"
-     **/
-    digestalg = "SHA-256"
 }
 
 dependencies {
-    uniformSupportVersion(configurations)
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':circleindicator')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     // test
-    testImplementation deps.junit
-    androidTestImplementation deps.test_runner
-    androidTestImplementation deps.spresso_core
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1-alpha01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1-alpha01'
     // kotlin
-    implementation deps.kotlin.stdlib
-    // 支持库
-    implementation deps.support.app_compat
-    implementation deps.support.design
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // leakcanary -- 未使用 AndroidX
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    // appcompat
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    // design
+    implementation 'com.google.android.material:material:1.1.0-alpha01'
+    // preference
+    implementation 'androidx.preference:preference:1.1.0-alpha01'
     // customtabs
-    implementation deps.support.customtabs
+    implementation 'androidx.browser:browser:1.0.0'
     // ViewModel and LiveData
-    implementation deps.lifecycle.extensions
-    kapt deps.lifecycle.compiler
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.0.0'
     // Room
-    implementation deps.room.runtime
-    implementation deps.room.rxjava2
-    kapt deps.room.compiler
-    // 第三方库
-    implementation deps.rxjava2
-    implementation deps.rxandroid
+    implementation 'androidx.room:room-runtime:2.1.0-alpha03'
+    implementation 'androidx.room:room-rxjava2:2.1.0-alpha03'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha03'
+    // multitype
+    implementation 'me.drakeet.multitype:multitype:3.5.0'
+    implementation 'me.drakeet.multitype:multitype-ktx:3.5.0'
+    // about
+    implementation 'me.drakeet.support:about:2.2.0'
+    implementation 'me.drakeet.support:about-extension:2.2.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.moshi:moshi:1.5.0'
+    // flexbox
+    implementation 'com.google.android:flexbox:1.1.0'
+    // rx
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     // retrofit2
-    implementation deps.retrofit2.retrofit
-    implementation deps.retrofit2.adapter_rxjava2
-    // okhttp 日志拦截器
-    implementation deps.okhttp3.logging
-    // 路由
-    implementation deps.floo
-    // 日期时间选择器
-    implementation deps.datetimepicker
-    // 图表
-    implementation deps.MPChart
-    // 内存泄漏检测
-    debugImplementation deps.leakcanary_debug
-    releaseImplementation deps.leakcanary_release
-    // 动态权限申请
-    implementation deps.permission
-    // 保存文件
-    implementation deps.storage
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    //
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    //
+    implementation 'com.burgstaller:okhttp-digest:1.17'
+    // materialdatetimepicker
+    implementation 'com.wdullaer:materialdatetimepicker:4.1.0'
+    // material-dialogs
+    implementation 'com.afollestad.material-dialogs:core:2.0.0-rc3'
+    implementation 'com.afollestad.material-dialogs:files:2.0.0-rc3'
+    // permission -- 未使用 AndroidX
+    implementation 'com.yanzhenjie:permission:2.0.0-rc12'
+    // 指纹
+    implementation 'com.wei.android.lib:fingerprintidentify:1.2.6'
+    // MPChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+    // fabric
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4@aar', { transitive = true }
+    // 文件操作
+    implementation 'com.snatik:storage:2.1.0'
     // 时间格式化
-    implementation deps.prettytime
-    // 对话框
-    implementation deps.material_dialogs_core
-    implementation deps.material_dialogs_input
-    implementation deps.material_dialogs_files
-    // aes 加密解密
-    implementation deps.aes_crypto
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
     // 重启进程
-    implementation deps.process_phoenix
-    // okhttp 支持 digest 认证
-    implementation deps.okhttp_digest
-    implementation deps.fabric_crashlytics, { transitive = true }
-    // about 页面
-    implementation deps.about
-    // Android Links 扩展
-    implementation deps.about_extension
-    // 列表多布局
-    implementation deps.multitype
-    implementation deps.multitype_kotlin
-    // 图片加载
-    implementation deps.picasso
-    // json 解析
-    implementation deps.moshi
-    implementation deps.flexbox
-    implementation deps.fingerprintidentify
+    implementation 'com.jakewharton:process-phoenix:2.0.0'
 }
