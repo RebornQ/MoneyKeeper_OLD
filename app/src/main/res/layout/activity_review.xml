@@ -19,13 +19,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.bakumon.moneykeeper.ui.review.ReviewActivity">
+    tools:context="me.bakumon.moneykeeperclone.ui.review.ReviewActivity">
 
     <include
         android:id="@+id/toolbarLayout"
         layout="@layout/layout_tool_bar" />
 
-    <me.bakumon.moneykeeper.ui.statistics.SumMoneyChooseView
+    <me.bakumon.moneykeeperclone.ui.statistics.SumMoneyChooseView
         android:id="@+id/sumMoneyView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:paddingEnd="15dp"
         android:paddingStart="15dp" />
 
-    <me.bakumon.moneykeeper.ui.review.linechart.MyLineChart
+    <me.bakumon.moneykeeperclone.ui.review.linechart.MyLineChart
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
         android:layout_height="200dp"

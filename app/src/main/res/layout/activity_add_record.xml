@@ -19,7 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.bakumon.moneykeeper.ui.add.AddRecordActivity">
+    tools:context="me.bakumon.moneykeeperclone.ui.add.AddRecordActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:id="@+id/typeChoose"
             layout="@layout/layout_three_choose" />
 
-        <me.bakumon.moneykeeper.view.NotPagingViewPager
+        <me.bakumon.moneykeeperclone.view.NotPagingViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -50,7 +50,7 @@
             android:layout_marginTop="5dp" />
     </LinearLayout>
 
-    <me.bakumon.moneykeeper.view.KeyboardView
+    <me.bakumon.moneykeeperclone.view.KeyboardView
         android:id="@+id/keyboard"
         android:layout_width="match_parent"
         android:layout_height="0dp"

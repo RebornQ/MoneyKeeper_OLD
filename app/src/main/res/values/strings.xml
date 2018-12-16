@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">那样记账</string>
+    <string name="app_name">那样记账Clone</string>
 
     <string name="toast_add_record_fail">记账失败，请重试</string>
     <string name="toast_modify_record_fail">记录修改失败</string>

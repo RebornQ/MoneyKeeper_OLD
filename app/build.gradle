@@ -35,7 +35,7 @@ encryptProperties.load(new FileInputStream(encryptPropertiesFile))
 android {
     compileSdkVersion build_versions.compile_sdk
     defaultConfig {
-        applicationId "me.bakumon.moneykeeper"
+        applicationId "me.bakumon.moneykeeperclone"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode 28
@@ -75,12 +75,12 @@ android {
             signingConfig signingConfigs.debug
             versionNameSuffix ".debug"
             applicationIdSuffix ".debug"
-            resValue "string", "scheme", "mk-debug"
+            resValue "string", "scheme", "mkc-debug"
         }
         release {
             // 签名
             signingConfig signingConfigs.release
-            resValue "string", "scheme", "mk"
+            resValue "string", "scheme", "mkc"
             // Zipalign优化
             zipAlignEnabled true
             // 移除无用的resource文件
@@ -92,7 +92,7 @@ android {
         }
         android.applicationVariants.all { variant ->
             variant.outputs.all {
-                outputFileName = "MoneyKeeper-${variant.baseName}-${variant.versionCode}-${variant.versionName}.apk"
+                outputFileName = "MoneyKeeperClone-${variant.baseName}-${variant.versionCode}-${variant.versionName}.apk"
             }
         }
     }
@@ -120,7 +120,7 @@ andResGuard {
 
     whiteList = [
             // fabric
-            "me.bakumon.moneykeeper.R.string.com.crashlytics.*",
+            "me.bakumon.moneykeeperclone.R.string.com.crashlytics.*",
             // 收支类型
             "R.mipmap.type_item_default",
             "R.mipmap.type_item_setting",

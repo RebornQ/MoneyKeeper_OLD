@@ -19,7 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.bakumon.moneykeeper.ui.assets.detail.AssetsDetailActivity">
+    tools:context="me.bakumon.moneykeeperclone.ui.assets.detail.AssetsDetailActivity">
 
     <include
         android:id="@+id/toolbarLayout"
@@ -106,7 +106,7 @@
             layout="@layout/layout_three_choose" />
     </LinearLayout>
 
-    <me.bakumon.moneykeeper.view.NotPagingViewPager
+    <me.bakumon.moneykeeperclone.view.NotPagingViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

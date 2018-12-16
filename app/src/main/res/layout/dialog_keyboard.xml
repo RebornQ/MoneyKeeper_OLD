@@ -20,7 +20,7 @@
     android:background="@color/colorBackgroundBottomSheetDialog"
     android:orientation="vertical">
 
-    <me.bakumon.moneykeeper.view.KeyboardView
+    <me.bakumon.moneykeeperclone.view.KeyboardView
         android:id="@+id/keyboard"
         android:layout_width="match_parent"
         android:layout_height="320dp" />

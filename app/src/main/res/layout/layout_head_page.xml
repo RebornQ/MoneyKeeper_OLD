@@ -17,13 +17,13 @@
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <me.bakumon.moneykeeper.view.WrapContentViewPager
+    <me.bakumon.moneykeeperclone.view.WrapContentViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <me.bakumon.moneykeeper.view.CircleIndicator
+    <me.bakumon.moneykeeperclone.view.CircleIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

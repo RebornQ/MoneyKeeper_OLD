@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.bakumon.moneykeeper.ui.typemanage.TypeManageActivity">
+    tools:context="me.bakumon.moneykeeperclone.ui.typemanage.TypeManageActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <me.bakumon.moneykeeper.view.NotPagingViewPager
+    <me.bakumon.moneykeeperclone.view.NotPagingViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

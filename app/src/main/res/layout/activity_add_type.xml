@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.bakumon.moneykeeper.ui.addtype.AddTypeActivity">
+    tools:context="me.bakumon.moneykeeperclone.ui.addtype.AddTypeActivity">
 
     <include
         android:id="@+id/toolbarLayout"

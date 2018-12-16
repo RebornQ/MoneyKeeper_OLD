@@ -19,7 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="me.bakumon.moneykeeper.ui.home.HomeActivity">
+    tools:context="me.bakumon.moneykeeperclone.ui.home.HomeActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             app:navigationContentDescription="@string/text_setting"
             app:navigationIcon="@drawable/ic_setting" />
 
-        <me.bakumon.moneykeeper.ui.home.HeadPageView
+        <me.bakumon.moneykeeperclone.ui.home.HeadPageView
             android:id="@+id/headPageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

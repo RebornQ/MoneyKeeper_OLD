@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">ThatMoney</string>
+    <string name="app_name">ThatMoneyClone</string>
 
     <string name="toast_add_record_fail">Billing failed, please try again</string>
     <string name="toast_modify_record_fail">Failed to modify the record</string>

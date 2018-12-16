@@ -20,16 +20,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.bakumon.moneykeeper.ui.statistics.bill.BillFragment">
+    tools:context="me.bakumon.moneykeeperclone.ui.statistics.bill.BillFragment">
 
-    <me.bakumon.moneykeeper.ui.statistics.SumMoneyChooseView
+    <me.bakumon.moneykeeperclone.ui.statistics.SumMoneyChooseView
         android:id="@+id/sumMoneyChooseView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingEnd="10dp"
         android:paddingStart="10dp" />
 
-    <me.bakumon.moneykeeper.ui.statistics.bill.barchart.MyBarChart
+    <me.bakumon.moneykeeperclone.ui.statistics.bill.barchart.MyBarChart
         android:id="@+id/barChart"
         android:layout_width="match_parent"
         android:layout_height="180dp"

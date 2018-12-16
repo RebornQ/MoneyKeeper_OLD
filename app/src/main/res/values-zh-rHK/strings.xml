@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">那樣記賬</string>
+    <string name="app_name">那樣記賬Clone</string>
 
     <string name="toast_add_record_fail">記賬失敗，請重試</string>
     <string name="toast_modify_record_fail">記錄修改失敗</string>
