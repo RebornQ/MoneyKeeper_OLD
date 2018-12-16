@@ -46,7 +46,7 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         if (DefaultSPHelper.isLocalAutoBackup) {
             val isSuccess = BackupUtil.autoBackup()
             if (!isSuccess) {
-                ToastUtils.show("自动备份失败，请检查是否授权存储权限")
+                ToastUtils.show(R.string.toast_is_not_writable_external)
             }
         }
     }

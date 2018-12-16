@@ -43,17 +43,6 @@ object AndroidUtil {
         }
     }
 
-//    /**
-//     * 去支付宝捐赠
-//     */
-//    fun alipay(activity: Activity) {
-//        if (AlipayZeroSdk.hasInstalledAlipayClient(activity)) {
-//            AlipayZeroSdk.startAlipayClient(activity, Constant.ALIPAY_CODE)
-//        } else {
-//            ToastUtils.show(R.string.toast_not_install_alipay)
-//        }
-//    }
-
     /**
      * 通过浏览器打开
      * @param url 要打开的 Url

@@ -128,7 +128,7 @@ class TransferAssetsFragment : BaseFragment() {
             return
         }
         if (items.isEmpty()) {
-            ToastUtils.show("还没有创建资产账户")
+            ToastUtils.show(R.string.toast_assets_null)
             return
         }
         isDialogShow = true

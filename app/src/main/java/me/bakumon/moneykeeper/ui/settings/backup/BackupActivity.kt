@@ -16,11 +16,12 @@
 package me.bakumon.moneykeeper.ui.settings.backup
 
 import androidx.fragment.app.Fragment
+import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.ui.common.BaseFragmentActivity
 
 class BackupActivity : BaseFragmentActivity() {
     override fun setTitle(): String {
-        return "备份与恢复"
+        return getString(R.string.text_backup_restore)
     }
 
     override fun setFragment(): Fragment {

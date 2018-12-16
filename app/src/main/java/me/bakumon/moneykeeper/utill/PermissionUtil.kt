@@ -21,6 +21,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.Permission
 import me.bakumon.moneykeeper.DefaultSPHelper
+import me.bakumon.moneykeeper.R
 
 /**
  * PermissionUtil
@@ -37,16 +38,16 @@ object PermissionUtil {
             .permission(Permission.Group.STORAGE)
             .rationale { context, _, executor ->
                 MaterialDialog(context)
-                    .title(text = "存储权限")
-                    .message(text = "存储权限仅用于自动和手动备份数据到本地，便于数据的保存和恢复，请授予权限。")
+                    .title(res = R.string.text_storage)
+                    .message(res = R.string.text_storage_content)
                     .cancelable(false)
-                    .positiveButton(text = "继续") { executor.execute() }
+                    .positiveButton(res = R.string.text_go_on) { executor.execute() }
                     .show()
             }
             .onGranted { DefaultSPHelper.isLocalAutoBackup = true }
             .onDenied {
                 DefaultSPHelper.isLocalAutoBackup = false
-                ToastUtils.show("注意：没有存储权限，本地备份自动备份已关闭")
+                ToastUtils.show(R.string.toast_open_auto_backup)
             }
             .start()
     }
@@ -61,10 +62,10 @@ object PermissionUtil {
             .permission(Permission.Group.STORAGE)
             .rationale { context, _, executor ->
                 MaterialDialog(context)
-                    .title(text = "存储权限")
-                    .message(text = "存储权限仅用于自动和手动备份数据到本地，便于数据的保存和恢复，请授予权限。")
+                    .title(res = R.string.text_storage)
+                    .message(res = R.string.text_storage_content)
                     .cancelable(false)
-                    .positiveButton(text = "继续") { executor.execute() }
+                    .positiveButton(res = R.string.text_go_on) { executor.execute() }
                     .negativeButton { requestPermission(requestContext, onResult) }
                     .show()
             }
@@ -75,10 +76,10 @@ object PermissionUtil {
             .onDenied {
                 if (AndPermission.hasAlwaysDeniedPermission(requestContext, it)) {
                     MaterialDialog(requestContext)
-                        .title(text = "存储权限申请失败")
-                        .message(text = "存储权限仅用于自动和手动备份数据到本地，便于数据的保存和恢复，请到设置界面手动授权，否则将放弃本地备份会恢复功能。")
+                        .title(res = R.string.text_storage_permission_fail)
+                        .message(res = R.string.text_storage_permission_tip)
                         .cancelable(false)
-                        .positiveButton(text = "去设置开启") {
+                        .positiveButton(res = R.string.text_storage_permission_tip_setting) {
                             AndPermission.with(requestContext)
                                 .runtime()
                                 .setting()

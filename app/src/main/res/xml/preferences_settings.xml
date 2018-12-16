@@ -78,20 +78,20 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="备份与恢复"
+            android:title="@string/text_backup_restore"
             android:key="backup"
             app:iconSpaceReserved="false">
         <Preference
-                android:title="备份"
+                android:title="@string/text_backup"
                 android:key="backups"
-                android:summary="本地和云端备份"
+                android:summary="@string/text_backup_local_cloud"
                 android:icon="@drawable/ic_cloud">
             <intent android:targetPackage="@string/packageName"
                     android:targetClass="me.bakumon.moneykeeper.ui.settings.backup.BackupActivity"/>
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory
-            android:title="外观"
+            android:title="@string/text_display"
             android:key="display"
             app:iconSpaceReserved="false">
         <ListPreference

@@ -40,7 +40,7 @@
     <string name="toast_restore_fail">Failed to restore the backup database</string>
     <string name="toast_restore_success">Restore backup success</string>
     <string name="toast_backup_list_fail">Failed to get backup file list</string>
-    <string name="toast_open_auto_backup">Automatic backup is turned off. You can go to settings to reopen</string>
+    <string name="toast_open_auto_backup">Note: Local backup auto backup is off without storage permissions</string>
     <string name="toast_backup_success">Backup was successful</string>
     <string name="toast_backup_fail">Backup failed</string>
     <string name="toast_success_record">Accounting success</string>
@@ -57,6 +57,7 @@
     <string name="toast_delete_transfer_fail">Deleting transfer record failed</string>
     <string name="toast_out_assets_null">The account before the modification is empty, please try again</string>
     <string name="toast_in_assets_null">The account is not empty before the modification, please try again</string>
+    <string name="toast_assets_null">No asset account has been created yet</string>
 
     <!-- 首页 -->
     <string name="text_widget_today_outlay">Today</string>
@@ -71,9 +72,12 @@
     <string name="text_current_month_empty_tip">No bookkeeping started this month\n\nClick the button to start bookkeeping</string>
     <string name="shortcuts_add_record">add</string>
     <string name="shortcuts_statistics">statistics</string>
-    <string name="text_storage">Storage permissions</string>
-    <string name="text_storage_content">In order to back up your accounting data automatically, you need to open the storage permission.</string>
-    <string name="text_storage_permission_tip">Backup related operations require storage permissions to set open permissions</string>
+    <string name="text_storage">Storage permission</string>
+    <string name="text_storage_content">Storage permissions are only used to automatically and manually back up data to the local, to facilitate data storage and recovery, please grant permissions.</string>
+    <string name="text_storage_permission_tip">Storage permissions are only used to automatically and manually back up data to the local, which is convenient for data saving and recovery. Please go to the setup interface to manually authorize. Otherwise, the local backup will be restored.</string>
+    <string name="text_storage_permission_tip_setting">Go to setting</string>
+    <string name="text_storage_permission_fail">Storage permission request failed</string>
+    <string name="text_go_on">Go on</string>
     <string name="text_tip_backup_fail">Auto backup failed</string>
 
     <!-- 记一笔 -->
@@ -157,8 +161,11 @@
     <string name="text_fast_accounting">Quick accounting</string>
     <string name="text_fast_tip">Open APP directly bookkeeping</string>
     <string name="text_successive_record">Continuous accounting</string>
-    <string name="text_successive_record_tip">Long press home add button, continuous accounting</string>
-    <string name="text_backup">Local backup</string>
+    <string name="text_successive_record_tip">Tip:Long press home add button, continuous accounting</string>
+    <string name="text_manager">Manager</string>
+    <string name="text_backup">Backup</string>
+    <string name="text_backup_restore">Backup and Restore</string>
+    <string name="text_backup_local_cloud">Local and Cloud Backup</string>
     <string name="text_go_backup">Back up now</string>
     <string name="text_backup_save" formatted="true">Backup file will be saved to%1$s</string>
     <string name="text_restore">Restore</string>
@@ -166,7 +173,7 @@
     <string name="text_restore_tip">The backup file name with automatic typeface indicates that the file is automatically backed up, with the user indicating that the file was manually backed up by clicking the Backup Now button.</string>
     <string name="text_list_restore">The following is the backup file, click restore:</string>
     <string name="text_auto_backup">Automatic backup</string>
-    <string name="text_auto_backup_content">Data change automatic backup (recommended to open)</string>
+    <string name="text_auto_backup_content">Backup when data changes (not closed)</string>
     <string name="text_cloud_backup">Cloud backup</string>
     <string name="text_cloud_backup_title">Cloud disk backup</string>
     <string name="text_cloud_backup_content">WebDAV</string>
@@ -198,6 +205,38 @@
         <item>¤</item>
         <item />
     </string-array>
+    <string-array name="theme_titles">
+        <item>Dark Theme</item>
+        <item>Light Theme</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
+
+    <string-array name="lockScreen_titles">
+        <item>Off</item>
+        <item>Use the system to unlock</item>
+        <item>Use the fingerprint to unlock</item>
+    </string-array>
+
+    <string-array name="lockScreen_values">
+        <item>off</item>
+        <item>system</item>
+        <item>custom</item>
+    </string-array>
+
+    <string-array name="cloud_auto_backup_mode_titles">
+        <item>Off</item>
+        <item>Backup when opening an app</item>
+        <item>Backup when exiting the app</item>
+    </string-array>
+
+    <string-array name="cloud_auto_backup_mode_values">
+        <item>off</item>
+        <item>openApp</item>
+        <item>quitApp</item>
+    </string-array>
 
     <!-- 关于 -->
     <string name="text_about">about</string>
@@ -224,7 +263,7 @@
     <string name="text_luck_screen_system">Use the system to unlock the interface</string>
     <string name="text_luck_screen_custom">Use a custom unlock interface</string>
     <string name="text_luck_screen_add">Directly enter the "Record"</string>
-    <string name="text_luck_screen_add_tip">After turn off, enter from Shortcut and need to unlock</string>
+    <string name="text_luck_screen_add_tip">Tip: Enter or open Quick Accounting from Shortcut without unlocking</string>
     <string name="text_statement">Statement</string>
     <string name="text_statement_tip">"ThatMoney" is open source software. The market that I compiled on the market is currently only Coolapk.com and Google Play. The package name is me.bakumon.moneykeeper. The very similar application in other markets may be the version modified by others after obtaining the source code.</string>
 
@@ -235,6 +274,7 @@
     <string name="text_webdav_password">WebDAV authorization password</string>
     <string name="text_webdav_help">Nutstore tutorial</string>
     <string name="text_tip_auth_fail">Authorized account or password is incorrect</string>
+    <string name="text_local_backup">Local Backup</string>
     <string name="text_error">Error</string>
     <string name="text_restore_fail_rollback">The recovery failed, has been rolled back to the pre-recovery state, click the OK button to restart the application.</string>
     <string name="text_backup_file_not_exist">Backup file does not exist</string>
@@ -245,11 +285,6 @@
     <string name="text_auto_backup_mode">Select backup mode</string>
     <string name="text_auto_backup_success">Cloud backup succeeded!</string>
     <string name="text_auto_backup_fail">Cloud backup failed!</string>
-    <string-array name="text_cloud_auto_backup_mode">
-        <item>Do not automatically backup</item>
-        <item>when opening the app</item>
-        <item>when exiting the app</item>
-    </string-array>
 
     <!-- 实验室 -->
     <string name="text_other_setting">Other</string>

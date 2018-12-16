@@ -40,7 +40,7 @@
     <string name="toast_restore_fail">恢復備份失敗</string>
     <string name="toast_restore_success">恢復備份成功</string>
     <string name="toast_backup_list_fail">備份文件列表獲取失敗</string>
-    <string name="toast_open_auto_backup">自動備份已關閉，設置界面可重新打開</string>
+    <string name="toast_open_auto_backup">注意：沒有存儲權限，本地備份自動備份已關閉</string>
     <string name="toast_backup_success">備份成功</string>
     <string name="toast_backup_fail">備份失敗</string>
     <string name="toast_success_record">記賬成功</string>
@@ -57,6 +57,7 @@
     <string name="toast_delete_transfer_fail">刪除轉賬記錄失敗</string>
     <string name="toast_out_assets_null">修改前轉出賬戶為空，請重試</string>
     <string name="toast_in_assets_null">修改前轉入賬戶為空，請重試</string>
+    <string name="toast_assets_null">還沒有創建資產賬戶</string>
 
     <!-- 首页 -->
     <string name="text_widget_today_outlay">今日支出</string>
@@ -71,9 +72,12 @@
     <string name="text_current_month_empty_tip">本月未開始記賬\n\n點擊加號，開始記賬</string>
     <string name="shortcuts_add_record">記一筆</string>
     <string name="shortcuts_statistics">歷史統計</string>
-    <string name="text_storage">開啟存儲權限</string>
-    <string name="text_storage_content">為了自動備份您的記賬數據，需要開啟存儲權限。</string>
-    <string name="text_storage_permission_tip">備份相關操作需要存儲權限，去設置界面開啟權限</string>
+    <string name="text_storage">存儲權限</string>
+    <string name="text_storage_content">存儲權限僅用於自動和手動備份數據到本地，便於數據的保存和恢復，請授予權限。</string>
+    <string name="text_storage_permission_tip">存儲權限僅用於自動和手動備份數據到本地，便於數據的保存和恢復，請到設置界面手動授權，否則將放棄本地備份會恢復功能。</string>
+    <string name="text_storage_permission_tip_setting">去設置開啟</string>
+    <string name="text_storage_permission_fail">存儲權限申請失敗</string>
+    <string name="text_go_on">繼續</string>
     <string name="text_tip_backup_fail">自動備份失敗</string>
 
     <!-- 记一笔 -->
@@ -157,8 +161,11 @@
     <string name="text_fast_accounting">快速記帳</string>
     <string name="text_fast_tip">打開APP直接記賬</string>
     <string name="text_successive_record">連續記賬</string>
-    <string name="text_successive_record_tip">長按首頁添加按鈕，連續記賬</string>
-    <string name="text_backup">本地備份</string>
+    <string name="text_successive_record_tip">提示：長按首頁添加按鈕，連續記賬</string>
+    <string name="text_manager">管理</string>
+    <string name="text_backup">備份</string>
+    <string name="text_backup_restore">備份與恢復</string>
+    <string name="text_backup_local_cloud">本地和雲端備份</string>
     <string name="text_go_backup">立即備份</string>
     <string name="text_backup_save" formatted="true">備份文件將保存到%1$s</string>
     <string name="text_restore">恢復備份</string>
@@ -166,7 +173,7 @@
     <string name="text_restore_tip">備份文件名帶有Auto字樣表示是自動備份的文件，帶有User表示是點擊立即備份按鈕手動備份的文件。</string>
     <string name="text_list_restore">以下是備份文件，點擊恢復：</string>
     <string name="text_auto_backup">自動備份</string>
-    <string name="text_auto_backup_content">數據有改變自動備份（建議開啟）</string>
+    <string name="text_auto_backup_content">數據有改變時備份（不可手動關閉）</string>
     <string name="text_cloud_backup">雲備份</string>
     <string name="text_cloud_backup_title">雲盤備份</string>
     <string name="text_cloud_backup_content">WebDAV</string>
@@ -198,6 +205,38 @@
         <item>¤</item>
         <item />
     </string-array>
+    <string-array name="theme_titles">
+        <item>暗色主題</item>
+        <item>亮色主題</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
+
+    <string-array name="lockScreen_titles">
+        <item>關閉</item>
+        <item>使用系統解鎖界面</item>
+        <item>使用指紋解鎖界面</item>
+    </string-array>
+
+    <string-array name="lockScreen_values">
+        <item>off</item>
+        <item>system</item>
+        <item>custom</item>
+    </string-array>
+
+    <string-array name="cloud_auto_backup_mode_titles">
+        <item>不自動備份</item>
+        <item>打開應用時備份</item>
+        <item>退出應用時備份</item>
+    </string-array>
+
+    <string-array name="cloud_auto_backup_mode_values">
+        <item>off</item>
+        <item>openApp</item>
+        <item>quitApp</item>
+    </string-array>
 
     <!-- 关于 -->
     <string name="text_about">關於</string>
@@ -224,7 +263,7 @@
     <string name="text_luck_screen_system">使用系統解鎖界面</string>
     <string name="text_luck_screen_custom">使用指紋解鎖界面</string>
     <string name="text_luck_screen_add">直接進入記一筆界面</string>
-    <string name="text_luck_screen_add_tip">關閉後從 Shortcut 進入，需要解鎖</string>
+    <string name="text_luck_screen_add_tip">提示：從 Shortcut 進入或打開快速記賬，不需要解鎖</string>
     <string name="text_statement">聲明</string>
     <string name="text_statement_tip">「那樣記賬」為開源軟件，本人編譯上架的市場目前只有酷安和Google Play，包名都為me.bakumon.moneykeeper，其他市場不同名稱或包名的極相似應用可能是其他人獲取源碼後修改的版本。</string>
 
@@ -235,6 +274,7 @@
     <string name="text_webdav_password">WebDAV授權密碼</string>
     <string name="text_webdav_help">堅果雲授權教程</string>
     <string name="text_tip_auth_fail">授權賬號或密碼不正確</string>
+    <string name="text_local_backup">本地備份</string>
     <string name="text_error">出錯了</string>
     <string name="text_restore_fail_rollback">恢復失敗，已回滾至恢復前狀態，點擊確定按鈕重啟應用。</string>
     <string name="text_backup_file_not_exist">備份文件不存在</string>
@@ -245,11 +285,6 @@
     <string name="text_auto_backup_mode">選擇自動備份模式</string>
     <string name="text_auto_backup_success">雲備份成功</string>
     <string name="text_auto_backup_fail">雲備份失敗！</string>
-    <string-array name="text_cloud_auto_backup_mode">
-        <item>不自動備份</item>
-        <item>打開應用時備份</item>
-        <item>退出應用時備份</item>
-    </string-array>
 
     <!-- 实验室 -->
     <string name="text_other_setting">實驗室</string>
@@ -287,18 +322,18 @@
     <string name="text_bank_cmbc">民生银行</string>
     <string name="text_bank_chinapost">邮政储蓄银行</string>
     <string name="text_assets_card">其他銀行</string>
-    <string name="text_assets_type_cash">现金</string>
-    <string name="text_assets_type_bank_card">银行卡</string>
-    <string name="text_assets_type_alipay">支付宝</string>
-    <string name="text_assets_type_wechat">微信钱包</string>
-    <string name="text_assets_type_jd">京东钱包</string>
-    <string name="text_assets_type_rice_card">饭卡</string>
+    <string name="text_assets_type_cash">現金</string>
+    <string name="text_assets_type_bank_card">銀行卡</string>
+    <string name="text_assets_type_alipay">支付寶</string>
+    <string name="text_assets_type_wechat">微信錢包</string>
+    <string name="text_assets_type_jd">京東錢包</string>
+    <string name="text_assets_type_rice_card">飯卡</string>
     <string name="text_assets_type_bus_card">公交卡</string>
-    <string name="text_assets_type_other">其他账户</string>
-    <string name="text_assets_type_monetary">货币基金</string>
+    <string name="text_assets_type_other">其他賬戶</string>
+    <string name="text_assets_type_monetary">貨幣基金</string>
     <string name="text_assets_type_funding">基金</string>
     <string name="text_assets_type_stock">股票</string>
-    <string name="text_assets_type_other_financial">其他理财</string>
+    <string name="text_assets_type_other_financial">其他理財</string>
 
     <!-- 资产详情 -->
     <string name="text_assets_detail">資產詳情</string>

@@ -40,7 +40,7 @@
     <string name="toast_restore_fail">恢复备份失败</string>
     <string name="toast_restore_success">恢复备份成功</string>
     <string name="toast_backup_list_fail">备份文件列表获取失败</string>
-    <string name="toast_open_auto_backup">自动备份已关闭，设置界面可重新打开</string>
+    <string name="toast_open_auto_backup">注意：没有存储权限，本地备份自动备份已关闭</string>
     <string name="toast_backup_success">备份成功</string>
     <string name="toast_backup_fail">备份失败</string>
     <string name="toast_success_record">记账成功</string>
@@ -57,6 +57,7 @@
     <string name="toast_delete_transfer_fail">删除转账记录失败</string>
     <string name="toast_out_assets_null">修改前转出账户为空，请重试</string>
     <string name="toast_in_assets_null">修改前转入账户为空，请重试</string>
+    <string name="toast_assets_null">还没有创建资产账户</string>
 
     <!-- 首页 -->
     <string name="text_widget_today_outlay">今日支出</string>
@@ -71,9 +72,12 @@
     <string name="text_current_month_empty_tip">本月未开始记账\n\n点击加号，开始记账</string>
     <string name="shortcuts_add_record">记一笔</string>
     <string name="shortcuts_statistics">历史统计</string>
-    <string name="text_storage">开启存储权限</string>
-    <string name="text_storage_content">为了自动备份您的记账数据，需要开启存储权限。</string>
-    <string name="text_storage_permission_tip">备份相关操作需要存储权限，去设置界面开启权限</string>
+    <string name="text_storage">存储权限</string>
+    <string name="text_storage_content">存储权限仅用于自动和手动备份数据到本地，便于数据的保存和恢复，请授予权限。</string>
+    <string name="text_storage_permission_tip">存储权限仅用于自动和手动备份数据到本地，便于数据的保存和恢复，请到设置界面手动授权，否则将放弃本地备份会恢复功能。</string>
+    <string name="text_storage_permission_tip_setting">去设置开启</string>
+    <string name="text_storage_permission_fail">存储权限申请失败</string>
+    <string name="text_go_on">继续</string>
     <string name="text_tip_backup_fail">自动备份失败</string>
 
     <!-- 记一笔 -->
@@ -157,8 +161,11 @@
     <string name="text_fast_accounting">快速记账</string>
     <string name="text_fast_tip">打开APP直接记账</string>
     <string name="text_successive_record">连续记账</string>
-    <string name="text_successive_record_tip">长按首页添加按钮，连续记账</string>
-    <string name="text_backup">本地备份</string>
+    <string name="text_successive_record_tip">提示：长按首页添加按钮，连续记账</string>
+    <string name="text_manager">管理</string>
+    <string name="text_backup">备份</string>
+    <string name="text_backup_restore">备份与恢复</string>
+    <string name="text_backup_local_cloud">本地和云端备份</string>
     <string name="text_go_backup">立即备份</string>
     <string name="text_backup_save" formatted="true">备份文件将保存到%1$s</string>
     <string name="text_restore">恢复备份</string>
@@ -166,7 +173,7 @@
     <string name="text_restore_tip">备份文件名带有Auto字样表示是自动备份的文件，带有User表示是点击立即备份按钮手动备份的文件。</string>
     <string name="text_list_restore">以下是备份文件，点击恢复：</string>
     <string name="text_auto_backup">自动备份</string>
-    <string name="text_auto_backup_content">数据有改变自动备份（建议开启）</string>
+    <string name="text_auto_backup_content">数据有改变时备份（不可手动关闭）</string>
     <string name="text_cloud_backup">云备份</string>
     <string name="text_cloud_backup_title">云盘备份</string>
     <string name="text_cloud_backup_content">WebDAV</string>
@@ -235,9 +242,7 @@
     <string name="text_about">关于</string>
     <string name="text_slogan">简单、纯粹的记账应用</string>
     <string name="text_about_Introduction">简介</string>
-    <string name="text_about_detail">
-        　　一款轻量级的记账工具。\n\n　　这是我第一个用心的作品，起源于从小到大的一个「不可思议」（钱到底花在了哪儿），工作以后尤为明显。于是「那样记账」诞生了，目的是让大家以最简单、直接的方式来记账，让这个「不可思议」不再不可思议，慢慢建立起良好的消费习惯。\n\n　　没有任何多余的权限，没有广告，没有用户系统，不保存用户任何信息，只是单纯的记录收支情况。\n\n　　「那样记账」名称取自一个人名字「娜」的谐音。
-    </string>
+    <string name="text_about_detail">一款轻量级的记账工具。\n\n　　这是我第一个用心的作品，起源于从小到大的一个「不可思议」（钱到底花在了哪儿），工作以后尤为明显。于是「那样记账」诞生了，目的是让大家以最简单、直接的方式来记账，让这个「不可思议」不再不可思议，慢慢建立起良好的消费习惯。\n\n　　没有任何多余的权限，没有广告，没有用户系统，不保存用户任何信息，只是单纯的记录收支情况。\n\n　　「那样记账」名称取自一个人名字「娜」的谐音。</string>
     <string name="text_dev_designer">设计和开发</string>
     <string name="text_designer">总体设计</string>
     <string name="text_launcher_designer">启动图标设计</string>
@@ -245,9 +250,7 @@
     <string name="text_links">链接</string>
     <string name="text_score">评分</string>
     <string name="text_donate">捐赠作者</string>
-    <string name="text_contact_author" formatted="true">加入我们的 QQ 交流群： %1$s \n\n加入我们的 Telegram 交流群： %2$s \n\n联系作者： %3$s
-        \n\n更多帮助：%4$s \n\n本应用已开源，欢迎贡献代码。\n开源地址：%5$s\n\n*本应用遵循《Android绿色应用公约》\n %6$s
-    </string>
+    <string name="text_contact_author" formatted="true">加入我们的 QQ 交流群： %1$s \n\n加入我们的 Telegram 交流群： %2$s \n\n联系作者： %3$s \n\n更多帮助：%4$s \n\n本应用已开源，欢迎贡献代码。\n开源地址：%5$s\n\n*本应用遵循《Android绿色应用公约》\n %6$s</string>
     <string name="text_license">开源许可证</string>
     <string name="text_privacy_policy">隐私政策</string>
     <string name="text_display">外观</string>
@@ -260,11 +263,9 @@
     <string name="text_luck_screen_system">使用系统解锁界面</string>
     <string name="text_luck_screen_custom">使用指纹解锁界面</string>
     <string name="text_luck_screen_add">直接进入记一笔界面</string>
-    <string name="text_luck_screen_add_tip">关闭后从 Shortcut 进入，需要解锁</string>
+    <string name="text_luck_screen_add_tip">提示：从 Shortcut 进入或打开快速记账，不需要解锁</string>
     <string name="text_statement">声明</string>
-    <string name="text_statement_tip">「那样记账」为开源软件，本人编译上架的市场目前只有酷安和 Google Play，包名都为
-        me.bakumon.moneykeeper，其他市场不同名称或包名的极相似应用可能是其他人获取源码后修改的版本。
-    </string>
+    <string name="text_statement_tip">「那样记账」为开源软件，本人编译上架的市场目前只有酷安和 Google Play，包名都为 me.bakumon.moneykeeper，其他市场不同名称或包名的极相似应用可能是其他人获取源码后修改的版本。</string>
 
     <!-- 云备份 -->
     <string name="text_webdav">WebDAV云盘</string>
@@ -273,6 +274,7 @@
     <string name="text_webdav_password">WebDAV授权密码</string>
     <string name="text_webdav_help">坚果云授权教程</string>
     <string name="text_tip_auth_fail">授权账号或密码不正确</string>
+    <string name="text_local_backup">本地备份</string>
     <string name="text_error">出错了</string>
     <string name="text_restore_fail_rollback">恢复失败，已回滚至恢复前状态，点击确定按钮重启应用。</string>
     <string name="text_backup_file_not_exist">备份文件不存在</string>
@@ -283,11 +285,6 @@
     <string name="text_auto_backup_mode">选择自动备份模式</string>
     <string name="text_auto_backup_success">云备份成功！</string>
     <string name="text_auto_backup_fail">云备份失败！</string>
-    <string-array name="text_cloud_auto_backup_mode">
-        <item>不自动备份</item>
-        <item>打开应用时备份</item>
-        <item>退出应用时备份</item>
-    </string-array>
 
     <!-- 实验室 -->
     <string name="text_other_setting">实验室</string>
