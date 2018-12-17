@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Bakumon. https://github.com/Bakumon
+ * Copyright 2018 DingMouRen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView
  * Created by 钉某人
  * github: https://github.com/DingMouRen
  * email: naildingmouren@gmail.com
+ *
+ * 修改为 kotlin 版本
  */
 
 class PickerLayoutManager : LinearLayoutManager {
