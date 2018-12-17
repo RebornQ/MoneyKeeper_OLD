@@ -48,7 +48,7 @@ class NumberTextPreference : BaseTextPreference {
 
     override fun onClick() {
         if (keyboardDialog == null) {
-            keyboardDialog = KeyboardDialog(context, text, true) { text = it }
+            keyboardDialog = KeyboardDialog(context, text, isAllowedEmpty = true, isShowMinus = false) { text = it }
         }
         keyboardDialog!!.show()
     }

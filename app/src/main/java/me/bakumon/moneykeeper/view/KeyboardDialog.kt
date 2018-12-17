@@ -31,6 +31,7 @@ class KeyboardDialog(
     private val mContext: Context,
     private val text: String?,
     private val isAllowedEmpty: Boolean = false,
+    private val isShowMinus: Boolean = true,
     private val mOnAffirmClickListener: ((String) -> Unit)
 ) {
     private lateinit var mDialog: BottomSheetDialog
@@ -53,7 +54,7 @@ class KeyboardDialog(
         }
         keyboardView.setText(text)
         keyboardView.isAllowedEmpty = isAllowedEmpty
-        keyboardView.isShowMinus = true
+        keyboardView.isShowMinus = isShowMinus
         keyboardView.maxIntegerNumber = 8
 
         mDialog.setContentView(contentView)

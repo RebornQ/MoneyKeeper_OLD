@@ -58,6 +58,7 @@
     <string name="toast_out_assets_null">The account before the modification is empty, please try again</string>
     <string name="toast_in_assets_null">The account is not empty before the modification, please try again</string>
     <string name="toast_assets_null">No asset account has been created yet</string>
+    <string name="toast_not_digital">Not a number</string>
 
     <!-- 首页 -->
     <string name="text_widget_today_outlay">Today</string>

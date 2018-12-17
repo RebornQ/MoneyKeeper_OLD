@@ -58,6 +58,7 @@
     <string name="toast_out_assets_null">修改前轉出賬戶為空，請重試</string>
     <string name="toast_in_assets_null">修改前轉入賬戶為空，請重試</string>
     <string name="toast_assets_null">還沒有創建資產賬戶</string>
+    <string name="toast_not_digital">數字不合法</string>
 
     <!-- 首页 -->
     <string name="text_widget_today_outlay">今日支出</string>

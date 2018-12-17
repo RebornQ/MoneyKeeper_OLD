@@ -115,7 +115,7 @@ class HeadPageView @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
         val budget = DefaultSPHelper.budget
-        if (BigDecimal(budget) > BigDecimal(0)) {
+        if ("" != budget && BigDecimal(budget) >= BigDecimal(0)) {
             val budgetStr = BigDecimalUtil.fen2YuanWithText(
                 BigDecimal(budget).multiply(BigDecimal(100)).subtract(outlay)
             )

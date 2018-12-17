@@ -118,7 +118,7 @@ class AddAssetsActivity : BaseActivity() {
         edtRemark.setText(remark)
         edtMoney.setText(money)
 
-        val keyboardDialog = KeyboardDialog(this, edtMoney.text.toString()) {
+        val keyboardDialog = KeyboardDialog(this, isAllowedEmpty = true, text = edtMoney.text.toString()) {
             edtMoney.setText(it)
             edtMoney.setSelection(edtMoney.text.length)
             SoftInputUtils.hideSoftInput(edtMoney)

@@ -22,11 +22,9 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import androidx.preference.Preference;
-import me.bakumon.moneykeeper.view.KeyboardDialog;
 
 public abstract class BaseTextPreference extends Preference {
     private String mText;
-    private KeyboardDialog keyboardDialog;
 
     public BaseTextPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -49,17 +47,6 @@ public abstract class BaseTextPreference extends Preference {
     }
 
     public abstract void init();
-
-    @Override
-    protected void onClick() {
-        if (keyboardDialog == null) {
-            keyboardDialog = new KeyboardDialog(getContext(), getText(), true, s -> {
-                setText(s);
-                return null;
-            });
-        }
-        keyboardDialog.show();
-    }
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {

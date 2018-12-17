@@ -28,7 +28,9 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.layout_keyboard.view.*
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.utill.SoftInputUtils
+import me.bakumon.moneykeeper.utill.ToastUtils
 import me.bakumon.moneykeeper.utill.ViewUtil
+import java.math.BigDecimal
 
 /**
  * 自定义键盘
@@ -118,18 +120,41 @@ class KeyboardView @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
 
         tvAffirm.setOnClickListener {
-            val text = editInput.text.toString()
-            if (TextUtils.equals("0", text)
-                || TextUtils.equals("0.", text)
-                || TextUtils.equals("0.0", text)
-                || TextUtils.equals("0.00", text)
-            ) {
-                ViewUtil.startShake(editInput)
-            } else {
-                if (isAllowedEmpty || !TextUtils.isEmpty(text)) {
+            checkAndInvoke(editInput.text.toString())
+        }
+    }
+
+    /**
+     * 检查和回调
+     */
+    private fun checkAndInvoke(text: String) {
+        when (text) {
+            "-" -> mOnAffirmClickListener?.invoke("")
+            "" -> {
+                if (isAllowedEmpty) {
                     mOnAffirmClickListener?.invoke(text)
                 } else {
                     ViewUtil.startShake(editInput)
+                }
+            }
+            "0", "0.", "0.0", "0.00" -> {
+                if (isAllowedEmpty) {
+                    mOnAffirmClickListener?.invoke("0")
+                } else {
+                    ViewUtil.startShake(editInput)
+                }
+            }
+            else -> {
+                try {
+                    BigDecimal(text)
+                    mOnAffirmClickListener?.invoke(text)
+                } catch (e: Exception) {
+                    ToastUtils.show(R.string.toast_not_digital)
+                    if (isAllowedEmpty) {
+                        mOnAffirmClickListener?.invoke("")
+                    } else {
+                        ViewUtil.startShake(editInput)
+                    }
                 }
             }
         }

@@ -30,9 +30,9 @@ object DefaultSPHelper {
      */
     val budget: String
         get() {
-            val temp = PreferenceManager.getDefaultSharedPreferences(App.instance).getString("budget", "0")
+            val temp = PreferenceManager.getDefaultSharedPreferences(App.instance).getString("budget", "")
             return if (temp.isNullOrBlank()) {
-                "0"
+                ""
             } else {
                 temp
             }
