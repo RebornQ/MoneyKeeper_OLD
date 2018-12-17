@@ -155,7 +155,7 @@
     <string name="hint_enter_assets">请输入资产</string>
     <string name="text_title_symbol">货币符号</string>
     <string name="text_set_symbol">选择货币符号</string>
-    <string name="text_content_symbol">只改变货号，不转换汇率</string>
+    <string name="text_content_symbol">只改变符号，不转换汇率</string>
     <string name="text_setting_type_manage">收支类型管理</string>
     <string name="text_setting_type_manage_content">添加、修改和排序</string>
     <string name="text_fast_accounting">快速记账</string>

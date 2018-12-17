@@ -18,6 +18,7 @@ package me.bakumon.moneykeeper.ui.settings
 import android.app.KeyguardManager
 import android.content.Context
 import android.os.Bundle
+import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.wei.android.lib.fingerprintidentify.FingerprintIdentify
 import me.bakumon.moneykeeper.App
@@ -60,10 +61,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        findPreference("symbol").setOnPreferenceClickListener {
+        val symbolPreference = findPreference("symbol") as ListPreference
+        symbolPreference.setOnPreferenceClickListener {
             // 更新 widget
             WidgetProvider.updateWidget(context!!)
             true
+        }
+
+        symbolPreference.setSummaryProvider {
+            symbolPreference.value + "（"+getString(R.string.text_content_symbol) + "）"
         }
 
         findPreference("lockScreen").setOnPreferenceChangeListener { preference, newValue ->
