@@ -31,11 +31,11 @@
 
 发布在以下平台：
 
+注：Clone 版只在 Github 发布
+
 | 平台 | 下载地址 |
 | ---- | ---- |
-| Google Play | <a href='https://play.google.com/store/apps/details?id=me.bakumon.moneykeeper&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://i.loli.net/2018/06/27/5b32eac49f930.png' height="60"/>
-</a> |
-| 酷安 | <a href='https://www.coolapk.com/apk/me.bakumon.moneykeeper'><img alt='去酷安下载' src='https://ws4.sinaimg.cn/large/006tNc79ly1fsphx16ybdj30go06st8q.jpg' height="60"/>
+| Github | <a href='https://github.com/RebornQ/MoneyKeeper/releases'><img alt='Get it on Github' src='https://img.icons8.com/metro/52/000000/github.png' height="60"/>
 </a> |
 
 预览：
@@ -108,11 +108,11 @@ The name "Moneykeeper" is taken from the homonym of a person's name "Na".
 
 Published on the following platforms:
 
+Note: The Clone version is only released on Github
+
 | Platform | Download Address |
 | ---- | ---- |
-| Google Play | <a href='https://play.google.com/store/apps/details?id=me.bakumon.moneykeeper&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515 -1'><img alt='Get it on Google Play' src='https://i.loli.net/2018/06/27/5b32eac49f930.png' height="60"/>
-</a> |
-| Coolapk | <a href='https://www.coolapk.com/apk/me.bakumon.moneykeeper'><img alt='Go to Coolapk Download' src='https://ws4.sinaimg.cn/large/006tNc79ly1fsphx16ybdj30go06st8q.jpg' height="60"/>
+| Github | <a href='https://github.com/RebornQ/MoneyKeeper/releases'><img alt='Get it on Github' src='https://img.icons8.com/metro/52/000000/github.png' height="60"/>
 </a> |
 
 Preview:
