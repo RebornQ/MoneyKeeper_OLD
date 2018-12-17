@@ -91,13 +91,6 @@ class ReportsFragment : BaseFragment() {
 
     private fun navTypeRecords(typeName: String, typeId: Int) {
         if (context != null) {
-//            Floo.navigation(context!!, Router.Url.URL_TYPE_RECORDS)
-//                    .putExtra(Router.ExtraKey.KEY_TYPE_NAME, typeName)
-//                    .putExtra(Router.ExtraKey.KEY_RECORD_TYPE, mType)
-//                    .putExtra(Router.ExtraKey.KEY_RECORD_TYPE_ID, typeId)
-//                    .putExtra(Router.ExtraKey.KEY_YEAR, mYear)
-//                    .putExtra(Router.ExtraKey.KEY_MONTH, mMonth)
-//                    .start()
             TypeRecordsActivity.open(
                 context!!,
                 name = typeName,

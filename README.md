@@ -57,16 +57,6 @@
 - AES 加密
 - WebDAV
 
-## 开源库
-
-- [[ProcessPhoenix]-JakeWharton](https://github.com/JakeWharton/ProcessPhoenix)
-- [[java-aes-crypto]-tozny](https://github.com/tozny/java-aes-crypto)
-- [[Cipher.so]-MEiDIK](https://github.com/MEiDIK/Cipher.so)
-- [[okhttp-digest]-rburgst](https://github.com/rburgst/okhttp-digest)
-- [[android-storage]-sromku](https://github.com/sromku/android-storage)
-- [[prettytime]-ocpsoft](https://github.com/ocpsoft/prettytime)
-- [[Floo]-drakeet](https://github.com/drakeet/Floo)
-
 ## 相关链接：
 
 1. [App下载地址](https://www.coolapk.com/apk/188475)
@@ -132,16 +122,6 @@ Here is an article [Introduction to Architecture Components](https://medium.com/
 
 - AES encryption 
 - WebDAV
-
-## Open source library
-
-- [[ProcessPhoenix]-JakeWharton](https://github.com/JakeWharton/ProcessPhoenix)
-- [[java-aes-crypto]-tozny](https://github.com/tozny/java-aes-crypto)
-- [[Cipher.so]-MEiDIK](https://github.com/MEiDIK/Cipher.so)
-- [[okhttp-digest]-rburgst](https://github.com/rburgst/okhttp-digest)
-- [[android-storage]-sromku](https://github.com/sromku/android-storage)
-- [[prettytime]-ocpsoft](https://github.com/ocpsoft/prettytime)
-- [[Floo]-drakeet](https://github.com/drakeet/Floo)
 
 ## Related Links：
 

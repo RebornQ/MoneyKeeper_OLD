@@ -27,7 +27,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.android.synthetic.main.activity_assets.*
 import kotlinx.android.synthetic.main.layout_sort_tip.view.*
-import me.bakumon.moneykeeper.ConfigManager
 import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.base.ErrorResource
@@ -86,7 +85,7 @@ class AssetsActivity : BaseActivity() {
         val callback = SortDragCallback(mAdapter) {
             tvSave.visibility = View.VISIBLE
             sortTip.visibility = View.GONE
-            ConfigManager.setIsShowSortTip(false)
+            DefaultSPHelper.isShowSortTip = false
         }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(rvAssets)
@@ -125,11 +124,11 @@ class AssetsActivity : BaseActivity() {
         } else {
             btnAdd.show()
             // 排序提示在用户点击或用户手动排序一次后隐藏，并且将不会显示
-            if (ConfigManager.isShowSortTip) {
+            if (DefaultSPHelper.isShowSortTip) {
                 sortTip.visibility = View.VISIBLE
                 sortTip.ivClear.setOnClickListener {
                     sortTip.visibility = View.GONE
-                    ConfigManager.setIsShowSortTip(false)
+                    DefaultSPHelper.isShowSortTip = false
                 }
             } else {
                 sortTip.visibility = View.GONE

@@ -27,7 +27,7 @@ import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.afollestad.materialdialogs.list.customListAdapter
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.fragment_option.*
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.database.entity.Assets
 import me.bakumon.moneykeeper.database.entity.Label
@@ -37,7 +37,6 @@ import me.bakumon.moneykeeper.ui.common.BaseFragment
 import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.utill.ResourcesUtil
 import me.bakumon.moneykeeper.utill.SoftInputUtils
-//import me.drakeet.floo.Floo
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.register
@@ -95,7 +94,7 @@ class OptionFragment : BaseFragment() {
         }
 
         if (!mIsModify) {
-            val savedAssetsId = ConfigManager.assetId
+            val savedAssetsId = DefaultSPHelper.assetsId
             if (savedAssetsId == -1) {
                 updateAccountView(name = getString(R.string.text_no_choose_account))
             } else {
@@ -183,7 +182,8 @@ class OptionFragment : BaseFragment() {
         dpd.isThemeDark = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
 
         @Suppress("DEPRECATION")
-        dpd.show(activity!!.supportFragmentManager,
+        dpd.show(
+            activity!!.supportFragmentManager,
             TAG_PICKER_DIALOG
         )
 
@@ -271,7 +271,7 @@ class OptionFragment : BaseFragment() {
         mAssets = assets
         updateAccountView(assets.imgName, assets.name)
         // 更新上次使用的 assets id
-        ConfigManager.setAssetsId(assets.id!!)
+        DefaultSPHelper.assetsId = assets.id!!
         mDialog?.dismiss()
     }
 
@@ -281,7 +281,7 @@ class OptionFragment : BaseFragment() {
             mAssets = null
             updateAccountView(name = getString(R.string.text_no_choose_account))
             // 更新上次使用的 assets id
-            ConfigManager.setAssetsId(-1)
+            DefaultSPHelper.assetsId = -1
         } else {
             // 添加账户
             ChooseAssetsActivity.open(context!!)

@@ -173,4 +173,34 @@ object DefaultSPHelper {
      */
     val isCloudBackupWhenQuitApp: Boolean
         get() = TextUtils.equals(cloudBackupMode, "quitApp")
+
+    /**
+     * Widget 是否可用
+     */
+    var isWidgetEnable: Boolean
+        get() = PreferenceManager.getDefaultSharedPreferences(App.instance).getBoolean("widgetEnable", false)
+        set(value) = PreferenceManager.getDefaultSharedPreferences(App.instance).edit().putBoolean(
+            "widgetEnable",
+            value
+        ).apply()
+
+    /**
+     * 记账，上次使用的账户
+     */
+    var assetsId: Int
+        get() = PreferenceManager.getDefaultSharedPreferences(App.instance).getInt("assetsId", -1)
+        set(value) = PreferenceManager.getDefaultSharedPreferences(App.instance).edit().putInt(
+            "assetsId",
+            value
+        ).apply()
+
+    /**
+     * 记账，上次使用的账户
+     */
+    var isShowSortTip: Boolean
+        get() = PreferenceManager.getDefaultSharedPreferences(App.instance).getBoolean("isShowSortTip", true)
+        set(value) = PreferenceManager.getDefaultSharedPreferences(App.instance).edit().putBoolean(
+            "isShowSortTip",
+            value
+        ).apply()
 }

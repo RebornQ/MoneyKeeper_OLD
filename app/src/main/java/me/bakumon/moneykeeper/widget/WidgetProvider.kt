@@ -19,7 +19,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import me.bakumon.moneykeeper.ConfigManager
+import me.bakumon.moneykeeper.DefaultSPHelper
 
 /**
  * 桌面小部件
@@ -35,17 +35,17 @@ class WidgetProvider : AppWidgetProvider() {
 
     override fun onEnabled(context: Context?) {
         super.onEnabled(context)
-        ConfigManager.setIsWidgetEnable(true)
+        DefaultSPHelper.isWidgetEnable = true
     }
 
     override fun onDisabled(context: Context?) {
         super.onDisabled(context)
-        ConfigManager.setIsWidgetEnable(false)
+        DefaultSPHelper.isWidgetEnable = false
     }
 
     companion object {
         fun updateWidget(context: Context) {
-            if (ConfigManager.isWidgetEnable) {
+            if (DefaultSPHelper.isWidgetEnable) {
                 val intent = Intent()
                 intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
                 context.sendBroadcast(intent)
