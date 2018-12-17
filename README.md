@@ -81,7 +81,7 @@ This is my first work of heart, which originated from an "unbelievable" from sma
 
 There are no unnecessary permissions, no advertisements, no user system, no information stored by the user, just a simple record of revenue and expenditure.
 
-The name "Moneykeeper" is taken from the homonym of a person's name "Na".
+The name "ThatMoney" is taken from the homonym of a person's name "Na".
 
 [more help](https://github.com/Bakumon/MoneyKeeper/blob/master/Help.md)
 
