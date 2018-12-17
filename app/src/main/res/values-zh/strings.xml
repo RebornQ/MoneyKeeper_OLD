@@ -243,7 +243,7 @@
     <string name="text_about">关于</string>
     <string name="text_slogan">简单、纯粹的记账应用</string>
     <string name="text_about_Introduction">简介</string>
-    <string name="text_about_detail">一款轻量级的记账工具。\n\n　　这是我第一个用心的作品，起源于从小到大的一个「不可思议」（钱到底花在了哪儿），工作以后尤为明显。于是「那样记账」诞生了，目的是让大家以最简单、直接的方式来记账，让这个「不可思议」不再不可思议，慢慢建立起良好的消费习惯。\n\n　　没有任何多余的权限，没有广告，没有用户系统，不保存用户任何信息，只是单纯的记录收支情况。\n\n　　「那样记账」名称取自一个人名字「娜」的谐音。</string>
+    <string name="text_about_detail">　　一款轻量级的记账工具。\n\n　　这是我第一个用心的作品，起源于从小到大的一个「不可思议」（钱到底花在了哪儿），工作以后尤为明显。于是「那样记账」诞生了，目的是让大家以最简单、直接的方式来记账，让这个「不可思议」不再不可思议，慢慢建立起良好的消费习惯。\n\n　　没有任何多余的权限，没有广告，没有用户系统，不保存用户任何信息，只是单纯的记录收支情况。\n\n　　「那样记账」名称取自一个人名字「娜」的谐音。</string>
     <string name="text_dev_designer">设计和开发</string>
     <string name="text_designer">总体设计</string>
     <string name="text_launcher_designer">启动图标设计</string>
