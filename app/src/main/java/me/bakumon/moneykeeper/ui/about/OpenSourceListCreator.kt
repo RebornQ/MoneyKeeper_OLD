@@ -28,11 +28,10 @@ object OpenSourceListCreator {
      * multitype 添加开源库 item 实体
      */
     fun addAll(items: Items) {
-        items.add(License("android support libraries", "Google", License.APACHE_2, "https://source.android.com"))
-        items.add(License("android arch lifecycle", "Google", License.APACHE_2, "https://source.android.com"))
-        items.add(License("android arch room", "Google", License.APACHE_2, "https://source.android.com"))
+        items.add(License("androidx", "Google", License.APACHE_2, "https://source.android.com"))
+        items.add(License("androidx lifecycle", "Google", License.APACHE_2, "https://source.android.com"))
+        items.add(License("androidx room", "Google", License.APACHE_2, "https://source.android.com"))
         items.add(License("flexbox-layout", "Google", License.APACHE_2, "https://github.com/google/flexbox-layout"))
-        items.add(License("easypermissions", "googlesamples", License.APACHE_2, "https://github.com/googlesamples/easypermissions"))
 
         items.add(License("RxJava", "ReactiveX", License.APACHE_2, "https://github.com/ReactiveX/RxJava"))
         items.add(License("RxAndroid", "ReactiveX", License.APACHE_2, "https://github.com/ReactiveX/rxAndroid"))
@@ -47,7 +46,6 @@ object OpenSourceListCreator {
 
         items.add(License("okhttp-digest", "rburgst", License.APACHE_2, "https://github.com/rburgst/okhttp-digest"))
 
-        items.add(License("floo", "drakeet", License.APACHE_2, "https://github.com/drakeet/Floo"))
         items.add(License("MultiType", "drakeet", License.APACHE_2, "https://github.com/PureWriter/MultiType"))
         items.add(License("about-page", "drakeet", License.APACHE_2, "https://github.com/PureWriter/about-page"))
 
@@ -59,18 +57,16 @@ object OpenSourceListCreator {
 
         items.add(License("prettytime", "ocpsoft", License.APACHE_2, "https://github.com/ocpsoft/prettytime"))
 
-        items.add(License("java-aes-crypto", "tozny", License.MIT, "https://github.com/tozny/java-aes-crypto"))
-
-        items.add(License("Cipher.so", "MEiDIK", License.APACHE_2, "https://github.com/MEiDIK/Cipher.so"))
-
         items.add(License("android-storage", "sromku", License.APACHE_2, "https://github.com/sromku/android-storage"))
 
         items.add(License("pager-layoutmanager", "GcsSloop", License.APACHE_2, "https://github.com/GcsSloop/pager-layoutmanager"))
 
         items.add(License("LayoutManagerGroup", "DingMouRen", License.APACHE_2, "https://github.com/DingMouRen/LayoutManagerGroup"))
 
-        items.add(License("AlipayZeroSdk", "fython", License.APACHE_2, "https://github.com/fython/AlipayZeroSdk"))
+        items.add(License("CircleIndicator", "ongakuer", License.APACHE_2, "https://github.com/ongakuer/CircleIndicator"))
 
         items.add(License("FingerprintIdentify", "uccmawei", License.MIT, "https://github.com/uccmawei/FingerprintIdentify"))
+
+        items.add(License("AndPermission", "yanzhenjie", License.APACHE_2, "https://github.com/yanzhenjie/AndPermission"))
     }
 }
