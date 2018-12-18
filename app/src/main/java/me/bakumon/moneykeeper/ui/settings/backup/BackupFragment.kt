@@ -188,25 +188,21 @@ class BackupFragment : PreferenceFragmentCompat() {
         }
 
         // WebDAV地址
-        findPreference("webdavUrl").setOnPreferenceChangeListener { preference, newValue ->
+        findPreference("webdavUrl").setOnPreferenceChangeListener { _, newValue ->
             // 更新网络配置
-            Network.updateDavServiceConfig()
-            initDir()
+//            Network.updateDavServiceConfig()
+            initDir(newValue as String, DefaultSPHelper.webdavUserName, DefaultSPHelper.webdavPsw)
             true
         }
 
         // WebDAV账户
-        findPreference("webdavUserName").setOnPreferenceChangeListener { preference, newValue ->
-            // 更新网络配置
-            Network.updateDavServiceConfig()
-            initDir()
+        findPreference("webdavUserName").setOnPreferenceChangeListener { _, newValue ->
+            initDir(DefaultSPHelper.webdavUrl, newValue as String, DefaultSPHelper.webdavPsw)
             true
         }
 
-        pswPreference.setOnPreferenceChangeListener { preference, newValue ->
-            // 更新网络配置
-            Network.updateDavServiceConfig()
-            initDir()
+        pswPreference.setOnPreferenceChangeListener { _, newValue ->
+            initDir(DefaultSPHelper.webdavUrl, DefaultSPHelper.webdavUserName, newValue as String)
             true
         }
 
@@ -220,7 +216,7 @@ class BackupFragment : PreferenceFragmentCompat() {
             true
         }
 
-        initDir()
+        initDir(DefaultSPHelper.webdavUrl, DefaultSPHelper.webdavUserName, DefaultSPHelper.webdavPsw)
     }
 
     private fun setCloudEnable(isEnabled: Boolean) {
@@ -230,14 +226,14 @@ class BackupFragment : PreferenceFragmentCompat() {
         findPreference("cloudAutoBackupMode").isEnabled = isEnabled
     }
 
-    private fun initDir() {
-        val isEnabled = ((findPreference("webdavUrl") as EditTextPreference).text.isNullOrBlank()
-                || (findPreference("webdavUrl") as EditTextPreference).text.isNullOrBlank()
-                || (findPreference("webdavUserName") as EditTextPreference).text.isNullOrBlank())
+    private fun initDir(url: String?, userName: String?, pwd: String?) {
+        val isEnabled = url.isNullOrBlank() || userName.isNullOrBlank() || pwd.isNullOrBlank()
         if (isEnabled) {
             setCloudEnable(false)
             return
         }
+        // 更新网络配置
+        Network.updateDavServiceConfig(url!!, userName!!, pwd!!)
 
         mViewModel.getListLiveData().observe(this, Observer {
             when (it) {

@@ -47,45 +47,45 @@ object Network {
 
     fun davService(): DavService {
         if (davService == null) {
-            updateDavServiceConfig()
+            updateDavServiceConfig(DefaultSPHelper.webdavUrl, DefaultSPHelper.webdavUserName, DefaultSPHelper.webdavPsw)
         }
         return davService!!
     }
 
-    fun updateDavServiceConfig() {
+    fun updateDavServiceConfig(url: String, userName: String, pwd: String) {
 
         val authCache = ConcurrentHashMap<String, CachingAuthenticator>()
-        val credentials = com.burgstaller.okhttp.digest.Credentials(DefaultSPHelper.webdavUserName, DefaultSPHelper.webdavPsw)
+        val credentials =
+            com.burgstaller.okhttp.digest.Credentials(userName, pwd)
         val basicAuthenticator = BasicAuthenticator(credentials)
         val digestAuthenticator = DigestAuthenticator(credentials)
 
         // note that all auth schemes should be registered as lowercase!
         val authenticator = DispatchingAuthenticator.Builder()
-                .with("digest", digestAuthenticator)
-                .with("basic", basicAuthenticator)
-                .build()
+            .with("digest", digestAuthenticator)
+            .with("basic", basicAuthenticator)
+            .build()
 
         val okHttpClient = OkHttpClient.Builder()
-                .readTimeout(10000, TimeUnit.MILLISECONDS)
-                .connectTimeout(10000, TimeUnit.MILLISECONDS)
-                .addInterceptor(loggingInterceptor)
-                .authenticator(CachingAuthenticatorDecorator(authenticator, authCache))
-                .addInterceptor(AuthenticationCacheInterceptor(authCache))
-                .build()
+            .readTimeout(10000, TimeUnit.MILLISECONDS)
+            .connectTimeout(10000, TimeUnit.MILLISECONDS)
+            .addInterceptor(loggingInterceptor)
+            .authenticator(CachingAuthenticatorDecorator(authenticator, authCache))
+            .addInterceptor(AuthenticationCacheInterceptor(authCache))
+            .build()
 
         val retrofitBuilder = Retrofit.Builder()
-                .client(okHttpClient)
-                .addConverterFactory(EmptyConverterFactory())
-                .addCallAdapterFactory(LiveDataCallAdapterFactory())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(okHttpClient)
+            .addConverterFactory(EmptyConverterFactory())
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 
-        val url = DefaultSPHelper.webdavUrl
         if (url.isEmpty()) {
             return
         }
         val baseUrl = if (url.endsWith("/")) url else "$url/"
         val retrofit = retrofitBuilder.baseUrl(baseUrl)
-                .build()
+            .build()
         davService = retrofit.create(DavService::class.java)
     }
 }
