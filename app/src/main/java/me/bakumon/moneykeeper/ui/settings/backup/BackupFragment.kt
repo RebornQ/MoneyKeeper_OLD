@@ -16,6 +16,7 @@
 package me.bakumon.moneykeeper.ui.settings.backup
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.lifecycle.Observer
@@ -189,8 +190,6 @@ class BackupFragment : PreferenceFragmentCompat() {
 
         // WebDAV地址
         findPreference("webdavUrl").setOnPreferenceChangeListener { _, newValue ->
-            // 更新网络配置
-//            Network.updateDavServiceConfig()
             initDir(newValue as String, DefaultSPHelper.webdavUserName, DefaultSPHelper.webdavPsw)
             true
         }
@@ -235,6 +234,15 @@ class BackupFragment : PreferenceFragmentCompat() {
         // 更新网络配置
         Network.updateDavServiceConfig(url!!, userName!!, pwd!!)
 
+        if ("webdav.pcloud.com" == Uri.parse(url).host) {
+            // 如果是 pcloud 云盘，直接通过创建文件夹来验证
+            createDir()
+        } else {
+            getList()
+        }
+    }
+
+    private fun getList() {
         mViewModel.getListLiveData().observe(this, Observer {
             when (it) {
                 is ApiErrorResponse<ResponseBody> -> {
@@ -266,14 +274,19 @@ class BackupFragment : PreferenceFragmentCompat() {
         })
     }
 
-    private fun showCloudBackupDialog(){
+    private fun showCloudBackupDialog() {
         if (isDialogShow) {
             return
         }
         isDialogShow = true
         MaterialDialog(context!!)
             .title(R.string.text_go_backup)
-            .message(text = getString(R.string.text_backup_save, getString(R.string.text_webdav) + BackupConstant.BACKUP_FILE))
+            .message(
+                text = getString(
+                    R.string.text_backup_save,
+                    getString(R.string.text_webdav) + BackupConstant.BACKUP_FILE
+                )
+            )
             .negativeButton(R.string.text_cancel)
             .positiveButton(R.string.text_affirm) { CloudBackupService.startBackup(context!!, true) }
             .onDismiss { isDialogShow = false }
@@ -287,7 +300,12 @@ class BackupFragment : PreferenceFragmentCompat() {
         isDialogShow = true
         MaterialDialog(context!!)
             .title(R.string.text_restore)
-            .message(text = getString(R.string.text_restore_content, getString(R.string.text_webdav) + BackupConstant.BACKUP_FILE))
+            .message(
+                text = getString(
+                    R.string.text_restore_content,
+                    getString(R.string.text_webdav) + BackupConstant.BACKUP_FILE
+                )
+            )
             .negativeButton(R.string.text_cancel)
             .positiveButton(R.string.text_affirm) { restoreCloud() }
             .onDismiss { isDialogShow = false }

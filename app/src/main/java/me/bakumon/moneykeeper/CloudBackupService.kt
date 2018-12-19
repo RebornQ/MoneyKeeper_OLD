@@ -18,6 +18,7 @@ package me.bakumon.moneykeeper
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.IBinder
 import com.snatik.storage.Storage
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,40 +42,45 @@ class CloudBackupService : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         isShowSuccessTip = intent.getBooleanExtra(KEY_SHOW_TIP, false)
-        backup()
+        if ("webdav.pcloud.com" == Uri.parse(DefaultSPHelper.webdavUrl).host) {
+            // 如果是 pcloud 云盘，不管备份文件夹是否已经存在，都创建
+            createDir()
+        } else {
+            backup()
+        }
         return super.onStartCommand(intent, flags, startId)
     }
 
     private fun backup() {
         mDisposable.add(Network.davService().list(BackupConstant.BACKUP_DIR)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    when {
-                        it.isSuccessful -> backupUpload()
-                        it.code() == 404 -> createDir()
-                        else -> onCloudBackupFail(it.message())
-                    }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when {
+                    it.isSuccessful -> backupUpload()
+                    it.code() == 404 -> createDir()
+                    else -> onCloudBackupFail(it.message())
                 }
-                ) {
-                    onCloudBackupFail(it.message)
-                }
+            }
+            ) {
+                onCloudBackupFail(it.message)
+            }
         )
     }
 
     private fun createDir() {
         mDisposable.add(Network.davService().createDir(BackupConstant.BACKUP_DIR)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    when {
-                        it.isSuccessful -> backupUpload()
-                        else -> onCloudBackupFail(it.message())
-                    }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when {
+                    it.isSuccessful -> backupUpload()
+                    else -> onCloudBackupFail(it.message())
                 }
-                ) {
-                    onCloudBackupFail(it.message)
-                }
+            }
+            ) {
+                onCloudBackupFail(it.message)
+            }
         )
     }
 
@@ -85,17 +91,17 @@ class CloudBackupService : Service() {
         val body = RequestBody.create(MediaType.parse("application/octet-stream"), file)
 
         mDisposable.add(Network.davService().uploadCall(BackupConstant.BACKUP_FILE, body)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    when {
-                        it.isSuccessful -> onCloudBackupSuccess()
-                        else -> onCloudBackupFail(it.message())
-                    }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when {
+                    it.isSuccessful -> onCloudBackupSuccess()
+                    else -> onCloudBackupFail(it.message())
                 }
-                ) {
-                    onCloudBackupFail(it.message)
-                }
+            }
+            ) {
+                onCloudBackupFail(it.message)
+            }
         )
     }
 
