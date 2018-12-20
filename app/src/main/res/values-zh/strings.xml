@@ -253,14 +253,14 @@
     <string name="text_links">链接</string>
     <string name="text_score">评分</string>
     <string name="text_donate">捐赠作者</string>
-    <string name="text_contact_author" formatted="true">加入我们的 QQ 交流群： %1$s \n\n加入我们的 Telegram 交流群： %2$s \n\n联系作者： %3$s \n\n更多帮助：%4$s \n\n本应用已开源，欢迎贡献代码。\n开源地址：%5$s\n\n*本应用遵循《Android绿色应用公约》\n %6$s</string>
+    <string name="text_contact_author" formatted="true">加入我们的 QQ 交流群： %1$s \n加入我们的 Telegram 交流群： %2$s \n联系作者： %3$s \n更新记录：%4$s \n开源地址：%5$s\n\n*本应用遵循《Android绿色应用公约》\n %6$s</string>
     <string name="text_license">开源许可证</string>
     <string name="text_privacy_policy">隐私政策</string>
     <string name="text_display">外观</string>
     <string name="text_theme">主题</string>
     <string name="text_theme_dark">暗色主题</string>
     <string name="text_theme_light">亮色主题</string>
-    <string name="text_luck">锁屏</string>
+    <string name="text_lock">锁屏</string>
     <string name="text_luck_screen">打开应用时锁屏</string>
     <string name="text_luck_screen_off">关闭</string>
     <string name="text_luck_screen_system">使用系统解锁界面</string>

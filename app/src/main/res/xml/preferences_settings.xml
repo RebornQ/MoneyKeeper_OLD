@@ -105,7 +105,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="@string/text_luck"
+            android:title="@string/text_lock"
             android:key="screen"
             app:iconSpaceReserved="false">
         <ListPreference

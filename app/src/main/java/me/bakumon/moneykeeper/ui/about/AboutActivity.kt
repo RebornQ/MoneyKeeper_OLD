@@ -25,6 +25,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.BuildConfig
 import me.bakumon.moneykeeper.Constant
 import me.bakumon.moneykeeper.R
@@ -38,6 +39,7 @@ import me.drakeet.support.about.*
 import me.drakeet.support.about.extension.RecommendedLoaderDelegate
 import me.drakeet.support.about.extension.provided.MoshiJsonConverter
 import me.drakeet.support.about.provided.PicassoImageLoader
+import java.util.*
 
 /**
  * 关于
@@ -76,6 +78,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
         items.add(Category(getString(R.string.text_about_Introduction)))
         items.add(CardWithAction(getString(R.string.text_about_detail), getString(R.string.text_donate)) {
             //            AndroidUtil.alipay(this)
+            // TODO 捐赠
             ToastUtils.show("感谢")
         })
 
@@ -90,7 +93,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
             Constant.QQ_GROUP,
             Constant.TG_GROUP,
             Constant.AUTHOR_EMAIL,
-            Constant.URL_HELP,
+            Constant.URL_CHANGELOG,
             Constant.APP_OPEN_SOURCE_URL,
             Constant.URL_GREEN_ANDROID
         )
@@ -99,8 +102,10 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
         items.add(Category(getString(R.string.text_statement)))
         items.add(Card(getString(R.string.text_statement_tip)))
 
-        // Android 应用友链
-        RecommendedLoaderDelegate.attach(this, items.size, MoshiJsonConverter())
+        if (App.instance.resources.configuration.locale.language == Locale.CHINESE.language) {
+            // Android 应用友链
+            RecommendedLoaderDelegate.attach(this, items.size, MoshiJsonConverter())
+        }
 
         items.add(Category(getString(R.string.text_license)))
         OpenSourceListCreator.addAll(items)
