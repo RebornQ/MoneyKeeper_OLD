@@ -191,6 +191,7 @@
         <item>euro (€)</item>
         <item>pound (£)</item>
         <item>Indian rupee (₹)</item>
+        <item>won (₩)</item>
         <item>General purpose (¤)</item>
         <item>Do not show</item>
     </string-array>
@@ -203,6 +204,7 @@
         <item>€</item>
         <item>£</item>
         <item>₹</item>
+        <item>₩</item>
         <item>¤</item>
         <item />
     </string-array>

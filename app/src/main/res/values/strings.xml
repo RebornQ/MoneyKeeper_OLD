@@ -191,6 +191,7 @@
         <item>欧元 (€)</item>
         <item>英镑 (£)</item>
         <item>印度卢比 (₹)</item>
+        <item>韩元 (₩)</item>
         <item>货币 (¤)</item>
         <item>不显示</item>
     </string-array>
@@ -203,6 +204,7 @@
         <item>€</item>
         <item>£</item>
         <item>₹</item>
+        <item>₩</item>
         <item>¤</item>
         <item/>
     </string-array>
