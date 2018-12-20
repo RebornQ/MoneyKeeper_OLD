@@ -32,9 +32,9 @@ import me.bakumon.moneykeeper.utill.BackupUtil
  */
 class OtherSettingsViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
 
-    fun move(newFolder: String): LiveData<Resource<Boolean>> {
+    fun move(oldFolder: String): LiveData<Resource<Boolean>> {
         val completable = Completable.create { e ->
-            val result = BackupUtil.moveAllBackupFile(newFolder)
+            val result = BackupUtil.moveAllBackupFile(oldFolder)
             if (result) {
                 e.onComplete()
             } else {

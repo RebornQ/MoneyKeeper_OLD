@@ -43,15 +43,15 @@ object BackupUtil {
     val userBackupPath
         get() = getRootPath() + File.separator + USER_BACKUP_PREFIX + SUFFIX
 
-    fun moveAllBackupFile(newFolder: String): Boolean {
+    fun moveAllBackupFile(oldFolder: String): Boolean {
         val storage = Storage(App.instance)
+        val newFolder = BackupUtil.backupFolder
         if (!storage.isDirectoryExists(newFolder)) {
             val createResult = storage.createDirectory(newFolder)
             if (!createResult) {
                 return false
             }
         }
-        val oldFolder = BackupUtil.backupFolder
         val dbFiles = storage.getFiles(oldFolder, "[\\S]*\\.db")
         for (file in dbFiles) {
             val moveResult = storage.move(file.absolutePath, newFolder + File.separator + file.name)

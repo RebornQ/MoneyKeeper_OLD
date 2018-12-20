@@ -24,6 +24,7 @@ import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
+import me.bakumon.moneykeeper.utill.BackupUtil
 import me.bakumon.moneykeeper.utill.ToastUtils
 
 class OtherSettingsFragment : PreferenceFragmentCompat() {
@@ -45,14 +46,15 @@ class OtherSettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun setupPreferences() {
-        findPreference("localBackupFilePath").setOnPreferenceChangeListener { _, newValue ->
-            chooseFolder(newValue as String)
+        val oldFolder = BackupUtil.backupFolder
+        findPreference("localBackupFilePath").setOnPreferenceChangeListener { _, _ ->
+            chooseFolder(oldFolder)
             true
         }
     }
 
-    private fun chooseFolder(folderPath: String) {
-        mViewModel.move(folderPath).observe(this, Observer {
+    private fun chooseFolder(oldFolder: String) {
+        mViewModel.move(oldFolder).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> ToastUtils.show(R.string.toast_move_backup_files_success)
                 is ErrorResource<Boolean> -> ToastUtils.show(R.string.toast_move_backup_files_fail)
