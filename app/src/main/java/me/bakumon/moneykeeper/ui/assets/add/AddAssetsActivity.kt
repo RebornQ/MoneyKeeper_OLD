@@ -16,7 +16,7 @@
 
 package me.bakumon.moneykeeper.ui.assets.add
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -217,7 +217,7 @@ class AddAssetsActivity : BaseActivity() {
             when (it) {
                 is SuccessResource<Boolean> -> {
                     if (mType == 0) {
-                        // TODO 关闭上一个界面
+                        setResult(Activity.RESULT_OK)
                         finish()
                     } else {
                         finish()
@@ -232,13 +232,14 @@ class AddAssetsActivity : BaseActivity() {
     }
 
     companion object {
+        const val REQUEST_CODE_ADD_ASSET = 101
         private const val KEY_ASSETS_TYPE = "KEY_ASSETS_TYPE"
         private const val KEY_ASSETS = "KEY_ASSETS"
-        fun open(context: Context, assetsType: AssetsType? = null, assets: Assets? = null) {
+        fun open(context: Activity, assetsType: AssetsType? = null, assets: Assets? = null) {
             val intent = Intent(context, AddAssetsActivity::class.java)
             intent.putExtra(KEY_ASSETS_TYPE, assetsType)
             intent.putExtra(KEY_ASSETS, assets)
-            context.startActivity(intent)
+            context.startActivityForResult(intent, REQUEST_CODE_ADD_ASSET)
         }
     }
 }

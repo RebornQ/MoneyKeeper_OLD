@@ -16,11 +16,13 @@
 
 package me.bakumon.moneykeeper.ui.assets.choose
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import me.bakumon.moneykeeper.R
+import me.bakumon.moneykeeper.ui.assets.add.AddAssetsActivity
 import me.bakumon.moneykeeper.ui.common.AbsTwoTabActivity
 import java.util.*
 
@@ -42,6 +44,13 @@ class ChooseAssetsActivity : AbsTwoTabActivity() {
         val outlayFragment = AssetsListFragment.newInstance(AssetsListFragment.TYPE_NORMAL)
         val incomeFragment = AssetsListFragment.newInstance(AssetsListFragment.TYPE_INVEST)
         return arrayListOf(outlayFragment, incomeFragment)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AddAssetsActivity.REQUEST_CODE_ADD_ASSET && resultCode == Activity.RESULT_OK) {
+            finish()
+        }
     }
 
     companion object {

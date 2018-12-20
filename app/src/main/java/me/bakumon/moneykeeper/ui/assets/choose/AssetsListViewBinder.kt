@@ -15,6 +15,7 @@
  */
 package me.bakumon.moneykeeper.ui.assets.choose
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,7 @@ class AssetsListViewBinder : ItemViewBinder<AssetsType, AssetsListViewBinder.Vie
         holder.tvTypeName.text = item.assetsName
         holder.ivTypeImg.setImageResource(ResourcesUtil.getTypeImgId(holder.ivTypeImg.context, item.imgName))
         holder.llItemRecordType.setOnClickListener {
-            AddAssetsActivity.open(holder.llItemRecordType.context, assetsType = item)
+            AddAssetsActivity.open(holder.llItemRecordType.context as Activity, assetsType = item)
         }
     }
 
