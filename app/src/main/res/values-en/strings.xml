@@ -253,7 +253,7 @@
     <string name="text_links">Links</string>
     <string name="text_score">score</string>
     <string name="text_donate">Donate</string>
-    <string name="text_contact_author" formatted="true">Join Telegram group: %2$s \nContact author: %3$s \nOpen source Url:%5$s\n\n*Comply to "Convention of Green Apps for Android"\n %6$s</string>
+    <string name="text_contact_author" formatted="true">Telegram Group: %2$s \nContact author: %3$s \nOpen source Url:%5$s\n\n*Comply to "Convention of Green Apps for Android"\n %6$s</string>
     <string name="text_license">Open source license</string>
     <string name="text_privacy_policy">Privacy Policy</string>
     <string name="text_display">Display</string>
