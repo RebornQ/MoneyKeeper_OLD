@@ -37,6 +37,9 @@ interface RecordDao {
     @Query("SELECT * from Record ORDER BY time DESC, create_time DESC LIMIT :count")
     fun getRecordWithTypesWithCount(count: Int): LiveData<List<RecordWithType>>
 
+    @Query("SELECT Record.*, Assets.name as assetsName, RecordType.img_name as typeImgName, RecordType.name as typeName, RecordType.type from Record LEFT JOIN Assets on Record.assets_id=Assets.id LEFT JOIN RecordType on Record.record_type_id=RecordType.id ORDER BY time DESC, create_time DESC LIMIT :count")
+    fun getRecordsForList(count: Int): LiveData<List<RecordForList>>
+
     @Transaction
     @Query("SELECT * from Record WHERE assets_id=:assetsId ORDER BY time DESC, create_time DESC LIMIT :limit")
     fun getRecordWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordWithType>>

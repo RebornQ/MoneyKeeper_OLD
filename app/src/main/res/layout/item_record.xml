@@ -15,73 +15,91 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="10dp">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingLeft="15dp"
+              android:paddingRight="15dp"
+              android:paddingTop="10dp">
 
     <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/colorTextRecordItemContent"
-        tools:text="4月11日" />
-
-    <LinearLayout
-        android:id="@+id/ll_item_click"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_item"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:padding="15dp">
-
-        <ImageView
-            android:id="@+id/iv_type"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            tools:ignore="ContentDescription"
-            tools:src="@mipmap/type_eat" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_type_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorTextRecordItemTitle"
-                android:textSize="16sp"
-                tools:text="餐饮" />
-
-            <TextView
-                android:id="@+id/tv_remark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
-                android:singleLine="true"
-                android:textColor="@color/colorTextRecordItemContent"
-                android:textSize="14sp"
-                tools:text="请客吃早点" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_money"
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorTextRecordItemTitle"
-            android:textSize="16sp"
-            tools:text="-43" />
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/colorTextRecordItemContent"
+            tools:text="4月11日"/>
+
+    <LinearLayout
+            android:id="@+id/ll_item_click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_item"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:padding="15dp">
+
+        <ImageView
+                android:id="@+id/iv_type"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                tools:ignore="ContentDescription"
+                tools:src="@mipmap/type_eat"/>
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/tv_type_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextRecordItemTitle"
+                    android:textSize="16sp"
+                    tools:text="餐饮"/>
+
+            <TextView
+                    android:id="@+id/tv_remark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorTextRecordItemContent"
+                    android:textSize="14sp"
+                    tools:text="请客吃早点"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:gravity="end"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextRecordItemTitle"
+                    android:textSize="16sp"
+                    tools:text="-43"/>
+            <TextView
+                    android:id="@+id/tv_asset_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorTextRecordItemContent"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:text="支付宝"/>
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

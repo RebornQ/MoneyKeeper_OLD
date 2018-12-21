@@ -31,7 +31,7 @@ import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
-import me.bakumon.moneykeeper.database.entity.RecordWithType
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.ui.add.AddRecordActivity
 import me.bakumon.moneykeeper.ui.common.BaseActivity
 import me.bakumon.moneykeeper.ui.common.Empty
@@ -84,7 +84,7 @@ class HomeActivity : BaseActivity() {
         }
         PermissionUtil.requestStoragePermissionSimple(this)
         // 设置 MultiTypeAdapter
-        mAdapter.register(RecordWithType::class, RecordViewBinder { deleteRecord(it) })
+        mAdapter.register(RecordForList::class, RecordsViewBinder { deleteRecord(it) })
         mAdapter.register(String::class, FooterViewBinder())
         mAdapter.register(Empty::class, EmptyViewBinder())
         rvRecords.adapter = mAdapter
@@ -119,7 +119,7 @@ class HomeActivity : BaseActivity() {
         return true
     }
 
-    private fun deleteRecord(record: RecordWithType) {
+    private fun deleteRecord(record: RecordForList) {
         mViewModel.deleteRecord(record).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> {
@@ -151,20 +151,20 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun getCurrentMonthRecords() {
-        mViewModel.currentMonthRecordWithTypes.observe(this, Observer {
+        mViewModel.recentRecords.observe(this, Observer {
             if (it != null) {
                 setItems(it)
             }
         })
     }
 
-    private fun setItems(recordWithTypes: List<RecordWithType>) {
+    private fun setItems(records: List<RecordForList>) {
         val items = Items()
-        if (recordWithTypes.isEmpty()) {
+        if (records.isEmpty()) {
             items.add(Empty(getString(R.string.text_current_month_empty_tip), Gravity.CENTER))
         } else {
-            items.addAll(recordWithTypes)
-            if (recordWithTypes.size > MAX_ITEM_TIP) {
+            items.addAll(records)
+            if (records.size > MAX_ITEM_TIP) {
                 items.add(getString(R.string.text_home_footer_tip))
             }
         }

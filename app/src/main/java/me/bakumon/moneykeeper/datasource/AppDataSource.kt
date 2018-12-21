@@ -129,6 +129,8 @@ interface AppDataSource {
      */
     fun deleteRecord(record: RecordWithType): Completable
 
+    fun deleteRecord(record: RecordForList): Completable
+
     /**
      * 获取首页现实的记账记录数据
      * 最近数据
@@ -136,6 +138,8 @@ interface AppDataSource {
      * @return 当前月份的记录数据的 Flowable 对象
      */
     fun getRecordWithTypesRecent(): LiveData<List<RecordWithType>>
+
+    fun getRecentRecords(): LiveData<List<RecordForList>>
 
     /**
      * 获取某个资产的记账记录

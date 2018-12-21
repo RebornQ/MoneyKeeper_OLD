@@ -22,7 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.bakumon.moneykeeper.base.Resource
 import me.bakumon.moneykeeper.database.entity.AssetsMoneyBean
-import me.bakumon.moneykeeper.database.entity.RecordWithType
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.SumMoneyBean
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
@@ -34,8 +34,8 @@ import me.bakumon.moneykeeper.ui.common.BaseViewModel
  */
 class HomeViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
 
-    val currentMonthRecordWithTypes: LiveData<List<RecordWithType>>
-        get() = mDataSource.getRecordWithTypesRecent()
+    val recentRecords: LiveData<List<RecordForList>>
+        get() = mDataSource.getRecentRecords()
 
     val currentMonthSumMoney: LiveData<List<SumMoneyBean>>
         get() = mDataSource.getCurrentMonthSumMoneyLiveData()
@@ -54,7 +54,7 @@ class HomeViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
         return liveData
     }
 
-    fun deleteRecord(record: RecordWithType): LiveData<Resource<Boolean>> {
+    fun deleteRecord(record: RecordForList): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.deleteRecord(record)
             .subscribeOn(Schedulers.io())
