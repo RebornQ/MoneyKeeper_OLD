@@ -21,6 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.bakumon.moneykeeper.base.Resource
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.RecordWithType
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
@@ -31,11 +32,12 @@ import me.bakumon.moneykeeper.ui.common.BaseViewModel
  * @author Bakumon https://bakumon.me
  */
 class OrderListViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
-    fun getRecordWithTypesByAssetsId(id: Int): LiveData<List<RecordWithType>> {
-        return mDataSource.getRecordWithTypesByAssetsId(id, 100)
+
+    fun getRecordForListByAssetsId(id: Int): LiveData<List<RecordForList>> {
+        return mDataSource.getRecordForListWithTypesByAssetsId(id, 100)
     }
 
-    fun deleteRecord(record: RecordWithType): LiveData<Resource<Boolean>> {
+    fun deleteRecord(record: RecordForList): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.deleteRecord(record)
             .subscribeOn(Schedulers.io())

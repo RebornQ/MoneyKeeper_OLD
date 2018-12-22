@@ -50,27 +50,16 @@
                 android:textSize="16sp"
                 tools:text="餐饮"/>
 
-        <LinearLayout
+        <TextView
+                android:id="@+id/tvRemark"
                 android:layout_width="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_height="wrap_content">
-            <TextView
-                    android:id="@+id/tvTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorTextRecordItemContent"
-                    tools:text="4月11日"/>
-            <TextView
-                    android:id="@+id/tvRemark"
-                    android:layout_marginStart="7dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textColor="@color/colorTextRecordItemContent"
-                    android:textSize="14sp"
-                    tools:text="请客吃早点"/>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/colorTextRecordItemContent"
+                android:textSize="14sp"
+                tools:text="请客吃早点"/>
 
     </LinearLayout>
 
@@ -89,12 +78,12 @@
                 tools:text="-43"/>
 
         <TextView
-                android:id="@+id/tvAssetName"
+                android:id="@+id/tvTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:visibility="visible"
                 android:textColor="@color/colorTextRecordItemContent"
-                tools:text="支付宝"/>
+                tools:text="12-22"/>
     </LinearLayout>
 </LinearLayout>

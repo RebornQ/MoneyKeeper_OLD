@@ -355,6 +355,10 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         return mAppDatabase.recordDao().getRecordWithTypesByAssetsId(assetsId, limit)
     }
 
+    override fun getRecordForListWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordForList>> {
+        return mAppDatabase.recordDao().getRecordForListWithTypesByAssetsId(assetsId, limit)
+    }
+
     override fun getRecordWithTypes(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<RecordWithType>> {
         return mAppDatabase.recordDao().getRangeRecordWithTypes(dateFrom, dateTo, type)
     }

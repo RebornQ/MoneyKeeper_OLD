@@ -23,11 +23,10 @@ import androidx.recyclerview.widget.RecyclerView
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
-import me.bakumon.moneykeeper.database.entity.RecordWithType
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.ui.common.AbsListFragment
 import me.bakumon.moneykeeper.ui.common.Empty
 import me.bakumon.moneykeeper.ui.common.EmptyViewBinder
-import me.bakumon.moneykeeper.ui.typerecords.RecordByMoneyViewBinder
 import me.bakumon.moneykeeper.utill.ToastUtils
 import me.bakumon.moneykeeper.widget.WidgetProvider
 import me.drakeet.multitype.Items
@@ -45,11 +44,11 @@ class OrderListFragment : AbsListFragment() {
     private var mAssetsId: Int? = 0
 
     override fun onAdapterCreated(adapter: MultiTypeAdapter) {
-        adapter.register(RecordWithType::class, RecordByMoneyViewBinder { deleteRecord(it) })
+        adapter.register(RecordForList::class, OrderListViewBinder { deleteRecord(it) })
         mAdapter.register(Empty::class, EmptyViewBinder())
     }
 
-    private fun deleteRecord(record: RecordWithType) {
+    private fun deleteRecord(record: RecordForList) {
         mViewModel.deleteRecord(record).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> {
@@ -79,14 +78,14 @@ class OrderListFragment : AbsListFragment() {
     }
 
     private fun initData() {
-        mViewModel.getRecordWithTypesByAssetsId(mAssetsId!!).observe(this, Observer {
+        mViewModel.getRecordForListByAssetsId(mAssetsId!!).observe(this, Observer {
             if (it != null) {
                 setItems(it)
             }
         })
     }
 
-    private fun setItems(list: List<RecordWithType>) {
+    private fun setItems(list: List<RecordForList>) {
         val items = Items()
         if (list.isEmpty()) {
             items.add(Empty(getString(R.string.text_order_record_no), Gravity.CENTER))

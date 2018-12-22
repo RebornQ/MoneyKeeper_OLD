@@ -146,6 +146,8 @@ interface AppDataSource {
      */
     fun getRecordWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordWithType>>
 
+    fun getRecordForListWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordForList>>
+
     /**
      * 根据类型获取某段时间的记账记录数据
      *
