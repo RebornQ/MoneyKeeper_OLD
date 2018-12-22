@@ -166,7 +166,7 @@
             android:id="@+id/rvAssets"
             style="@style/LinearRecyclerView"
             android:clipToPadding="false"
-            android:paddingBottom="90dp"
+            android:paddingBottom="20dp"
             tools:listitem="@layout/item_assets" />
     </LinearLayout>
 

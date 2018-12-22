@@ -62,5 +62,6 @@
         <item name="android:layout_gravity">bottom|center</item>
         <item name="android:layout_margin">25dp</item>
         <item name="srcCompat">@drawable/ic_add</item>
+        <item name="layout_behavior">me.bakumon.moneykeeper.view.HideBottomViewOnScrollBehavior</item>
     </style>
 </resources>

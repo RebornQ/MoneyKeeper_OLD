@@ -50,7 +50,6 @@ class TypeListFragment : AbsListFragment() {
     }
 
     override fun onParentInitDone(recyclerView: RecyclerView, savedInstanceState: Bundle?) {
-        recyclerView.setPadding(0, 0, 0, 200)
         mType = arguments?.getInt(KEY_TYPE, RecordType.TYPE_OUTLAY)
         mViewModel = getViewModel()
         initData()
