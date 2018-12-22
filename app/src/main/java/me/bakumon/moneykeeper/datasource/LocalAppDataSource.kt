@@ -311,22 +311,6 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         }
     }
 
-    override fun deleteRecord(record: RecordWithType): Completable {
-        return Completable.fromAction {
-            mAppDatabase.recordDao().deleteRecord(record)
-            val assets = mAppDatabase.assetsDao().getAssetsBeanById(record.assetsId!!)
-            if (assets != null) {
-                if (record.mRecordTypes!![0].type == RecordType.TYPE_OUTLAY) {
-                    assets.money = assets.money.add(record.money)
-                } else {
-                    assets.money = assets.money.subtract(record.money)
-                }
-                mAppDatabase.assetsDao().updateAssets(assets)
-            }
-            autoBackup()
-        }
-    }
-
     override fun deleteRecord(record: RecordForList): Completable {
         return Completable.fromAction {
             mAppDatabase.recordDao().deleteRecord(record)
@@ -343,37 +327,16 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         }
     }
 
-    override fun getRecordWithTypesRecent(): LiveData<List<RecordWithType>> {
-        return mAppDatabase.recordDao().getRecordWithTypesWithCount(100)
-    }
-
     override fun getRecentRecords(): LiveData<List<RecordForList>> {
         return mAppDatabase.recordDao().getRecordsForList(100)
-    }
-
-    override fun getRecordWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordWithType>> {
-        return mAppDatabase.recordDao().getRecordWithTypesByAssetsId(assetsId, limit)
     }
 
     override fun getRecordForListWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordForList>> {
         return mAppDatabase.recordDao().getRecordForListWithTypesByAssetsId(assetsId, limit)
     }
 
-    override fun getRecordWithTypes(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<RecordWithType>> {
-        return mAppDatabase.recordDao().getRangeRecordWithTypes(dateFrom, dateTo, type)
-    }
-
     override fun getRecordForListWithTypes(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<RecordForList>> {
         return mAppDatabase.recordDao().getRangeRecordForListWithTypes(dateFrom, dateTo, type)
-    }
-
-    override fun getRecordWithTypes(
-        dateFrom: Date,
-        dateTo: Date,
-        type: Int,
-        typeId: Int
-    ): LiveData<List<RecordWithType>> {
-        return mAppDatabase.recordDao().getRangeRecordWithTypes(dateFrom, dateTo, type, typeId)
     }
 
     override fun getRangeRecordForListWithTypesByTypeId(
@@ -383,15 +346,6 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         typeId: Int
     ): LiveData<List<RecordForList>> {
         return mAppDatabase.recordDao().getRangeRecordForListWithTypesByTypeId(dateFrom, dateTo, type, typeId)
-    }
-
-    override fun getRecordWithTypesSortMoney(
-        dateFrom: Date,
-        dateTo: Date,
-        type: Int,
-        typeId: Int
-    ): LiveData<List<RecordWithType>> {
-        return mAppDatabase.recordDao().getRecordWithTypesSortMoney(dateFrom, dateTo, type, typeId)
     }
 
     override fun getRecordForListWithTypesSortMoney(

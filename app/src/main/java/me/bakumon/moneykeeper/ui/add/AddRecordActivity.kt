@@ -58,7 +58,7 @@ class AddRecordActivity : BaseActivity() {
 
     private var mCurrentType: Int = RecordType.TYPE_OUTLAY
 
-    private var mRecord: RecordWithType? = null
+    private var mRecord: RecordForList? = null
     private var mTransfer: AssetsTransferRecordWithAssets? = null
     /**
      * 连续记账
@@ -86,7 +86,7 @@ class AddRecordActivity : BaseActivity() {
         mViewModel = getViewModel()
 
         mIsSuccessive = intent.getBooleanExtra(KEY_IS_SUCCESSIVE, false)
-        mRecord = intent.getSerializableExtra(KEY_RECORD_BEAN) as RecordWithType?
+        mRecord = intent.getSerializableExtra(KEY_RECORD_BEAN) as RecordForList?
         mTransfer = intent.getSerializableExtra(KEY_TRANSFER) as AssetsTransferRecordWithAssets?
 
 
@@ -207,7 +207,7 @@ class AddRecordActivity : BaseActivity() {
             // 设置【转账】是否显示
             typeChoose.rbMiddle.visibility = View.GONE
             // 选中【支出】或【收入】
-            (typeChoose as RadioGroup).check(if (mRecord!!.mRecordTypes!![0].type == RecordType.TYPE_OUTLAY) R.id.rbLeft else R.id.rbRight)
+            (typeChoose as RadioGroup).check(if (mRecord!!.type == RecordType.TYPE_OUTLAY) R.id.rbLeft else R.id.rbRight)
             // 回显数据
             keyboard.setText(BigDecimalUtil.fen2YuanNoSeparator(mRecord!!.money))
         }
@@ -379,7 +379,7 @@ class AddRecordActivity : BaseActivity() {
         // 防止重复提交
         keyboard.setAffirmEnable(false)
         isSubmitting = true
-        val oldType = mRecord!!.mRecordTypes!![0].type
+        val oldType = mRecord!!.type
         val oldMoney = mRecord!!.money!!
         mRecord!!.money = BigDecimalUtil.yuan2FenBD(text)
         mRecord!!.remark = mOptionFragment.getRemark()
@@ -439,7 +439,7 @@ class AddRecordActivity : BaseActivity() {
         fun open(
             context: Context,
             isSuccessive: Boolean = false,
-            record: RecordWithType? = null,
+            record: RecordForList? = null,
             transferRecord: AssetsTransferRecordWithAssets? = null,
             isTransfer: Boolean = false
         ) {

@@ -25,8 +25,8 @@ import com.afollestad.materialdialogs.MaterialDialog
 import kotlinx.android.synthetic.main.layout_type_page.view.*
 import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.R
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.RecordType
-import me.bakumon.moneykeeper.database.entity.RecordWithType
 import me.bakumon.moneykeeper.view.pagerlayoutmanager.PagerGridLayoutManager
 import me.bakumon.moneykeeper.view.pagerlayoutmanager.PagerGridSnapHelper
 import me.drakeet.multitype.Items
@@ -109,7 +109,7 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
         })
     }
 
-    fun setItems(data: List<RecordType>?, type: Int, record: RecordWithType? = null) {
+    fun setItems(data: List<RecordType>?, type: Int, record: RecordForList? = null) {
         if (data == null) {
             return
         }
@@ -135,13 +135,13 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
      * 初始化选中某个 item
      * record 是空，选中第一个，否则选中对应的 item
      */
-    private fun initCheckItem(type: Int, record: RecordWithType?) {
+    private fun initCheckItem(type: Int, record: RecordForList?) {
         if (mCurrentTypeIndex == -1) {
             mCurrentTypeIndex = 0
             var isTypeExist = 0
             if (visibility == View.VISIBLE && record != null && adapter.items.isNotEmpty()) {
                 for (i in 0 until adapter.items.size) {
-                    if (record.mRecordTypes!![0].id == (adapter.items[i] as RecordType).id) {
+                    if (record.recordTypeId == (adapter.items[i] as RecordType).id) {
                         mCurrentTypeIndex = i
                         isTypeExist++
                         break
@@ -188,8 +188,8 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
     /**
      * 提示用户该记录的类型已经被删除
      */
-    private fun showTypeNotExistTip(type: Int, record: RecordWithType) {
-        if (type == record.mRecordTypes!![0].type) {
+    private fun showTypeNotExistTip(type: Int, record: RecordForList) {
+        if (type == record.type) {
             MaterialDialog(context)
                     .message(text = "\uD83D\uDC7A" + context.resources.getString(R.string.text_tip_type_delete))
                     .positiveButton(R.string.text_know)

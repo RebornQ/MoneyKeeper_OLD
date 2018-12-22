@@ -77,7 +77,7 @@ class OrderListViewBinder constructor(private val onDeleteClickListener: ((Recor
         holder.tvMoney.text = money
 
         holder.llItemClick.setOnClickListener {
-//            AddRecordActivity.open(holder.llItemClick.context, record = item)
+            AddRecordActivity.open(holder.llItemClick.context, record = item)
         }
 
         holder.llItemClick.setOnLongClickListener {

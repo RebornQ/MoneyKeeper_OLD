@@ -127,8 +127,6 @@ interface AppDataSource {
      *
      * @param record 要删除的记账记录
      */
-    fun deleteRecord(record: RecordWithType): Completable
-
     fun deleteRecord(record: RecordForList): Completable
 
     /**
@@ -137,15 +135,11 @@ interface AppDataSource {
      *
      * @return 当前月份的记录数据的 Flowable 对象
      */
-    fun getRecordWithTypesRecent(): LiveData<List<RecordWithType>>
-
     fun getRecentRecords(): LiveData<List<RecordForList>>
 
     /**
      * 获取某个资产的记账记录
      */
-    fun getRecordWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordWithType>>
-
     fun getRecordForListWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordForList>>
 
     /**
@@ -153,8 +147,6 @@ interface AppDataSource {
      *
      * @return 包含记录数据的 Flowable 对象
      */
-    fun getRecordWithTypes(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<RecordWithType>>
-
     fun getRecordForListWithTypes(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<RecordForList>>
 
     /**
@@ -162,8 +154,6 @@ interface AppDataSource {
      *
      * @return 包含记录数据的 Flowable 对象
      */
-    fun getRecordWithTypes(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordWithType>>
-
     fun getRangeRecordForListWithTypesByTypeId(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordForList>>
 
     /**
@@ -171,8 +161,6 @@ interface AppDataSource {
      *
      * @return 包含记录数据的 Flowable 对象
      */
-    fun getRecordWithTypesSortMoney(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordWithType>>
-
     fun getRecordForListWithTypesSortMoney(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordForList>>
 
     /**

@@ -20,8 +20,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_record_type.*
 import me.bakumon.moneykeeper.R
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.RecordType
-import me.bakumon.moneykeeper.database.entity.RecordWithType
 import me.bakumon.moneykeeper.ui.common.BaseFragment
 
 /**
@@ -35,14 +35,14 @@ class RecordTypeFragment : BaseFragment() {
 
     private lateinit var mViewModel: RecordTypeViewModel
 
-    private var mRecord: RecordWithType? = null
+    private var mRecord: RecordForList? = null
     private var mType: Int = RecordType.TYPE_OUTLAY
 
     override val layoutId: Int
         get() = R.layout.fragment_record_type
 
     override fun onInit(savedInstanceState: Bundle?) {
-        mRecord = arguments?.getSerializable(KEY_RECORD_BEAN) as RecordWithType?
+        mRecord = arguments?.getSerializable(KEY_RECORD_BEAN) as RecordForList?
         if (arguments != null) {
             mType = arguments!!.getInt(KEY_RECORD_TYPE)
         }
@@ -68,7 +68,7 @@ class RecordTypeFragment : BaseFragment() {
     companion object {
         private const val KEY_RECORD_TYPE = "KEY_RECORD_TYPE"
         private const val KEY_RECORD_BEAN = "KEY_RECORD_BEAN"
-        fun newInstance(type: Int, record: RecordWithType? = null): RecordTypeFragment {
+        fun newInstance(type: Int, record: RecordForList? = null): RecordTypeFragment {
             val fragment = RecordTypeFragment()
             val bundle = Bundle()
             bundle.putInt(KEY_RECORD_TYPE, type)

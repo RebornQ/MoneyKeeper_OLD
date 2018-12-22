@@ -29,41 +29,17 @@ import java.util.*
 @Dao
 interface RecordDao {
 
-    @Transaction
-    @Query("SELECT * from Record WHERE time BETWEEN :from AND :to ORDER BY time DESC, create_time DESC")
-    fun getRangeRecordWithTypes(from: Date, to: Date): LiveData<List<RecordWithType>>
-
-    @Transaction
-    @Query("SELECT * from Record ORDER BY time DESC, create_time DESC LIMIT :count")
-    fun getRecordWithTypesWithCount(count: Int): LiveData<List<RecordWithType>>
-
     @Query("SELECT Record.*, Assets.name as assetsName, RecordType.img_name as typeImgName, RecordType.name as typeName, RecordType.type from Record LEFT JOIN Assets on Record.assets_id=Assets.id LEFT JOIN RecordType on Record.record_type_id=RecordType.id ORDER BY time DESC, create_time DESC LIMIT :count")
     fun getRecordsForList(count: Int): LiveData<List<RecordForList>>
-
-    @Transaction
-    @Query("SELECT * from Record WHERE assets_id=:assetsId ORDER BY time DESC, create_time DESC LIMIT :limit")
-    fun getRecordWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordWithType>>
 
     @Query("SELECT Record.*, Assets.name as assetsName, RecordType.img_name as typeImgName, RecordType.name as typeName, RecordType.type from Record LEFT JOIN Assets on Record.assets_id=Assets.id LEFT JOIN RecordType on Record.record_type_id=RecordType.id WHERE Record.assets_id=:assetsId ORDER BY time DESC, create_time DESC LIMIT :limit")
     fun getRecordForListWithTypesByAssetsId(assetsId: Int, limit: Int): LiveData<List<RecordForList>>
 
-    @Transaction
-    @Query("SELECT Record.* from Record LEFT JOIN RecordType ON Record.record_type_id=RecordType.id WHERE (RecordType.type=:type AND time BETWEEN :from AND :to) ORDER BY time DESC, create_time DESC")
-    fun getRangeRecordWithTypes(from: Date, to: Date, type: Int): LiveData<List<RecordWithType>>
-
     @Query("SELECT Record.*, Assets.name as assetsName, RecordType.img_name as typeImgName, RecordType.name as typeName, RecordType.type from Record LEFT JOIN Assets on Record.assets_id=Assets.id LEFT JOIN RecordType on Record.record_type_id=RecordType.id WHERE (RecordType.type=:type AND time BETWEEN :from AND :to) ORDER BY time DESC, create_time DESC")
     fun getRangeRecordForListWithTypes(from: Date, to: Date, type: Int): LiveData<List<RecordForList>>
 
-    @Transaction
-    @Query("SELECT Record.* from Record LEFT JOIN RecordType ON Record.record_type_id=RecordType.id WHERE (RecordType.type=:type AND Record.record_type_id=:typeId AND time BETWEEN :from AND :to) ORDER BY time DESC, create_time DESC")
-    fun getRangeRecordWithTypes(from: Date, to: Date, type: Int, typeId: Int): LiveData<List<RecordWithType>>
-
     @Query("SELECT Record.*, Assets.name as assetsName, RecordType.img_name as typeImgName, RecordType.name as typeName, RecordType.type from Record LEFT JOIN Assets on Record.assets_id=Assets.id LEFT JOIN RecordType on Record.record_type_id=RecordType.id WHERE (RecordType.type=:type AND Record.record_type_id=:typeId AND time BETWEEN :from AND :to) ORDER BY time DESC, create_time DESC")
     fun getRangeRecordForListWithTypesByTypeId(from: Date, to: Date, type: Int, typeId: Int): LiveData<List<RecordForList>>
-
-    @Transaction
-    @Query("SELECT Record.* from Record LEFT JOIN RecordType ON Record.record_type_id=RecordType.id WHERE (RecordType.type=:type AND Record.record_type_id=:typeId AND time BETWEEN :from AND :to) ORDER BY money DESC, create_time DESC")
-    fun getRecordWithTypesSortMoney(from: Date, to: Date, type: Int, typeId: Int): LiveData<List<RecordWithType>>
 
     @Query("SELECT Record.*, Assets.name as assetsName, RecordType.img_name as typeImgName, RecordType.name as typeName, RecordType.type from Record LEFT JOIN Assets on Record.assets_id=Assets.id LEFT JOIN RecordType on Record.record_type_id=RecordType.id WHERE (RecordType.type=:type AND Record.record_type_id=:typeId AND time BETWEEN :from AND :to) ORDER BY money DESC, create_time DESC")
     fun getRecordForListWithTypesSortMoney(from: Date, to: Date, type: Int, typeId: Int): LiveData<List<RecordForList>>

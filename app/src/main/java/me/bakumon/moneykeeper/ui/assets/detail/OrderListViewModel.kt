@@ -22,7 +22,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.bakumon.moneykeeper.base.Resource
 import me.bakumon.moneykeeper.database.entity.RecordForList
-import me.bakumon.moneykeeper.database.entity.RecordWithType
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
 
