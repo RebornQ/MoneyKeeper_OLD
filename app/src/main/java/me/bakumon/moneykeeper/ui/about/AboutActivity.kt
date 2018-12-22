@@ -25,6 +25,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.afollestad.materialdialogs.MaterialDialog
 import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.BuildConfig
 import me.bakumon.moneykeeper.Constant
@@ -77,15 +78,20 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
         adapter.register(CardWithAction::class, CardWithActionViewBinder())
         items.add(Category(getString(R.string.text_about_Introduction)))
         items.add(CardWithAction(getString(R.string.text_about_detail), getString(R.string.text_donate)) {
-            //            AndroidUtil.alipay(this)
-            // TODO 捐赠
-            ToastUtils.show("感谢")
+            donate()
         })
 
         items.add(Category(getString(R.string.text_dev_designer)))
         items.add(Contributor(R.mipmap.avatar_markcrs, "Markcrs", getString(R.string.text_designer)))
         items.add(Contributor(R.mipmap.avatar_liangyue, "梁月", getString(R.string.text_launcher_designer)))
-        items.add(Contributor(R.mipmap.avatar_bakumon, "Bakumon", getString(R.string.text_developer_designer), Constant.AUTHOR_URL))
+        items.add(
+            Contributor(
+                R.mipmap.avatar_bakumon,
+                "Bakumon",
+                getString(R.string.text_developer_designer),
+                Constant.AUTHOR_URL
+            )
+        )
 
         items.add(Category(getString(R.string.text_links)))
         val linksText = getString(
@@ -109,6 +115,41 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
 
         items.add(Category(getString(R.string.text_license)))
         OpenSourceListCreator.addAll(items)
+    }
+
+    private fun donate() {
+        if (AndroidUtil.isZhRCN()) {
+            showDonateDialogForCN()
+        } else {
+            showDonateDialogForOther()
+        }
+    }
+
+    private fun showDonateDialogForCN() {
+        MaterialDialog(this).show {
+            title(R.string.text_donate)
+            message(R.string.text_donate_content)
+            positiveButton(text = "复制支付宝红包码") {
+                AndroidUtil.clipPlainText(Constant.ALIPAY_RED_CODE)
+                ToastUtils.show("红包码已复制到剪切板，请打开支付宝。")
+            }
+            negativeButton(text = "复制支付宝转账码") {
+                AndroidUtil.clipPlainText(Constant.ALIPAY_TRANSFER_CODE)
+                ToastUtils.show("转账码已复制到剪切板，请打开支付宝。")
+            }
+        }
+    }
+
+    private fun showDonateDialogForOther() {
+        MaterialDialog(this).show {
+            title(R.string.text_donate)
+            message(R.string.text_donate_content)
+            positiveButton(text = "PayPal") {
+                // Do something
+                AndroidUtil.openWeb(context, Constant.PAYPAL_ME)
+            }
+            negativeButton(R.string.text_cancel)
+        }
     }
 
     override fun onContributorClicked(itemView: View, contributor: Contributor): Boolean {

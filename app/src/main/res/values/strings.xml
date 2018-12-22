@@ -253,6 +253,7 @@
     <string name="text_links">链接</string>
     <string name="text_score">评分</string>
     <string name="text_donate">捐赠作者</string>
+    <string name="text_donate_content">感谢您的支持。【那样记账】是一个无广告、无任何多余权限的良心应用，由“食梦兽”个人开发，您的支持将会给予作者无限的动力，【那样记账】也将会越来越好。\n\n建议点击【复制支付宝红包码】后打开支付宝领取红包，给双方带来好处，也可以点击【复制支付宝转账码】直接支持作者。\n\n注意：捐赠不会直接带来功能上的增加。</string>
     <string name="text_contact_author" formatted="true">QQ 交流群： %1$s \nTelegram 交流群： %2$s \n联系作者： %3$s \n更新记录：%4$s \n开源地址：%5$s\n\n*本应用遵循《Android绿色应用公约》\n %6$s</string>
     <string name="text_license">开源许可证</string>
     <string name="text_privacy_policy">隐私政策</string>
