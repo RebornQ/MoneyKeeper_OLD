@@ -182,6 +182,9 @@
     <string name="text_feedback">Feedback</string>
     <string name="text_feedback_help">Feedback questions and getting help</string>
     <string name="text_about_content">Understand our design philosophy</string>
+    <string name="text_tip">Tip</string>
+    <string name="text_tip_reset_settings">Since refactoring the setup interface code requires you to reset the WebDAV address and other items, it is inconvenient, so please understand.</string>
+    <string name="text_tip_go_settings">SETTINGS</string>
     <string-array name="symbol">
         <item>RMB (¥)</item>
         <item>Hong Kong dollar (HK$)</item>

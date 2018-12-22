@@ -22,10 +22,12 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
 import androidx.lifecycle.Observer
+import com.afollestad.materialdialogs.MaterialDialog
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_home.*
+import me.bakumon.moneykeeper.BuildConfig
 import me.bakumon.moneykeeper.CloudBackupService
 import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
@@ -103,8 +105,25 @@ class HomeActivity : BaseActivity() {
         super.onResume()
         // 设置了预算，返回首页需要更新
         getCurrentMoneySumMonty()
+        showTip()
         // 更新 widget
         WidgetProvider.updateWidget(this)
+    }
+
+    private fun showTip() {
+        // 29(3.5.1) 重构了设置界面，需要重新配置设置项
+        // 29(3.5.1) 之前版本没有保存版本号
+        if (DefaultSPHelper.versionCode != 0) {
+            return
+        }
+        DefaultSPHelper.versionCode = BuildConfig.VERSION_CODE
+        MaterialDialog(this).show {
+            title(R.string.text_tip)
+            message(R.string.text_tip_reset_settings)
+            cancelOnTouchOutside(false)
+            positiveButton(R.string.text_tip_go_settings) { SettingsActivity.open(context) }
+            negativeButton(R.string.text_cancel)
+        }
     }
 
     override fun getMenuRes(): Int {

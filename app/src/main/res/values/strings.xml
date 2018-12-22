@@ -182,6 +182,9 @@
     <string name="text_feedback">反馈</string>
     <string name="text_feedback_help">反馈问题、获取帮助</string>
     <string name="text_about_content">了解我们的设计理念</string>
+    <string name="text_tip">提示</string>
+    <string name="text_tip_reset_settings">由于重构了设置界面代码，需要您进行重新设置 WebDAV 地址等项目，由此带来不便，敬请谅解。</string>
+    <string name="text_tip_go_settings">去设置</string>
     <string-array name="symbol">
         <item>人民币 (¥)</item>
         <item>港币 (HK$)</item>

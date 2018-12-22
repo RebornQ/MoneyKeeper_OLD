@@ -203,4 +203,14 @@ object DefaultSPHelper {
             "isShowSortTip",
             value
         ).apply()
+
+    /**
+     * 版本号
+     */
+    var versionCode: Int
+        get() = PreferenceManager.getDefaultSharedPreferences(App.instance).getInt("versionCode", 0)
+        set(value) = PreferenceManager.getDefaultSharedPreferences(App.instance).edit().putInt(
+            "versionCode",
+            value
+        ).apply()
 }
