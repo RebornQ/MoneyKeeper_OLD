@@ -194,7 +194,7 @@ class BackupFragment : PreferenceFragmentCompat() {
         val pswPreference = findPreference("webdavPsw") as EditTextPreference
         pswPreference.setSummaryProvider {
             if (TextUtils.isEmpty(pswPreference.text)) {
-                ""
+                getString(R.string.not_set)
             } else {
                 "******"
             }

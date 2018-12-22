@@ -26,7 +26,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
-import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.BuildConfig
 import me.bakumon.moneykeeper.Constant
 import me.bakumon.moneykeeper.R
@@ -40,7 +39,6 @@ import me.drakeet.support.about.*
 import me.drakeet.support.about.extension.RecommendedLoaderDelegate
 import me.drakeet.support.about.extension.provided.MoshiJsonConverter
 import me.drakeet.support.about.provided.PicassoImageLoader
-import java.util.*
 
 /**
  * 关于
@@ -108,7 +106,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
         items.add(Category(getString(R.string.text_statement)))
         items.add(Card(getString(R.string.text_statement_tip)))
 
-        if (App.instance.resources.configuration.locale.language == Locale.CHINESE.language) {
+        if (AndroidUtil.isZhRCN()) {
             // Android 应用友链
             RecommendedLoaderDelegate.attach(this, items.size, MoshiJsonConverter())
         }
