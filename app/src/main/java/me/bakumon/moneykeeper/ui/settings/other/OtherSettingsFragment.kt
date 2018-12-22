@@ -18,6 +18,7 @@ package me.bakumon.moneykeeper.ui.settings.other
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import me.bakumon.moneykeeper.Injection
 import me.bakumon.moneykeeper.R
@@ -47,7 +48,8 @@ class OtherSettingsFragment : PreferenceFragmentCompat() {
 
     private fun setupPreferences() {
         val oldFolder = BackupUtil.backupFolder
-        findPreference("localBackupFilePath").setOnPreferenceChangeListener { _, _ ->
+        val localBackupFilePathPref:Preference = findPreference("localBackupFilePath")
+        localBackupFilePathPref.setOnPreferenceChangeListener { _, _ ->
             chooseFolder(oldFolder)
             true
         }

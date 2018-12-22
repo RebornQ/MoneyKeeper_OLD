@@ -95,7 +95,7 @@ dependencies {
     // design
     implementation 'com.google.android.material:material:1.1.0-alpha01'
     // preference
-    implementation 'androidx.preference:preference:1.1.0-alpha01'
+    implementation 'androidx.preference:preference:1.1.0-alpha02'
     // customtabs
     implementation 'androidx.browser:browser:1.0.0'
     // ViewModel and LiveData

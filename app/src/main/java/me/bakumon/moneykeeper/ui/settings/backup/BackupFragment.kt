@@ -18,10 +18,12 @@ package me.bakumon.moneykeeper.ui.settings.backup
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.text.TextUtils
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.EditTextPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.callbacks.onDismiss
@@ -63,39 +65,34 @@ class BackupFragment : PreferenceFragmentCompat() {
     }
 
     private fun setupLocalBackupEnable(isEnabled: Boolean) {
-        findPreference("localBackupNow").isEnabled = isEnabled
-        findPreference("localRestore").isEnabled = isEnabled
-        findPreference("localAutoBackupShow").isEnabled = isEnabled
+        val localBackupNowPref: Preference = findPreference("localBackupNow")
+        localBackupNowPref.isEnabled = isEnabled
+
+        val localRestorePref: Preference = findPreference("localRestore")
+        localRestorePref.isEnabled = isEnabled
+
+        val localAutoBackupShowPref: Preference = findPreference("localAutoBackupShow")
+        localAutoBackupShowPref.isEnabled = isEnabled
     }
 
     private fun setupPreferences() {
         val backupFolder = BackupUtil.backupFolder
-        val localBackupNowPreference = findPreference("localBackupNow")
-        val localRestorePreference = findPreference("localRestore")
-
+        // 立即本地备份
+        val localBackupNowPreference: Preference = findPreference("localBackupNow")
+        localBackupNowPreference.isCopyingEnabled = true
         localBackupNowPreference.summary = getString(R.string.text_backup_save, backupFolder)
-        localRestorePreference.summary = getString(R.string.text_restore_content, backupFolder)
-
         localBackupNowPreference.setOnPreferenceClickListener {
             backupDB()
             true
         }
-
+        // 恢复本地备份
+        val localRestorePreference: Preference = findPreference("localRestore")
+        localRestorePreference.isCopyingEnabled = true
+        localRestorePreference.summary = getString(R.string.text_restore_content, backupFolder)
         localRestorePreference.setOnPreferenceClickListener {
             restore()
             true
         }
-
-        findPreference("cloudBackupNow").summary =
-                getString(R.string.text_backup_save, getString(R.string.text_webdav) + BackupConstant.BACKUP_FILE)
-        findPreference("cloudRestore").summary =
-                getString(R.string.text_restore_content, getString(R.string.text_webdav) + BackupConstant.BACKUP_FILE)
-
-        findPreference("webdavHelp").setOnPreferenceClickListener {
-            AndroidUtil.openWeb(context!!, it.summary.toString())
-            true
-        }
-
     }
 
     private var isDialogShow = false
@@ -178,40 +175,61 @@ class BackupFragment : PreferenceFragmentCompat() {
     ////////////////////
 
     private fun setupPreferencesCloud() {
-        // WebDAV 密码
-        val pswPreference = findPreference("webdavPsw") as EditTextPreference
-        pswPreference.setSummaryProvider {
-            if (TextUtils.isEmpty(pswPreference.text)) {
-                getString(R.string.text_no_setting)
-            } else {
-                "******"
-            }
-        }
-
         // WebDAV地址
-        findPreference("webdavUrl").setOnPreferenceChangeListener { _, newValue ->
+        val webdavUrlPre: Preference = findPreference("webdavUrl")
+        webdavUrlPre.isCopyingEnabled = true
+        webdavUrlPre.setOnPreferenceChangeListener { _, newValue ->
             initDir(newValue as String, DefaultSPHelper.webdavUserName, DefaultSPHelper.webdavPsw)
             true
         }
 
         // WebDAV账户
-        findPreference("webdavUserName").setOnPreferenceChangeListener { _, newValue ->
+        val webdavUserNamePre: Preference = findPreference("webdavUserName")
+        webdavUserNamePre.isCopyingEnabled = true
+        webdavUserNamePre.setOnPreferenceChangeListener { _, newValue ->
             initDir(DefaultSPHelper.webdavUrl, newValue as String, DefaultSPHelper.webdavPsw)
             true
         }
-
+        // WebDAV 密码
+        val pswPreference = findPreference("webdavPsw") as EditTextPreference
+        pswPreference.setSummaryProvider {
+            if (TextUtils.isEmpty(pswPreference.text)) {
+                ""
+            } else {
+                "******"
+            }
+        }
+        pswPreference.setOnBindEditTextListener {
+            it.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            it.setSelection(it.text.length)
+        }
         pswPreference.setOnPreferenceChangeListener { _, newValue ->
             initDir(DefaultSPHelper.webdavUrl, DefaultSPHelper.webdavUserName, newValue as String)
             true
         }
-
-        findPreference("cloudBackupNow").setOnPreferenceClickListener {
+        // 立即云备份
+        val cloudBackupNowPreference: Preference = findPreference("cloudBackupNow")
+        cloudBackupNowPreference.isCopyingEnabled = true
+        cloudBackupNowPreference.summary =
+                getString(R.string.text_backup_save, getString(R.string.text_webdav) + BackupConstant.BACKUP_FILE)
+        cloudBackupNowPreference.setOnPreferenceClickListener {
             showCloudBackupDialog()
             true
         }
-
-        findPreference("cloudRestore").setOnPreferenceClickListener {
+        // 恢复云备份
+        val cloudRestorePreference: Preference = findPreference("cloudRestore")
+        cloudRestorePreference.isCopyingEnabled = true
+        cloudRestorePreference.summary =
+                getString(R.string.text_restore_content, getString(R.string.text_webdav) + BackupConstant.BACKUP_FILE)
+        cloudRestorePreference.setOnPreferenceClickListener {
             showCloudRestoreDialog()
+            true
+        }
+        // 云备份教程
+        val webdavHelpPreference: Preference = findPreference("webdavHelp")
+        webdavHelpPreference.isCopyingEnabled = true
+        webdavHelpPreference.setOnPreferenceClickListener {
+            AndroidUtil.openWeb(context!!, it.summary.toString())
             true
         }
 
@@ -220,9 +238,12 @@ class BackupFragment : PreferenceFragmentCompat() {
 
     private fun setCloudEnable(isEnabled: Boolean) {
         DefaultSPHelper.isCloudBackupEnable = isEnabled
-        findPreference("cloudBackupNow").isEnabled = isEnabled
-        findPreference("cloudRestore").isEnabled = isEnabled
-        findPreference("cloudAutoBackupMode").isEnabled = isEnabled
+        val cloudBackupNowPref: Preference = findPreference("cloudBackupNow")
+        cloudBackupNowPref.isEnabled = isEnabled
+        val cloudRestorePref: Preference = findPreference("cloudRestore")
+        cloudRestorePref.isEnabled = isEnabled
+        val cloudAutoBackupModePref: Preference = findPreference("cloudAutoBackupMode")
+        cloudAutoBackupModePref.isEnabled = isEnabled
     }
 
     private fun initDir(url: String?, userName: String?, pwd: String?) {

@@ -19,6 +19,7 @@ import android.app.KeyguardManager
 import android.content.Context
 import android.os.Bundle
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.wei.android.lib.fingerprintidentify.FingerprintIdentify
 import me.bakumon.moneykeeper.App
@@ -38,41 +39,45 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun setupPreferences() {
         // 反馈
-        findPreference("feedback").setOnPreferenceClickListener {
+        val feedbackPref: Preference = findPreference("feedback")
+        feedbackPref.setOnPreferenceClickListener {
             AndroidUtil.openWeb(context!!, Constant.getUrlTucao())
             true
         }
         // 隐私政策
-        findPreference("privacy").setOnPreferenceClickListener {
+        val privacyPref: Preference = findPreference("privacy")
+        privacyPref.setOnPreferenceClickListener {
             AndroidUtil.openWeb(context!!, Constant.URL_PRIVACY)
             true
         }
-
-        findPreference("theme").setOnPreferenceChangeListener { _, newValue ->
+        // 主题
+        val themePref: Preference = findPreference("theme")
+        themePref.setOnPreferenceChangeListener { _, newValue ->
             val theme = newValue as String
             DefaultSPHelper.updateTheme(theme)
             activity?.finish()
             true
         }
-
-        findPreference("budget").setOnPreferenceClickListener {
+        // 月预算
+        val budgetPref: Preference = findPreference("budget")
+        budgetPref.setOnPreferenceClickListener {
             // 更新 widget
             WidgetProvider.updateWidget(context!!)
             true
         }
-
-        val symbolPreference = findPreference("symbol") as ListPreference
+        // 货币符号
+        val symbolPreference: ListPreference = findPreference("symbol")
         symbolPreference.setOnPreferenceClickListener {
             // 更新 widget
             WidgetProvider.updateWidget(context!!)
             true
         }
-
         symbolPreference.setSummaryProvider {
-            symbolPreference.value + "（"+getString(R.string.text_content_symbol) + "）"
+            symbolPreference.value + "（" + getString(R.string.text_content_symbol) + "）"
         }
-
-        findPreference("lockScreen").setOnPreferenceChangeListener { preference, newValue ->
+        // 锁屏模式
+        val lockScreenPreference: Preference = findPreference("lockScreen")
+        lockScreenPreference.setOnPreferenceChangeListener { _, newValue ->
             when (newValue.toString()) {
                 "system" -> {
                     // 系统解锁
