@@ -23,11 +23,11 @@ import kotlinx.android.synthetic.main.layout_list.*
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
-import me.bakumon.moneykeeper.database.entity.RecordWithType
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.ui.common.BaseFragment
 import me.bakumon.moneykeeper.ui.common.Empty
 import me.bakumon.moneykeeper.ui.common.EmptyViewBinder
-import me.bakumon.moneykeeper.ui.home.RecordViewBinder
+import me.bakumon.moneykeeper.ui.home.RecordsViewBinder
 import me.bakumon.moneykeeper.utill.ToastUtils
 import me.bakumon.moneykeeper.widget.WidgetProvider
 import me.drakeet.multitype.Items
@@ -63,7 +63,7 @@ class TypeRecordsByTimeFragment : BaseFragment() {
         }
 
         mAdapter = MultiTypeAdapter()
-        mAdapter.register(RecordWithType::class, RecordViewBinder { deleteRecord(it) })
+        mAdapter.register(RecordForList::class, RecordsViewBinder { deleteRecord(it) })
         mAdapter.register(Empty::class, EmptyViewBinder())
         recyclerView.adapter = mAdapter
 
@@ -71,7 +71,7 @@ class TypeRecordsByTimeFragment : BaseFragment() {
         getData()
     }
 
-    private fun deleteRecord(record: RecordWithType) {
+    private fun deleteRecord(record: RecordForList) {
         mViewModel.deleteRecord(record).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> {
@@ -90,19 +90,19 @@ class TypeRecordsByTimeFragment : BaseFragment() {
     }
 
     private fun getData() {
-        mViewModel.getRecordWithTypes(0, mRecordType, mRecordTypeId, mYear, mMonth).observe(this, Observer {
+        mViewModel.getRecordForListWithTypes(0, mRecordType, mRecordTypeId, mYear, mMonth).observe(this, Observer {
             if (it != null) {
                 setItems(it)
             }
         })
     }
 
-    private fun setItems(recordWithTypes: List<RecordWithType>) {
+    private fun setItems(records: List<RecordForList>) {
         val items = Items()
-        if (recordWithTypes.isEmpty()) {
+        if (records.isEmpty()) {
             items.add(Empty(getString(R.string.text_empty_tip), Gravity.CENTER))
         } else {
-            items.addAll(recordWithTypes)
+            items.addAll(records)
         }
         mAdapter.items = items
         mAdapter.notifyDataSetChanged()

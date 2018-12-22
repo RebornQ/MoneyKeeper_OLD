@@ -162,12 +162,16 @@ interface AppDataSource {
      */
     fun getRecordWithTypes(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordWithType>>
 
+    fun getRangeRecordForListWithTypesByTypeId(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordForList>>
+
     /**
      * 获取某一类型某段时间的记账记录数据，money 排序
      *
      * @return 包含记录数据的 Flowable 对象
      */
     fun getRecordWithTypesSortMoney(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordWithType>>
+
+    fun getRecordForListWithTypesSortMoney(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordForList>>
 
     /**
      * 获取本月支出和收入总数

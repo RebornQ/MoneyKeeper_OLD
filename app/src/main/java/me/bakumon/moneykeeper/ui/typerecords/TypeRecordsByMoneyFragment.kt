@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.layout_list.*
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
-import me.bakumon.moneykeeper.database.entity.RecordWithType
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.ui.common.BaseFragment
 import me.bakumon.moneykeeper.ui.common.Empty
 import me.bakumon.moneykeeper.ui.common.EmptyViewBinder
@@ -62,7 +62,7 @@ class TypeRecordsByMoneyFragment : BaseFragment() {
         }
 
         mAdapter = MultiTypeAdapter()
-        mAdapter.register(RecordWithType::class, RecordByMoneyViewBinder { deleteRecord(it) })
+        mAdapter.register(RecordForList::class, RecordsByMoneyViewBinder { deleteRecord(it) })
         mAdapter.register(Empty::class, EmptyViewBinder())
         recyclerView.adapter = mAdapter
 
@@ -70,7 +70,7 @@ class TypeRecordsByMoneyFragment : BaseFragment() {
         getData()
     }
 
-    private fun deleteRecord(record: RecordWithType) {
+    private fun deleteRecord(record: RecordForList) {
         mViewModel.deleteRecord(record).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> {
@@ -89,19 +89,19 @@ class TypeRecordsByMoneyFragment : BaseFragment() {
     }
 
     private fun getData() {
-        mViewModel.getRecordWithTypes(1, mRecordType, mRecordTypeId, mYear, mMonth).observe(this, Observer {
+        mViewModel.getRecordForListWithTypes(1, mRecordType, mRecordTypeId, mYear, mMonth).observe(this, Observer {
             if (it != null) {
                 setItems(it)
             }
         })
     }
 
-    private fun setItems(recordWithTypes: List<RecordWithType>) {
+    private fun setItems(records: List<RecordForList>) {
         val items = Items()
-        if (recordWithTypes.isEmpty()) {
+        if (records.isEmpty()) {
             items.add(Empty(getString(R.string.text_empty_tip), Gravity.CENTER))
         } else {
-            items.addAll(recordWithTypes)
+            items.addAll(records)
         }
         mAdapter.items = items
         mAdapter.notifyDataSetChanged()

@@ -372,6 +372,15 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         return mAppDatabase.recordDao().getRangeRecordWithTypes(dateFrom, dateTo, type, typeId)
     }
 
+    override fun getRangeRecordForListWithTypesByTypeId(
+        dateFrom: Date,
+        dateTo: Date,
+        type: Int,
+        typeId: Int
+    ): LiveData<List<RecordForList>> {
+        return mAppDatabase.recordDao().getRangeRecordForListWithTypesByTypeId(dateFrom, dateTo, type, typeId)
+    }
+
     override fun getRecordWithTypesSortMoney(
         dateFrom: Date,
         dateTo: Date,
@@ -379,6 +388,15 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         typeId: Int
     ): LiveData<List<RecordWithType>> {
         return mAppDatabase.recordDao().getRecordWithTypesSortMoney(dateFrom, dateTo, type, typeId)
+    }
+
+    override fun getRecordForListWithTypesSortMoney(
+        dateFrom: Date,
+        dateTo: Date,
+        type: Int,
+        typeId: Int
+    ): LiveData<List<RecordForList>> {
+        return mAppDatabase.recordDao().getRecordForListWithTypesSortMoney(dateFrom, dateTo, type, typeId)
     }
 
     override fun getCurrentMonthSumMoneyLiveData(): LiveData<List<SumMoneyBean>> {

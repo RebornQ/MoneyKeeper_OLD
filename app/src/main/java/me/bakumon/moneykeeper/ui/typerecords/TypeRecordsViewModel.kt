@@ -21,6 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.bakumon.moneykeeper.base.Resource
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.RecordWithType
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
@@ -33,17 +34,17 @@ import me.bakumon.moneykeeper.utill.DateUtils
  */
 class TypeRecordsViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
 
-    fun getRecordWithTypes(sortType: Int, type: Int, typeId: Int, year: Int, month: Int): LiveData<List<RecordWithType>> {
+    fun getRecordForListWithTypes(sortType: Int, type: Int, typeId: Int, year: Int, month: Int): LiveData<List<RecordForList>> {
         val dateFrom = DateUtils.getMonthStart(year, month)
         val dateTo = DateUtils.getMonthEnd(year, month)
         return if (sortType == 0) {
-            mDataSource.getRecordWithTypes(dateFrom, dateTo, type, typeId)
+            mDataSource.getRangeRecordForListWithTypesByTypeId(dateFrom, dateTo, type, typeId)
         } else {
-            mDataSource.getRecordWithTypesSortMoney(dateFrom, dateTo, type, typeId)
+            mDataSource.getRecordForListWithTypesSortMoney(dateFrom, dateTo, type, typeId)
         }
     }
 
-    fun deleteRecord(record: RecordWithType): LiveData<Resource<Boolean>> {
+    fun deleteRecord(record: RecordForList): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.deleteRecord(record)
                 .subscribeOn(Schedulers.io())

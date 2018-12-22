@@ -15,73 +15,84 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/llItemClick"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="15dp"
-    android:layout_marginStart="15dp"
-    android:layout_marginTop="10dp"
-    android:background="@drawable/bg_item"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:gravity="center_vertical"
-    android:padding="15dp">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/llItemClick"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="15dp"
+              android:layout_marginStart="15dp"
+              android:layout_marginTop="10dp"
+              android:background="@drawable/bg_item"
+              android:clickable="true"
+              android:focusable="true"
+              android:foreground="?attr/selectableItemBackground"
+              android:gravity="center_vertical"
+              android:padding="15dp">
 
     <ImageView
-        android:id="@+id/ivTypeImg"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        tools:src="@mipmap/type_eat" />
+            android:id="@+id/ivTypeImg"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            tools:src="@mipmap/type_eat"/>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvTypeName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorTextRecordItemTitle"
-            android:textSize="16sp"
-            tools:text="餐饮" />
+                android:id="@+id/tvTypeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextRecordItemTitle"
+                android:textSize="16sp"
+                tools:text="餐饮"/>
 
-        <TextView
-            android:id="@+id/tvRemark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="5dp"
-            android:singleLine="true"
-            android:textColor="@color/colorTextRecordItemContent"
-            android:textSize="14sp"
-            tools:text="请客吃早点" />
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextRecordItemContent"
+                    tools:text="4月11日"/>
+            <TextView
+                    android:id="@+id/tvRemark"
+                    android:layout_marginStart="7dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textColor="@color/colorTextRecordItemContent"
+                    android:textSize="14sp"
+                    tools:text="请客吃早点"/>
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorTextRecordItemTitle"
-            android:textSize="16sp"
-            tools:text="-43" />
+            android:gravity="end"
+            android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorTextRecordItemContent"
-            tools:text="4月11日" />
+                android:id="@+id/tvMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextRecordItemTitle"
+                android:textSize="16sp"
+                tools:text="-43"/>
+
+        <TextView
+                android:id="@+id/tvAssetName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextRecordItemContent"
+                tools:text="支付宝"/>
     </LinearLayout>
 </LinearLayout>
