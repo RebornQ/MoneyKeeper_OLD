@@ -22,6 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.bakumon.moneykeeper.base.Resource
 import me.bakumon.moneykeeper.database.entity.DaySumMoneyBean
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.RecordWithType
 import me.bakumon.moneykeeper.database.entity.SumMoneyBean
 import me.bakumon.moneykeeper.datasource.AppDataSource
@@ -35,10 +36,10 @@ import me.bakumon.moneykeeper.utill.DateUtils
  */
 class BillViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
 
-    fun getRecordWithTypes(year: Int, month: Int, type: Int): LiveData<List<RecordWithType>> {
+    fun getRecordForListWithTypes(year: Int, month: Int, type: Int): LiveData<List<RecordForList>> {
         val dateFrom = DateUtils.getMonthStart(year, month)
         val dateTo = DateUtils.getMonthEnd(year, month)
-        return mDataSource.getRecordWithTypes(dateFrom, dateTo, type)
+        return mDataSource.getRecordForListWithTypes(dateFrom, dateTo, type)
     }
 
     fun getDaySumMoney(year: Int, month: Int, type: Int): LiveData<List<DaySumMoneyBean>> {
@@ -51,7 +52,7 @@ class BillViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
         return mDataSource.getMonthSumMoneyLiveData(dateFrom, dateTo)
     }
 
-    fun deleteRecord(record: RecordWithType): LiveData<Resource<Boolean>> {
+    fun deleteRecord(record: RecordForList): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.deleteRecord(record)
                 .subscribeOn(Schedulers.io())

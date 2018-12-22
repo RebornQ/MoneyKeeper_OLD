@@ -153,6 +153,8 @@ interface AppDataSource {
      */
     fun getRecordWithTypes(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<RecordWithType>>
 
+    fun getRecordForListWithTypes(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<RecordForList>>
+
     /**
      * 获取某一类型某段时间的记账记录数据
      *

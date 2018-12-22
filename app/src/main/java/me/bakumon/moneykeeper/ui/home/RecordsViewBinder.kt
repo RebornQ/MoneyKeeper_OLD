@@ -31,6 +31,7 @@ import me.bakumon.moneykeeper.database.entity.RecordType
 import me.bakumon.moneykeeper.utill.BigDecimalUtil
 import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.utill.ResourcesUtil
+import me.bakumon.moneykeeper.utill.ToastUtils
 import me.drakeet.multitype.ItemViewBinder
 
 /**
@@ -79,6 +80,8 @@ class RecordsViewBinder constructor(private val onDeleteClickListener: ((RecordF
 
         holder.llItemClick.setOnClickListener {
             //                        AddRecordActivity.open(holder.llItemClick.context, record = item)
+            // TODO 跳转
+            ToastUtils.show("TODO 跳转")
         }
 
         holder.llItemClick.setOnLongClickListener {

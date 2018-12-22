@@ -359,6 +359,10 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         return mAppDatabase.recordDao().getRangeRecordWithTypes(dateFrom, dateTo, type)
     }
 
+    override fun getRecordForListWithTypes(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<RecordForList>> {
+        return mAppDatabase.recordDao().getRangeRecordForListWithTypes(dateFrom, dateTo, type)
+    }
+
     override fun getRecordWithTypes(
         dateFrom: Date,
         dateTo: Date,

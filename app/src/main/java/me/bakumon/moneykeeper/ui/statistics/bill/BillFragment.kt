@@ -23,12 +23,12 @@ import kotlinx.android.synthetic.main.fragment_bill.*
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.base.ErrorResource
 import me.bakumon.moneykeeper.base.SuccessResource
+import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.RecordType
-import me.bakumon.moneykeeper.database.entity.RecordWithType
 import me.bakumon.moneykeeper.ui.common.BaseFragment
 import me.bakumon.moneykeeper.ui.common.Empty
 import me.bakumon.moneykeeper.ui.common.EmptyViewBinder
-import me.bakumon.moneykeeper.ui.home.RecordViewBinder
+import me.bakumon.moneykeeper.ui.home.RecordsViewBinder
 import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.utill.ToastUtils
 import me.bakumon.moneykeeper.widget.WidgetProvider
@@ -55,7 +55,7 @@ class BillFragment : BaseFragment() {
         mViewModel = getViewModel()
 
         adapter = MultiTypeAdapter()
-        adapter.register(RecordWithType::class, RecordViewBinder({ deleteRecord(it) }))
+        adapter.register(RecordForList::class, RecordsViewBinder { deleteRecord(it) })
         adapter.register(Empty::class, EmptyViewBinder())
         rvRecordBill.adapter = adapter
 
@@ -89,7 +89,7 @@ class BillFragment : BaseFragment() {
         updateData()
     }
 
-    private fun deleteRecord(record: RecordWithType) {
+    private fun deleteRecord(record: RecordForList) {
         mViewModel.deleteRecord(record).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> {
@@ -106,14 +106,14 @@ class BillFragment : BaseFragment() {
     }
 
     private fun getOrderData() {
-        mViewModel.getRecordWithTypes(mYear, mMonth, mType).observe(this, Observer {
+        mViewModel.getRecordForListWithTypes(mYear, mMonth, mType).observe(this, Observer {
             if (it != null) {
                 setItems(it)
             }
         })
     }
 
-    private fun setItems(beans: List<RecordWithType>) {
+    private fun setItems(beans: List<RecordForList>) {
         val items = Items()
         if (beans.isEmpty()) {
             items.add(Empty(getString(R.string.text_empty_tip), Gravity.CENTER_HORIZONTAL))
