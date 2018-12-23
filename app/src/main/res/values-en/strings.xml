@@ -145,7 +145,7 @@
     <string name="text_month" />
 
     <!-- 设置 -->
-    <string name="text_setting">setting</string>
+    <string name="text_setting">Setting</string>
     <string name="text_money">Bookkeeping</string>
     <string name="text_no_setting">no data</string>
     <string name="text_monty_budget">Monthly Budget</string>

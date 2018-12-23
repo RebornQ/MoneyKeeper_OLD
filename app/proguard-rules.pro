@@ -235,5 +235,3 @@
 
 # yanzhenjie.permission
 -dontwarn com.yanzhenjie.permission.**
-
--keep class me.drakeet.support.about.** { *; }
