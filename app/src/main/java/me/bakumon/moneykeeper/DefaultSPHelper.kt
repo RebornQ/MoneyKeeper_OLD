@@ -90,6 +90,12 @@ object DefaultSPHelper {
         get() = PreferenceManager.getDefaultSharedPreferences(App.instance).getBoolean("fast", false)
 
     /**
+     * 是否锁定记录
+     */
+    val isLockRecord: Boolean
+        get() = PreferenceManager.getDefaultSharedPreferences(App.instance).getBoolean("lockRecord", false)
+
+    /**
      * 是否本地自动备份
      */
     var isLocalAutoBackup: Boolean

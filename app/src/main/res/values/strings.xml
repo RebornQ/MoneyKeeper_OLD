@@ -59,6 +59,7 @@
     <string name="toast_in_assets_null">修改前转入账户为空，请重试</string>
     <string name="toast_assets_null">还没有创建资产账户</string>
     <string name="toast_not_digital">数字不合法</string>
+    <string name="toast_lock_record">记录已锁定，可到设置界面打开</string>
 
     <!-- 首页 -->
     <string name="text_widget_today_outlay">今日支出</string>
@@ -163,6 +164,9 @@
     <string name="text_fast_tip">打开APP直接记账</string>
     <string name="text_successive_record">连续记账</string>
     <string name="text_successive_record_tip">提示：长按首页添加按钮，连续记账</string>
+    <string name="text_lock_record">锁定记录</string>
+    <string name="text_lock_record_off">记录可以编辑、删除</string>
+    <string name="text_lock_record_on">记录不可以编辑、删除</string>
     <string name="text_manager">管理</string>
     <string name="text_backup">备份</string>
     <string name="text_backup_restore">备份与恢复</string>

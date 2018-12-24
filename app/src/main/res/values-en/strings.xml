@@ -59,6 +59,7 @@
     <string name="toast_in_assets_null">The account is not empty before the modification, please try again</string>
     <string name="toast_assets_null">No asset account has been created yet</string>
     <string name="toast_not_digital">Not a number</string>
+    <string name="toast_lock_record">The record is locked.</string>
 
     <!-- 首页 -->
     <string name="text_widget_today_outlay">Today</string>
@@ -163,6 +164,9 @@
     <string name="text_fast_tip">Open APP directly bookkeeping</string>
     <string name="text_successive_record">Continuous Accounting</string>
     <string name="text_successive_record_tip">Tip:Long press home add button, continuous accounting</string>
+    <string name="text_lock_record">Lock Record</string>
+    <string name="text_lock_record_off">Records can be edited and deleted</string>
+    <string name="text_lock_record_on">Records cannot be edited or deleted</string>
     <string name="text_manager">Manager</string>
     <string name="text_backup">Backup</string>
     <string name="text_backup_restore">Backup and Restore</string>

@@ -50,6 +50,14 @@
                 android:summary="@string/text_successive_record_tip"
                 app:iconSpaceReserved="false"/>
 
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="lockRecord"
+                android:summaryOn="@string/text_lock_record_on"
+                android:summaryOff="@string/text_lock_record_off"
+                android:title="@string/text_lock_record"
+                app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

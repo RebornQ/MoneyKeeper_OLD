@@ -33,6 +33,7 @@ import me.bakumon.moneykeeper.ui.add.AddRecordActivity
 import me.bakumon.moneykeeper.utill.BigDecimalUtil
 import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.utill.ResourcesUtil
+import me.bakumon.moneykeeper.utill.ToastUtils
 import me.drakeet.multitype.ItemViewBinder
 
 /**
@@ -81,11 +82,19 @@ class RecordsByMoneyViewBinder constructor(private val onDeleteClickListener: ((
         holder.tvMoney.text = money
 
         holder.llItemClick.setOnClickListener {
-            AddRecordActivity.open(holder.llItemClick.context, record = item)
+            if (DefaultSPHelper.isLockRecord) {
+                ToastUtils.show(R.string.toast_lock_record)
+            } else {
+                AddRecordActivity.open(holder.llItemClick.context, record = item)
+            }
         }
 
         holder.llItemClick.setOnLongClickListener {
-            showOperateDialog(holder.tvMoney.context, item)
+            if (DefaultSPHelper.isLockRecord) {
+                ToastUtils.show(R.string.toast_lock_record)
+            } else {
+                showOperateDialog(holder.tvMoney.context, item)
+            }
             true
         }
     }

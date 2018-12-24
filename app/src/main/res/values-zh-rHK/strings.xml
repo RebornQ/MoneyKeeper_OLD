@@ -59,6 +59,7 @@
     <string name="toast_in_assets_null">修改前轉入賬戶為空，請重試</string>
     <string name="toast_assets_null">還沒有創建資產賬戶</string>
     <string name="toast_not_digital">數字不合法</string>
+    <string name="toast_lock_record">記錄已鎖定，可到設置界面打開开</string>
 
     <!-- 首页 -->
     <string name="text_widget_today_outlay">今日支出</string>
@@ -163,6 +164,9 @@
     <string name="text_fast_tip">打開APP直接記賬</string>
     <string name="text_successive_record">連續記賬</string>
     <string name="text_successive_record_tip">提示：長按首頁添加按鈕，連續記賬</string>
+    <string name="text_lock_record">鎖定記錄</string>
+    <string name="text_lock_record_off">記錄可以編輯、刪除</string>
+    <string name="text_lock_record_on">記錄不可以編輯、刪除</string>
     <string name="text_manager">管理</string>
     <string name="text_backup">備份</string>
     <string name="text_backup_restore">備份與恢復</string>

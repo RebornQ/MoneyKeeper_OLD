@@ -31,6 +31,7 @@ import me.bakumon.moneykeeper.ui.add.AddRecordActivity
 import me.bakumon.moneykeeper.utill.BigDecimalUtil
 import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.utill.ResourcesUtil
+import me.bakumon.moneykeeper.utill.ToastUtils
 import me.drakeet.multitype.ItemViewBinder
 
 /**
@@ -55,13 +56,21 @@ class TransferRecordBinder constructor(private val onDeleteClickListener: ((Asse
         holder.tvMoney.text = BigDecimalUtil.fen2Yuan(item.money)
         holder.tvTime.text = DateUtils.date2MonthDay(item.time)
 
-        holder.llItemClick.setOnLongClickListener {
-            showOperateDialog(holder.tvMoney.context, item)
-            true
+        holder.llItemClick.setOnClickListener {
+            if (DefaultSPHelper.isLockRecord) {
+                ToastUtils.show(R.string.toast_lock_record)
+            } else {
+                AddRecordActivity.open(holder.llItemClick.context, isTransfer = true, transferRecord = item)
+            }
         }
 
-        holder.llItemClick.setOnClickListener {
-            AddRecordActivity.open(holder.llItemClick.context, isTransfer = true, transferRecord = item)
+        holder.llItemClick.setOnLongClickListener {
+            if (DefaultSPHelper.isLockRecord) {
+                ToastUtils.show(R.string.toast_lock_record)
+            } else {
+                showOperateDialog(holder.tvMoney.context, item)
+            }
+            true
         }
     }
 
