@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package me.relex.circleindicator
+package me.bakumon.moneykeeper.view
 
 import android.animation.Animator
 import android.animation.AnimatorInflater
@@ -27,7 +27,7 @@ import android.view.View
 import android.view.animation.Interpolator
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
-import me.bakumon.circleindicator.R
+import me.bakumon.moneykeeper.R
 
 /**
  * 指示器

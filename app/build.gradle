@@ -79,7 +79,6 @@ android {
 }
 
 dependencies {
-    implementation project(':circleindicator')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // test
     testImplementation 'junit:junit:4.12'

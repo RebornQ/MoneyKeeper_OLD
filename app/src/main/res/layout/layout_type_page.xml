@@ -24,7 +24,7 @@
         android:layout_weight="1"
         android:overScrollMode="never" />
 
-    <me.relex.circleindicator.CircleIndicator
+    <me.bakumon.moneykeeper.view.CircleIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
