@@ -23,9 +23,6 @@ import android.view.Gravity
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.answers.Answers
-import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_home.*
 import me.bakumon.moneykeeper.BuildConfig
 import me.bakumon.moneykeeper.CloudBackupService
@@ -79,7 +76,6 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun onInit(savedInstanceState: Bundle?) {
-        Fabric.with(this, Crashlytics(), Answers())
         // 快速记账
         if (DefaultSPHelper.isFast) {
             AddRecordActivity.open(this)

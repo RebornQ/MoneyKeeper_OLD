@@ -19,7 +19,10 @@ package me.bakumon.moneykeeper
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.answers.Answers
 import com.squareup.leakcanary.LeakCanary
+import io.fabric.sdk.android.Fabric
 
 /**
  * @author Bakumon https://bakumon.me
@@ -36,7 +39,8 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
         }
         LeakCanary.install(this)
         // Normal app init code...
-
+        // 初始化 Fabric
+        Fabric.with(this, Crashlytics(), Answers())
         registerActivityLifecycleCallbacks(this)
     }
 
