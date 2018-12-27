@@ -99,7 +99,7 @@ class UpdateWidgetService : IntentService("UpdateWidgetService") {
 
         val budget = DefaultSPHelper.budget
 
-        val budgetStr = if (BigDecimal(budget) > BigDecimal(0)) {
+        val budgetStr = if (!budget.isNullOrBlank() && BigDecimal(budget) > BigDecimal(0)) {
             val budgetStr = BigDecimalUtil.fen2Yuan(BigDecimal(budget).multiply(BigDecimal(100)).subtract(outlay))
             budgetStr
         } else {
