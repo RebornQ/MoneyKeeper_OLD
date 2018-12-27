@@ -16,6 +16,8 @@
 
 <resources>
     <string name="app_name">那樣記賬</string>
+    <!-- 测试是否是简体中文环境 -->
+    <string name="text_zh">簡體字</string>
 
     <string name="toast_add_record_fail">記賬失敗，請重試</string>
     <string name="toast_modify_record_fail">記錄修改失敗</string>
@@ -59,7 +61,7 @@
     <string name="toast_in_assets_null">修改前轉入賬戶為空，請重試</string>
     <string name="toast_assets_null">還沒有創建資產賬戶</string>
     <string name="toast_not_digital">數字不合法</string>
-    <string name="toast_lock_record">記錄已鎖定，可到設置界面打開开</string>
+    <string name="toast_lock_record">記錄已鎖定</string>
 
     <!-- 首页 -->
     <string name="text_widget_today_outlay">今日支出</string>
@@ -259,7 +261,6 @@
     <string name="text_developer_designer">開發和部分設計</string>
     <string name="text_links">更多</string>
     <string name="text_score">評分</string>
-    <string name="text_donate">捐贈作者</string>
     <string name="text_donate_content">感謝您的捐贈。這將給予我無限的動力，使【那樣記賬】app 越來越好。 \n\n注意：捐贈不會直接增加額外的功能。</string>
     <string name="text_contact_author" formatted="true">Telegram 交流群： %2$s \n聯繫作者： %3$s \n更新日誌：%4$s \n開源地址：%5$s\n\n*本應用遵循《Android綠色應用公約》\n %6$s</string>
     <string name="text_license">開源許可證</string>

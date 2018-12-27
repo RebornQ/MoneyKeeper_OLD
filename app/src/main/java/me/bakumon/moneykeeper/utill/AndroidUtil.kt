@@ -16,8 +16,6 @@
 
 package me.bakumon.moneykeeper.utill
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -58,20 +56,9 @@ object AndroidUtil {
     }
 
     /**
-     * 复制到剪切板
-     */
-    fun clipPlainText(plain: String) {
-        val clipboardManager = App.instance.getSystemService(Context.CLIPBOARD_SERVICE)
-        if (clipboardManager is ClipboardManager) {
-            val clipData = ClipData.newPlainText(App.instance.getString(R.string.app_name), plain)
-            clipboardManager.primaryClip = clipData
-        }
-    }
-
-    /**
      * 判断是否是简体中文环境
      */
     fun isZhRCN(): Boolean {
-        return "捐赠作者" == App.instance.getString(R.string.text_donate)
+        return "简体字" == App.instance.getString(R.string.text_zh)
     }
 }
