@@ -182,6 +182,7 @@
     <string name="text_auto_backup">自动备份</string>
     <string name="text_auto_backup_content">数据有改变时备份（不可手动关闭）</string>
     <string name="text_cloud_backup">云备份</string>
+    <string name="text_cloud_backup_service_des">自动云备份服务</string>
     <string name="text_cloud_backup_title">云盘备份</string>
     <string name="text_cloud_backup_content">WebDAV</string>
     <string name="text_about_and_more">关于 | 更多</string>

@@ -15,11 +15,19 @@
  */
 package me.bakumon.moneykeeper
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.PRIORITY_MIN
+import androidx.core.content.ContextCompat
 import com.snatik.storage.Storage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -43,12 +51,42 @@ class CloudBackupService : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         isShowSuccessTip = intent.getBooleanExtra(KEY_SHOW_TIP, false)
         if ("webdav.pcloud.com" == Uri.parse(DefaultSPHelper.webdavUrl).host) {
-            // 如果是 pcloud 云盘，不管备份文件夹是否已经存在，都创建
+            // 适配 pcloud
+            // 如果是 pcloud 云盘，不管备份文件夹是否已经存在，都去创建
             createDir()
         } else {
             backup()
         }
+        val channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannel("CloudBackup", "CloudBackupService")
+        } else {
+            ""
+        }
+
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+        val notification = notificationBuilder.setOngoing(true)
+            // TODO 暂时使用"云备份"图标 需要适配自适应启动图标
+            .setSmallIcon(R.drawable.ic_cloud)
+            .setPriority(PRIORITY_MIN)
+            .setCategory(Notification.CATEGORY_SERVICE)
+            .setContentTitle(getString(R.string.text_cloud_backup))
+            .setProgress(100, 0, true)
+            .build()
+        startForeground(101, notification)
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(channelId: String, channelName: String): String {
+        val channel = NotificationChannel(
+            channelId,
+            channelName, NotificationManager.IMPORTANCE_NONE
+        )
+        channel.description = getString(R.string.text_cloud_backup_service_des)
+        channel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        service.createNotificationChannel(channel)
+        return channelId
     }
 
     private fun backup() {
@@ -132,7 +170,7 @@ class CloudBackupService : Service() {
         fun startBackup(context: Context, isShowSuccessTip: Boolean = false) {
             val intent = Intent(context, CloudBackupService::class.java)
             intent.putExtra(KEY_SHOW_TIP, isShowSuccessTip)
-            context.startService(intent)
+            ContextCompat.startForegroundService(context, intent)
         }
     }
 }

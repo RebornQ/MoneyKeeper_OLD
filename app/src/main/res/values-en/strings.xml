@@ -182,6 +182,7 @@
     <string name="text_auto_backup">Automatic backup</string>
     <string name="text_auto_backup_content">Backup when data changes (not closed)</string>
     <string name="text_cloud_backup">Cloud backup</string>
+    <string name="text_cloud_backup_service_des">Automatic cloud backup service</string>
     <string name="text_cloud_backup_title">Cloud disk backup</string>
     <string name="text_cloud_backup_content">WebDAV</string>
     <string name="text_about_and_more">About | More</string>
