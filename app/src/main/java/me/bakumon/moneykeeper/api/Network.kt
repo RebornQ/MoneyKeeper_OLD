@@ -20,6 +20,7 @@ import com.burgstaller.okhttp.CachingAuthenticatorDecorator
 import com.burgstaller.okhttp.DispatchingAuthenticator
 import com.burgstaller.okhttp.basic.BasicAuthenticator
 import com.burgstaller.okhttp.digest.CachingAuthenticator
+import com.burgstaller.okhttp.digest.Credentials
 import com.burgstaller.okhttp.digest.DigestAuthenticator
 import me.bakumon.moneykeeper.BuildConfig
 import me.bakumon.moneykeeper.DefaultSPHelper
@@ -55,8 +56,7 @@ object Network {
     fun updateDavServiceConfig(url: String, userName: String, pwd: String) {
 
         val authCache = ConcurrentHashMap<String, CachingAuthenticator>()
-        val credentials =
-            com.burgstaller.okhttp.digest.Credentials(userName, pwd)
+        val credentials = Credentials(userName, pwd)
         val basicAuthenticator = BasicAuthenticator(credentials)
         val digestAuthenticator = DigestAuthenticator(credentials)
 

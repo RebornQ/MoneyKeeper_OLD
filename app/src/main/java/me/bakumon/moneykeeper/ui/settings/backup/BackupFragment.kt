@@ -44,6 +44,7 @@ import me.bakumon.moneykeeper.utill.AndroidUtil
 import me.bakumon.moneykeeper.utill.BackupUtil
 import me.bakumon.moneykeeper.utill.PermissionUtil
 import me.bakumon.moneykeeper.utill.ToastUtils
+import okhttp3.HttpUrl
 import okhttp3.ResponseBody
 
 class BackupFragment : PreferenceFragmentCompat() {
@@ -179,8 +180,18 @@ class BackupFragment : PreferenceFragmentCompat() {
         val webdavUrlPre: Preference = findPreference("webdavUrl")
         webdavUrlPre.isCopyingEnabled = true
         webdavUrlPre.setOnPreferenceChangeListener { _, newValue ->
-            initDir(newValue as String, DefaultSPHelper.webdavUserName, DefaultSPHelper.webdavPsw)
-            true
+            val url = newValue as String
+            if (url.isBlank()) {
+                true
+            } else {
+                if (HttpUrl.parse(url) == null) {
+                    ToastUtils.show(R.string.text_url_illegal)
+                    false
+                } else {
+                    initDir(newValue, DefaultSPHelper.webdavUserName, DefaultSPHelper.webdavPsw)
+                    true
+                }
+            }
         }
 
         // WebDAV账户
@@ -246,8 +257,8 @@ class BackupFragment : PreferenceFragmentCompat() {
         cloudAutoBackupModePref.isEnabled = isEnabled
     }
 
-    private fun initDir(url: String?, userName: String?, pwd: String?) {
-        val isEnabled = url.isNullOrBlank() || userName.isNullOrBlank() || pwd.isNullOrBlank()
+    private fun initDir(url: String, userName: String, pwd: String) {
+        val isEnabled = url.isBlank() || userName.isBlank() || pwd.isBlank()
         if (isEnabled) {
             setCloudEnable(false)
             return
