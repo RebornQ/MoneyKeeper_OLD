@@ -15,8 +15,6 @@
  */
 package me.bakumon.moneykeeper
 
-import android.os.Build
-
 /**
  * 一些常量
  * @author Bakumon https://bakumon.me
@@ -33,12 +31,8 @@ object Constant {
 
     fun getUrlTucao(): String {
         val baseUrl = "https://support.qq.com/product/" + if (BuildConfig.DEBUG) "41006" else "41058"
-        // clientInfo：系统信息，如 OnePlus5T
         // clientVersion：app 版本，如 v3.3.2_26
-        // osVersion：系统版本，如 8.1.0_27
-        val clientInfo = Build.PRODUCT
         val clientVersion = BuildConfig.VERSION_NAME + "_" + BuildConfig.VERSION_CODE
-        val osVersion = Build.VERSION.RELEASE + "_" + Build.VERSION.SDK_INT
-        return "$baseUrl?clientInfo=$clientInfo&clientVersion=$clientVersion&osVersion=$osVersion"
+        return "$baseUrl?clientVersion=$clientVersion"
     }
 }
