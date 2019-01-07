@@ -58,10 +58,19 @@
                 android:title="@string/text_lock_record"
                 app:iconSpaceReserved="false"/>
 
+        <androidx.preference.DropDownPreference
+                android:defaultValue="onlyOne"
+                android:entries="@array/last_asset_titles"
+                android:entryValues="@array/last_asset_values"
+                android:key="lastAsset"
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true"
+                android:title="@string/text_last_asset"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="管理"
+            android:title="@string/text_manager"
             android:key="manager"
             app:iconSpaceReserved="false">
 

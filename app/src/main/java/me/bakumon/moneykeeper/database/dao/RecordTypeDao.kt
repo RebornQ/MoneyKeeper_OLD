@@ -19,6 +19,7 @@ package me.bakumon.moneykeeper.database.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import me.bakumon.moneykeeper.database.entity.RecordType
+import me.bakumon.moneykeeper.database.entity.RecordTypeWithAsset
 
 /**
  * 记账类型表操作类
@@ -30,6 +31,10 @@ interface RecordTypeDao {
 
     @Query("SELECT * FROM RecordType WHERE state = 0 ORDER BY ranking")
     fun getAllRecordTypes(): LiveData<List<RecordType>>
+
+    @Transaction
+    @Query("SELECT * FROM RecordType WHERE state = 0 ORDER BY ranking")
+    fun getAllRecordTypesWithAsset(): LiveData<List<RecordTypeWithAsset>>
 
     @Query("SELECT count(RecordType.id) FROM RecordType")
     fun getRecordTypeCount(): Long
