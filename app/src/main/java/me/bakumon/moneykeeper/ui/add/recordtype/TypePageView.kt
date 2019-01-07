@@ -27,6 +27,7 @@ import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.RecordType
+import me.bakumon.moneykeeper.database.entity.RecordTypeWithAsset
 import me.bakumon.moneykeeper.view.pagerlayoutmanager.PagerGridLayoutManager
 import me.bakumon.moneykeeper.view.pagerlayoutmanager.PagerGridSnapHelper
 import me.drakeet.multitype.Items
@@ -39,16 +40,18 @@ import me.drakeet.multitype.withKClassLinker
  *
  * @author Bakumon https://bakumon.me
  */
-class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
+class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    LinearLayout(context, attrs, defStyleAttr) {
 
     private val inflater = LayoutInflater.from(context)
     private var adapter: MultiTypeAdapter
     private var mLayoutManager: PagerGridLayoutManager
     private var mCurrentTypeIndex = -1
     private var mCurrentTypeId = -1
+    private var mOnCheckTypeListener: ((RecordTypeWithAsset) -> Unit)? = null
 
-    val currentItem: RecordType?
-        get() = adapter.items[mCurrentTypeIndex] as RecordType
+    val currentItem: RecordTypeWithAsset?
+        get() = adapter.items[mCurrentTypeIndex] as RecordTypeWithAsset
 
     init {
         orientation = LinearLayout.VERTICAL
@@ -57,7 +60,8 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
         // 1.水平分页布局管理器
         mLayoutManager = PagerGridLayoutManager(
             ROW,
-            COLUMN, PagerGridLayoutManager.HORIZONTAL)
+            COLUMN, PagerGridLayoutManager.HORIZONTAL
+        )
         recyclerType.layoutManager = mLayoutManager
 
         // 2.设置滚动辅助工具
@@ -65,23 +69,24 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
         pageSnapHelper.attachToRecyclerView(recyclerType)
 
         adapter = MultiTypeAdapter()
-        adapter.register(RecordType::class).to(TypeViewBinder { recordType, position ->
+        adapter.register(RecordTypeWithAsset::class).to(TypeViewBinder { recordType, position ->
             mCurrentTypeId = recordType.id
             mCurrentTypeIndex = position
             // 更新所有 item 的选中状态
             adapter.items.forEachIndexed { index, any ->
-                val item = any as RecordType
+                val item = any as RecordTypeWithAsset
                 item.isChecked = index == position
             }
             adapter.notifyDataSetChanged()
+            mOnCheckTypeListener?.invoke(recordType)
         }, TypeSettingViewBinder())
-                .withKClassLinker { _, data ->
-                    if (data.isSetting) {
-                        TypeSettingViewBinder::class
-                    } else {
-                        TypeViewBinder::class
-                    }
+            .withKClassLinker { _, data ->
+                if (data.isSetting) {
+                    TypeSettingViewBinder::class
+                } else {
+                    TypeViewBinder::class
                 }
+            }
         recyclerType.adapter = adapter
 
         mLayoutManager.setPageListener(object : PagerGridLayoutManager.PageListener {
@@ -109,7 +114,7 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
         })
     }
 
-    fun setItems(data: List<RecordType>?, type: Int, record: RecordForList? = null) {
+    fun setItems(data: List<RecordTypeWithAsset>?, type: Int, record: RecordForList? = null) {
         if (data == null) {
             return
         }
@@ -121,7 +126,11 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
                 }
             }
             // 增加设置 item
-            val settingItem = RecordType(App.instance.getString(R.string.text_setting), type, true)
+            val settingItem = RecordTypeWithAsset()
+            settingItem.name = App.instance.getString(R.string.text_setting)
+            settingItem.type = type
+            settingItem.imgName = "type_item_setting"
+            settingItem.isSetting = true
             items.add(settingItem)
         }
 
@@ -129,6 +138,10 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
         adapter.notifyDataSetChanged()
 
         initCheckItem(type, record)
+    }
+
+    fun setOnCheckTypeListener(listener: ((RecordTypeWithAsset) -> Unit)) {
+        mOnCheckTypeListener = listener
     }
 
     /**
@@ -141,7 +154,7 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
             var isTypeExist = 0
             if (visibility == View.VISIBLE && record != null && adapter.items.isNotEmpty()) {
                 for (i in 0 until adapter.items.size) {
-                    if (record.recordTypeId == (adapter.items[i] as RecordType).id) {
+                    if (record.recordTypeId == (adapter.items[i] as RecordTypeWithAsset).id) {
                         mCurrentTypeIndex = i
                         isTypeExist++
                         break
@@ -155,9 +168,6 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
                     showTypeNotExistTip(type, record)
                 }
             }
-            // 选中某一个
-            (adapter.items[mCurrentTypeIndex] as RecordType).isChecked = true
-            adapter.notifyItemChanged(mCurrentTypeIndex)
         } else {
             // 找出上次选中的 item
             val position = getPosition(mCurrentTypeId)
@@ -166,8 +176,13 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
             } else {
                 position
             }
-            (adapter.items[mCurrentTypeIndex] as RecordType).isChecked = true
-            adapter.notifyItemChanged(mCurrentTypeIndex)
+        }
+        // 选中某一个
+        (adapter.items[mCurrentTypeIndex] as RecordTypeWithAsset).isChecked = true
+        adapter.notifyItemChanged(mCurrentTypeIndex)
+        // 记支出、新增
+        if (mCurrentTypeIndex == 0 && type == RecordType.TYPE_OUTLAY && record == null) {
+            mOnCheckTypeListener?.invoke((adapter.items[mCurrentTypeIndex] as RecordTypeWithAsset))
         }
     }
 
@@ -177,7 +192,7 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun getPosition(id: Int): Int {
         var index = -1
         for (i in 0 until adapter.items.size) {
-            if (id == (adapter.items[i] as RecordType).id) {
+            if (id == (adapter.items[i] as RecordTypeWithAsset).id) {
                 index = i
                 break
             }
@@ -191,9 +206,9 @@ class TypePageView @JvmOverloads constructor(context: Context, attrs: AttributeS
     private fun showTypeNotExistTip(type: Int, record: RecordForList) {
         if (type == record.type) {
             MaterialDialog(context)
-                    .message(text = "\uD83D\uDC7A" + context.resources.getString(R.string.text_tip_type_delete))
-                    .positiveButton(R.string.text_know)
-                    .show()
+                .message(text = "\uD83D\uDC7A" + context.resources.getString(R.string.text_tip_type_delete))
+                .positiveButton(R.string.text_know)
+                .show()
         }
     }
 

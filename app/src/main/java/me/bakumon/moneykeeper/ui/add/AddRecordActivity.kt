@@ -131,43 +131,6 @@ class AddRecordActivity : BaseActivity() {
             .add(R.id.flOptions, mOptionFragment)
             .commit()
 
-        // 切换【支出】【转账】【收入】
-        (typeChoose as RadioGroup).setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.rbLeft -> {
-                    mCurrentType = RecordType.TYPE_OUTLAY
-                    mOptionFragment.setAssetsVisibility(true)
-                    viewPager.setCurrentItem(0, false)
-                }
-                R.id.rbMiddle -> {
-                    mCurrentType = TYPE_TRANSFER
-                    mOptionFragment.setAssetsVisibility(false)
-                    viewPager.setCurrentItem(1, false)
-                }
-                R.id.rbRight -> {
-                    mCurrentType = RecordType.TYPE_INCOME
-                    mOptionFragment.setAssetsVisibility(true)
-                    viewPager.setCurrentItem(2, false)
-                }
-            }
-        }
-        // 提交
-        keyboard.mOnAffirmClickListener = {
-            if (mRecord == null && mTransfer == null) {
-                if (mCurrentType == TYPE_TRANSFER) {
-                    insertTransfer(it)
-                } else {
-                    insertRecord(it)
-                }
-            } else {
-                if (mRecord != null) {
-                    modifyRecord(it)
-                } else if (mTransfer != null) {
-                    modifyTransfer(it)
-                }
-            }
-        }
-
         if (mRecord == null) {
             // 新增
             // 设置标题
@@ -211,11 +174,56 @@ class AddRecordActivity : BaseActivity() {
             // 回显数据
             keyboard.setText(BigDecimalUtil.fen2YuanNoSeparator(mRecord!!.money))
         }
+        mOutlayTypeFragment.setOnCheckTypeListener {
+            mOptionFragment.onTypeChecked(it)
+        }
+        mIncomeTypeFragment.setOnCheckTypeListener {
+            mOptionFragment.onTypeChecked(it)
+        }
 
         if (mIsTransfer) {
             (typeChoose as RadioGroup).check(R.id.rbMiddle)
             typeChoose.visibility = View.GONE
             toolbarLayout.tvTitle.text = getString(R.string.text_transfer)
+        }
+
+        // 切换【支出】【转账】【收入】
+        (typeChoose as RadioGroup).setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.rbLeft -> {
+                    mCurrentType = RecordType.TYPE_OUTLAY
+                    mOptionFragment.setAssetsVisibility(true)
+                    viewPager.setCurrentItem(0, false)
+                    mOptionFragment.onTypeChecked(mOutlayTypeFragment.getType())
+                }
+                R.id.rbMiddle -> {
+                    mCurrentType = TYPE_TRANSFER
+                    mOptionFragment.setAssetsVisibility(false)
+                    viewPager.setCurrentItem(1, false)
+                }
+                R.id.rbRight -> {
+                    mCurrentType = RecordType.TYPE_INCOME
+                    mOptionFragment.setAssetsVisibility(true)
+                    viewPager.setCurrentItem(2, false)
+                    mOptionFragment.onTypeChecked(mIncomeTypeFragment.getType())
+                }
+            }
+        }
+        // 提交
+        keyboard.mOnAffirmClickListener = {
+            if (mRecord == null && mTransfer == null) {
+                if (mCurrentType == TYPE_TRANSFER) {
+                    insertTransfer(it)
+                } else {
+                    insertRecord(it)
+                }
+            } else {
+                if (mRecord != null) {
+                    modifyRecord(it)
+                } else if (mTransfer != null) {
+                    modifyTransfer(it)
+                }
+            }
         }
     }
 
@@ -233,12 +241,15 @@ class AddRecordActivity : BaseActivity() {
         record.remark = mOptionFragment.getRemark()
         record.time = mOptionFragment.getDate()
         record.createTime = Date()
-        record.recordTypeId = if (mCurrentType == RecordType.TYPE_OUTLAY)
-            mOutlayTypeFragment.getType()!!.id
-        else
-            mIncomeTypeFragment.getType()!!.id
 
-        mViewModel.insertRecord(mCurrentType, mOptionFragment.getNewAssets(), record).observe(this, Observer {
+        val recordType = if (mCurrentType == RecordType.TYPE_OUTLAY)
+            mOutlayTypeFragment.getType()!!
+        else
+            mIncomeTypeFragment.getType()!!
+
+        record.recordTypeId = recordType.id
+
+        mViewModel.insertRecord(recordType, mOptionFragment.getNewAssets(), record).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> insertRecordDone()
                 is ErrorResource<Boolean> -> {
@@ -384,10 +395,12 @@ class AddRecordActivity : BaseActivity() {
         mRecord!!.money = BigDecimalUtil.yuan2FenBD(text)
         mRecord!!.remark = mOptionFragment.getRemark()
         mRecord!!.time = mOptionFragment.getDate()
-        mRecord!!.recordTypeId = if (mCurrentType == RecordType.TYPE_OUTLAY)
-            mOutlayTypeFragment.getType()!!.id
+
+        val recordType = if (mCurrentType == RecordType.TYPE_OUTLAY)
+            mOutlayTypeFragment.getType()!!
         else
-            mIncomeTypeFragment.getType()!!.id
+            mIncomeTypeFragment.getType()!!
+        mRecord!!.recordTypeId = recordType.id
 
         mViewModel.updateRecord(
             oldMoney,
@@ -395,7 +408,8 @@ class AddRecordActivity : BaseActivity() {
             mCurrentType,
             mOptionFragment.getOldAssets(),
             mOptionFragment.getNewAssets(),
-            mRecord!!
+            mRecord!!,
+            recordType
         ).observe(this, Observer {
             when (it) {
                 is SuccessResource<Boolean> -> {

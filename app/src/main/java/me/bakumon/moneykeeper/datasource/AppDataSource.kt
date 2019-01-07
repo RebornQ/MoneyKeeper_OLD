@@ -74,6 +74,8 @@ interface AppDataSource {
      */
     fun getAllRecordType(): LiveData<List<RecordType>>
 
+    fun getAllRecordTypeWithAsset(): LiveData<List<RecordTypeWithAsset>>
+
     /**
      * 获取指出或收入记账类型数据
      *
@@ -113,14 +115,14 @@ interface AppDataSource {
      *
      * @param record 记账记录实体
      */
-    fun insertRecord(type: Int, assets: Assets?, record: Record): Completable
+    fun insertRecord(recordType: RecordType, assets: Assets?, record: Record): Completable
 
     /**
      * 更新一条记账记录
      *
      * @param record 记录对象
      */
-    fun updateRecord(oldMoney: BigDecimal, oldType: Int, type: Int, oldAssets: Assets?, assets: Assets?, record: Record): Completable
+    fun updateRecord(oldMoney: BigDecimal, oldType: Int, type: Int, oldAssets: Assets?, assets: Assets?, record: Record, recordType: RecordType): Completable
 
     /**
      * 删除一天记账记录

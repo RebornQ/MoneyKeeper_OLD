@@ -24,20 +24,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.database.entity.RecordType
+import me.bakumon.moneykeeper.database.entity.RecordTypeWithAsset
 import me.bakumon.moneykeeper.utill.ResourcesUtil
 import me.drakeet.multitype.ItemViewBinder
 
 /**
  * @author Bakumon https://bakumon.me
  */
-class TypeViewBinder constructor(private val onClickItemListener: ((RecordType, Int) -> Unit)) : ItemViewBinder<RecordType, TypeViewBinder.ViewHolder>() {
+class TypeViewBinder constructor(private val onClickItemListener: ((RecordTypeWithAsset, Int) -> Unit)) : ItemViewBinder<RecordTypeWithAsset, TypeViewBinder.ViewHolder>() {
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): ViewHolder {
         val root = inflater.inflate(R.layout.item_record_type, parent, false)
         return ViewHolder(root)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, item: RecordType) {
+    override fun onBindViewHolder(holder: ViewHolder, item: RecordTypeWithAsset) {
         holder.ivTypeImg.setImageResource(ResourcesUtil.getTypeImgId(holder.ivTypeImg.context, item.imgName))
         holder.ivCheck.visibility = if (item.isChecked) View.VISIBLE else View.GONE
         holder.tvTypeName.text = item.name

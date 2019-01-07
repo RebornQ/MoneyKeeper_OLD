@@ -81,7 +81,11 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
                 }
             } else {
                 // 不存在，直接新增
-                val insertType = RecordType(name, imgName, type, System.currentTimeMillis())
+                val insertType = RecordType()
+                insertType.name = name
+                insertType.imgName = imgName
+                insertType.type = type
+                insertType.ranking = System.currentTimeMillis()
                 mAppDatabase.recordTypeDao().insertRecordTypes(insertType)
             }
             autoBackup()
@@ -154,6 +158,10 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         return mAppDatabase.recordTypeDao().getAllRecordTypes()
     }
 
+    override fun getAllRecordTypeWithAsset(): LiveData<List<RecordTypeWithAsset>> {
+        return mAppDatabase.recordTypeDao().getAllRecordTypesWithAsset()
+    }
+
     override fun getRecordTypes(type: Int): LiveData<List<RecordType>> {
         return mAppDatabase.recordTypeDao().getRecordTypes(type)
     }
@@ -196,11 +204,11 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         return TypeImgListCreator.createTypeImgBeanData(type)
     }
 
-    override fun insertRecord(type: Int, assets: Assets?, record: Record): Completable {
+    override fun insertRecord(recordType: RecordType, assets: Assets?, record: Record): Completable {
         return Completable.fromAction {
             mAppDatabase.recordDao().insertRecord(record)
             if (assets != null) {
-                if (type == RecordType.TYPE_OUTLAY) {
+                if (recordType.type == RecordType.TYPE_OUTLAY) {
                     assets.money = assets.money.subtract(record.money)
                 } else {
                     assets.money = assets.money.add(record.money)
@@ -210,6 +218,11 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
             // 保存常用备注
             if (!TextUtils.isEmpty(record.remark)) {
                 mAppDatabase.labelDao().insertLabel(Label(record.remark!!))
+            }
+            // 更新分类类型对应的资产
+            if (assets != null) {
+                recordType.assetsId = assets.id
+                mAppDatabase.recordTypeDao().updateRecordTypes(recordType)
             }
             autoBackup()
         }
@@ -221,7 +234,8 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         type: Int,
         oldAssets: Assets?,
         assets: Assets?,
-        record: Record
+        record: Record,
+        recordType: RecordType
     ): Completable {
         return Completable.fromAction {
             mAppDatabase.recordDao().updateRecords(record)
@@ -306,6 +320,11 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
             // 保存常用备注
             if (!TextUtils.isEmpty(record.remark)) {
                 mAppDatabase.labelDao().insertLabel(Label(record.remark!!))
+            }
+            // 更新分类类型对应的资产
+            if (assets != null) {
+                recordType.assetsId = assets.id
+                mAppDatabase.recordTypeDao().updateRecordTypes(recordType)
             }
             autoBackup()
         }

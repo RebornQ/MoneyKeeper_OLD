@@ -35,7 +35,7 @@ import me.bakumon.moneykeeper.database.entity.*
  */
 @Database(
     entities = [Record::class, RecordType::class, Assets::class, AssetsModifyRecord::class, AssetsTransferRecord::class, Label::class],
-    version = 4
+    version = 5
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -106,6 +106,13 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_4_5: Migration = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // RecordType 表中添加字段 assets_id
+                database.execSQL("ALTER TABLE `RecordType` ADD COLUMN `assets_id` INTEGER")
+            }
+        }
+
         @Volatile
         private var INSTANCE: AppDatabase? = null
         val instance: AppDatabase?
@@ -121,7 +128,7 @@ abstract class AppDatabase : RoomDatabase() {
                                 * 导致恢复备份异常
                                 * */
                                 .setJournalMode(JournalMode.TRUNCATE)
-                                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                                 .build()
                         }
                     }
