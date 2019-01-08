@@ -182,7 +182,7 @@ class AddRecordActivity : BaseActivity() {
         }
 
         if (mIsTransfer) {
-            (typeChoose as RadioGroup).check(R.id.rbMiddle)
+            checkMiddle()
             typeChoose.visibility = View.GONE
             toolbarLayout.tvTitle.text = getString(R.string.text_transfer)
         }
@@ -197,9 +197,7 @@ class AddRecordActivity : BaseActivity() {
                     mOptionFragment.onTypeChecked(mOutlayTypeFragment.getType())
                 }
                 R.id.rbMiddle -> {
-                    mCurrentType = TYPE_TRANSFER
-                    mOptionFragment.setAssetsVisibility(false)
-                    viewPager.setCurrentItem(1, false)
+                    checkMiddle()
                 }
                 R.id.rbRight -> {
                     mCurrentType = RecordType.TYPE_INCOME
@@ -225,6 +223,12 @@ class AddRecordActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    private fun checkMiddle(){
+        mCurrentType = TYPE_TRANSFER
+        mOptionFragment.setAssetsVisibility(false)
+        viewPager.setCurrentItem(1, false)
     }
 
     /**
