@@ -98,9 +98,6 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
         )
         items.add(Card(linksText))
 
-        items.add(Category(getString(R.string.text_statement)))
-        items.add(Card(getString(R.string.text_statement_tip)))
-
         if (AndroidUtil.isZhRCN()) {
             // Android 应用友链
             RecommendedLoaderDelegate.attach(this, items.size, MoshiJsonConverter())

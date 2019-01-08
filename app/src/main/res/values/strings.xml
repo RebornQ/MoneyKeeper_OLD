@@ -288,8 +288,6 @@
     <string name="text_luck_screen_custom">使用指纹解锁界面</string>
     <string name="text_luck_screen_add">直接进入记一笔界面</string>
     <string name="text_luck_screen_add_tip">提示：从 Shortcut 进入或打开快速记账，不需要解锁</string>
-    <string name="text_statement">声明</string>
-    <string name="text_statement_tip">「那样记账」为开源软件，本人编译上架的市场目前只有酷安和 Google Play，包名都为 me.bakumon.moneykeeper，其他市场不同名称或包名的极相似应用可能是其他人获取源码后修改的版本。</string>
 
     <!-- 云备份 -->
     <string name="text_webdav">WebDAV云盘</string>
