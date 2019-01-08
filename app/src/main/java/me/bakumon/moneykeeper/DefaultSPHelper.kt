@@ -219,4 +219,24 @@ object DefaultSPHelper {
             "versionCode",
             value
         ).apply()
+
+    /**
+     * 记录上次使用的资产账户
+     */
+    private val lastAsset: String?
+        get() = PreferenceManager.getDefaultSharedPreferences(App.instance).getString("lastAsset", "onlyOne")
+
+    /**
+     * 记录上次使用的资产账户
+     * 只记录一个统一的资产账户
+     */
+    val isLastAssetOnlyOne: Boolean
+        get() = TextUtils.equals(lastAsset, "onlyOne")
+
+    /**
+     * 记录上次使用的资产账户
+     * 按分类记录资产账户
+     */
+    val isLastAssetByType: Boolean
+        get() = TextUtils.equals(lastAsset, "byType")
 }

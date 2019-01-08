@@ -24,6 +24,7 @@ import me.bakumon.moneykeeper.base.Resource
 import me.bakumon.moneykeeper.database.entity.Assets
 import me.bakumon.moneykeeper.database.entity.AssetsTransferRecord
 import me.bakumon.moneykeeper.database.entity.Record
+import me.bakumon.moneykeeper.database.entity.RecordType
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
 import java.math.BigDecimal
@@ -35,11 +36,11 @@ import java.math.BigDecimal
  */
 class AddRecordViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
 
-    fun insertRecord(type: Int, assets: Assets?, record: Record): LiveData<Resource<Boolean>> {
+    fun insertRecord(recordType: RecordType, assets: Assets?, record: Record): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
 
         record.assetsId = if (assets == null) -1 else assets.id!!
-        mDisposable.add(mDataSource.insertRecord(type, assets, record)
+        mDisposable.add(mDataSource.insertRecord(recordType, assets, record)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -65,11 +66,11 @@ class AddRecordViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) 
         return liveData
     }
 
-    fun updateRecord(oldMoney: BigDecimal, oldType: Int, type: Int, oldAssets: Assets?, assets: Assets?, record: Record): LiveData<Resource<Boolean>> {
+    fun updateRecord(oldMoney: BigDecimal, oldType: Int, type: Int, oldAssets: Assets?, assets: Assets?, record: Record, recordType: RecordType): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
 
         record.assetsId = if (assets == null) -1 else assets.id!!
-        mDisposable.add(mDataSource.updateRecord(oldMoney, oldType, type, oldAssets, assets, record)
+        mDisposable.add(mDataSource.updateRecord(oldMoney, oldType, type, oldAssets, assets, record, recordType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

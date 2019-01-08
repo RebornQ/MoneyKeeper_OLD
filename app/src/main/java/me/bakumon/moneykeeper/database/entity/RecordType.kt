@@ -25,17 +25,17 @@ import java.io.Serializable
  * @author bakumon https://bakumon.me
  */
 @Entity(indices = [Index("type", "ranking", "state")])
-class RecordType : Serializable {
+open class RecordType : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
-    var name: String?
+    var name: String? = null
 
     /**
      * 图片 name（本地mipmap）
      */
     @ColumnInfo(name = "img_name")
-    var imgName: String?
+    var imgName: String? = null
     /**
      * 类型
      * 0：支出
@@ -72,36 +72,41 @@ class RecordType : Serializable {
     @Ignore
     var isSetting: Boolean = false
 
-    @Ignore
-    constructor(name: String, imgName: String, type: Int) {
-        this.name = name
-        this.imgName = imgName
-        this.type = type
-    }
+    @ColumnInfo(name = "assets_id")
+    var assetsId: Int? = -1
 
-    @Ignore
-    constructor(name: String, type: Int, isSetting: Boolean) {
-        this.name = name
-        this.imgName = "type_item_setting"
-        this.type = type
-        this.isSetting = isSetting
-    }
+//    @Ignore
+//    constructor(name: String, imgName: String, type: Int) {
+//        this.name = name
+//        this.imgName = imgName
+//        this.type = type
+//    }
 
-    @Ignore
-    constructor(name: String, imgName: String, type: Int, ranking: Long) {
-        this.name = name
-        this.imgName = imgName
-        this.type = type
-        this.ranking = ranking
-    }
-
-    constructor(id: Int, name: String, imgName: String, type: Int, ranking: Long) {
-        this.id = id
-        this.name = name
-        this.imgName = imgName
-        this.type = type
-        this.ranking = ranking
-    }
+//    @Ignore
+//    constructor(name: String, type: Int, isSetting: Boolean) {
+//        this.name = name
+//        this.imgName = "type_item_setting"
+//        this.type = type
+//        this.isSetting = isSetting
+//    }
+//
+//    @Ignore
+//    constructor(name: String, imgName: String, type: Int, ranking: Long) {
+//        this.name = name
+//        this.imgName = imgName
+//        this.type = type
+//        this.ranking = ranking
+//    }
+//
+//    constructor(id: Int, name: String, imgName: String, type: Int, ranking: Long) {
+//        this.id = id
+//        this.name = name
+//        this.imgName = imgName
+//        this.type = type
+//        this.ranking = ranking
+//    }
+//
+//    constructor()
 
     companion object {
         @Ignore

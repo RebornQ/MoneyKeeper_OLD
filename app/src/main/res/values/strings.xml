@@ -167,6 +167,7 @@
     <string name="text_successive_record">连续记账</string>
     <string name="text_successive_record_tip">提示：长按首页添加按钮，连续记账</string>
     <string name="text_lock_record">锁定记录</string>
+    <string name="text_last_asset">记录上次使用的资产账户</string>
     <string name="text_lock_record_off">记录可以编辑、删除</string>
     <string name="text_lock_record_on">记录不可以编辑、删除</string>
     <string name="text_manager">管理</string>
@@ -249,6 +250,16 @@
         <item>off</item>
         <item>openApp</item>
         <item>quitApp</item>
+    </string-array>
+
+    <string-array name="last_asset_titles">
+        <item>只记录一个统一的资产账户</item>
+        <item>按分类记录资产账户</item>
+    </string-array>
+
+    <string-array name="last_asset_values">
+        <item>onlyOne</item>
+        <item>byType</item>
     </string-array>
 
     <!-- 关于 -->

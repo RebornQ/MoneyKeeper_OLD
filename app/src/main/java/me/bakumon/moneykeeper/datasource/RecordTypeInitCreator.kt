@@ -38,35 +38,75 @@ object RecordTypeInitCreator {
         var type: RecordType
 
         // 支出
-        type = RecordType(res.getString(R.string.type_eat), "type_eat", 0, 0)
+        type = RecordType()
+        type.name = res.getString(R.string.type_eat)
+        type.imgName = "type_eat"
+        type.type = 0
+        type.ranking = 0
         list.add(type)
 
-        type = RecordType(res.getString(R.string.type_calendar), "type_calendar", 0, 1)
+        type = RecordType()
+        type.name = res.getString(R.string.type_calendar)
+        type.imgName = "type_calendar"
+        type.type = 0
+        type.ranking = 1
         list.add(type)
 
-        type = RecordType(res.getString(R.string.type_3c), "type_3c", 0, 2)
+        type = RecordType()
+        type.name = res.getString(R.string.type_3c)
+        type.imgName = "type_3c"
+        type.type = 0
+        type.ranking = 2
         list.add(type)
 
-        type = RecordType(res.getString(R.string.type_clothes), "type_clothes", 0, 3)
+        type = RecordType()
+        type.name = res.getString(R.string.type_clothes)
+        type.imgName = "type_clothes"
+        type.type = 0
+        type.ranking = 3
         list.add(type)
 
-        type = RecordType(res.getString(R.string.type_pill), "type_pill", 0, 4)
+        type = RecordType()
+        type.name = res.getString(R.string.type_pill)
+        type.imgName = "type_pill"
+        type.type = 0
+        type.ranking = 4
         list.add(type)
 
-        type = RecordType(res.getString(R.string.type_candy), "type_candy", 0, 5)
+        type = RecordType()
+        type.name = res.getString(R.string.type_candy)
+        type.imgName = "type_candy"
+        type.type = 0
+        type.ranking = 5
         list.add(type)
 
-        type = RecordType(res.getString(R.string.type_humanity), "type_humanity", 0, 6)
+        type = RecordType()
+        type.name = res.getString(R.string.type_humanity)
+        type.imgName = "type_humanity"
+        type.type = 0
+        type.ranking = 6
         list.add(type)
 
-        type = RecordType(res.getString(R.string.type_pet), "type_pet", 0, 7)
+        type = RecordType()
+        type.name = res.getString(R.string.type_pet)
+        type.imgName = "type_pet"
+        type.type = 0
+        type.ranking = 7
         list.add(type)
 
         // 收入
-        type = RecordType(res.getString(R.string.type_salary), "type_salary", 1, 0)
+        type = RecordType()
+        type.name = res.getString(R.string.type_salary)
+        type.imgName = "type_salary"
+        type.type = 1
+        type.ranking = 0
         list.add(type)
 
-        type = RecordType(res.getString(R.string.type_pluralism), "type_pluralism", 1, 1)
+        type = RecordType()
+        type.name = res.getString(R.string.type_pluralism)
+        type.imgName = "type_pluralism"
+        type.type = 1
+        type.ranking = 1
         list.add(type)
 
         return list.toTypedArray()

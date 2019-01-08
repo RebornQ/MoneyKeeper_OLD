@@ -18,6 +18,7 @@ package me.bakumon.moneykeeper.ui.add.recordtype
 
 import androidx.lifecycle.LiveData
 import me.bakumon.moneykeeper.database.entity.RecordType
+import me.bakumon.moneykeeper.database.entity.RecordTypeWithAsset
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
 
@@ -30,5 +31,8 @@ class RecordTypeViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource)
 
     val allRecordTypes: LiveData<List<RecordType>>
         get() = mDataSource.getAllRecordType()
+
+    val allRecordTypesWithAsset: LiveData<List<RecordTypeWithAsset>>
+        get() = mDataSource.getAllRecordTypeWithAsset()
 
 }

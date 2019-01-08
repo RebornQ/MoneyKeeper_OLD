@@ -31,6 +31,7 @@ import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.database.entity.Assets
 import me.bakumon.moneykeeper.database.entity.Label
+import me.bakumon.moneykeeper.database.entity.RecordTypeWithAsset
 import me.bakumon.moneykeeper.ui.add.AssetsChooseViewBinder
 import me.bakumon.moneykeeper.ui.assets.choose.ChooseAssetsActivity
 import me.bakumon.moneykeeper.ui.common.BaseFragment
@@ -94,11 +95,15 @@ class OptionFragment : BaseFragment() {
         }
 
         if (!mIsModify) {
-            val savedAssetsId = DefaultSPHelper.assetsId
-            if (savedAssetsId == -1) {
-                updateAccountView(name = getString(R.string.text_no_choose_account))
+            if (DefaultSPHelper.isLastAssetOnlyOne) {
+                val savedAssetsId = DefaultSPHelper.assetsId
+                if (savedAssetsId == -1) {
+                    updateAccountView(name = getString(R.string.text_no_choose_account))
+                } else {
+                    getAssetsAccount(savedAssetsId)
+                }
             } else {
-                getAssetsAccount(savedAssetsId)
+                updateAccountView(name = getString(R.string.text_no_choose_account))
             }
         } else {
             if (isShowChooseAssets) {
@@ -317,6 +322,19 @@ class OptionFragment : BaseFragment() {
 
     fun getDate(): Date? {
         return mCurrentChooseDate
+    }
+
+    fun onTypeChecked(type: RecordTypeWithAsset?) {
+        if (!DefaultSPHelper.isLastAssetByType) {
+            return
+        }
+        if (type?.mAssets?.singleOrNull() != null) {
+            mAssets = type.mAssets?.get(0)!!
+            updateAccountView(mAssets!!.imgName, mAssets!!.name)
+        } else {
+            mAssets = null
+            updateAccountView(name = getString(R.string.text_no_choose_account))
+        }
     }
 
     companion object {

@@ -52,7 +52,12 @@ class AddTypeViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
             mDataSource.addRecordType(type, imgName, name)
         } else {
             // 修改
-            val updateType = RecordType(recordType.id, name, imgName, recordType.type, recordType.ranking)
+            val updateType = RecordType()
+            updateType.id = recordType.id
+            updateType.name = name
+            updateType.imgName = imgName
+            updateType.type = recordType.type
+            updateType.ranking = recordType.ranking
             updateType.state = recordType.state
             mDataSource.updateRecordType(recordType, updateType)
         }

@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_record_type.*
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.RecordType
+import me.bakumon.moneykeeper.database.entity.RecordTypeWithAsset
 import me.bakumon.moneykeeper.ui.common.BaseFragment
 
 /**
@@ -37,6 +38,7 @@ class RecordTypeFragment : BaseFragment() {
 
     private var mRecord: RecordForList? = null
     private var mType: Int = RecordType.TYPE_OUTLAY
+    private var mOnCheckTypeListener: ((RecordTypeWithAsset) -> Unit)? = null
 
     override val layoutId: Int
         get() = R.layout.fragment_record_type
@@ -49,6 +51,7 @@ class RecordTypeFragment : BaseFragment() {
 
         mViewModel = getViewModel()
         getAllRecordTypes()
+        typePage.setOnCheckTypeListener { mOnCheckTypeListener?.invoke(it) }
     }
 
     override fun lazyInitData() {
@@ -56,13 +59,17 @@ class RecordTypeFragment : BaseFragment() {
     }
 
     private fun getAllRecordTypes() {
-        mViewModel.allRecordTypes.observe(this, Observer {
+        mViewModel.allRecordTypesWithAsset.observe(this, Observer {
             typePage.setItems(it, mType, mRecord)
         })
     }
 
-    fun getType(): RecordType? {
+    fun getType(): RecordTypeWithAsset? {
         return typePage.currentItem
+    }
+
+    fun setOnCheckTypeListener(listener: ((RecordTypeWithAsset) -> Unit)){
+        mOnCheckTypeListener = listener
     }
 
     companion object {
