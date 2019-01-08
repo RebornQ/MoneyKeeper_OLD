@@ -52,15 +52,14 @@ abstract class AbsTwoTabActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        typeChoose = findViewById(R.id.typeChoose)
-        typeChoose.rbLeft.text = getTwoTabText()[0]
-        typeChoose.rbRight.text = getTwoTabText()[1]
     }
 
     protected abstract fun getTwoFragments(): ArrayList<Fragment>
 
     override fun onInit(savedInstanceState: Bundle?) {
+        typeChoose = findViewById(R.id.typeChoose)
+        typeChoose.rbLeft.text = getTwoTabText()[0]
+        typeChoose.rbRight.text = getTwoTabText()[1]
         val adapter = FragmentViewPagerAdapter(supportFragmentManager, getTwoFragments())
         viewPager = findViewById(R.id.viewPager)
         viewPager.adapter = adapter
