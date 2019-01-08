@@ -58,7 +58,7 @@ class StatisticsActivity : AbsTwoTabActivity() {
 
     override fun onSetupTitle(tvTitle: TextView) {
         toolbarLayout.tvTitle.text = DateUtils.getCurrentYearMonth()
-        toolbarLayout.tvTitle.setOnClickListener { chooseMonth() }
+//        toolbarLayout.tvTitle.setOnClickListener { chooseMonth() }
     }
 
     override fun getTwoTabText(): ArrayList<String> {
