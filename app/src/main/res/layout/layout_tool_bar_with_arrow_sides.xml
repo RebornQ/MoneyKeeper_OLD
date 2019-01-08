@@ -26,8 +26,9 @@
             android:layout_gravity="center"
             android:layout_height="wrap_content">
         <ImageView
+                android:id="@+id/ivLeft"
                 android:layout_width="wrap_content"
-                android:src="@drawable/ic_arrow_down"
+                android:src="@drawable/ic_left"
                 android:clickable="true"
                 android:focusable="true"
                 android:padding="8dp"
@@ -38,8 +39,9 @@
                 style="@style/ToolBar.Title"
                 tools:text="TITLE"/>
         <ImageView
+                android:id="@+id/ivRight"
                 android:layout_width="wrap_content"
-                android:src="@drawable/ic_arrow_down"
+                android:src="@drawable/ic_right"
                 android:padding="8dp"
                 android:clickable="true"
                 android:background="?android:actionBarItemBackground"

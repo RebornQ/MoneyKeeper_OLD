@@ -18,11 +18,13 @@ package me.bakumon.moneykeeper.ui.statistics
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.activity_two_tab.*
-import kotlinx.android.synthetic.main.layout_tool_bar.view.*
+import kotlinx.android.synthetic.main.activity_statistics.*
+import kotlinx.android.synthetic.main.layout_tool_bar_with_arrow_sides.view.*
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.ui.common.AbsTwoTabActivity
 import me.bakumon.moneykeeper.ui.review.ReviewActivity
@@ -43,10 +45,19 @@ class StatisticsActivity : AbsTwoTabActivity() {
     private var mCurrentYear = DateUtils.getCurrentYear()
     private var mCurrentMonth = DateUtils.getCurrentMonth()
 
+    override val layoutId: Int
+        get() = R.layout.activity_statistics
+
+    override fun onInitView(savedInstanceState: Bundle?) {
+        val toolbar: Toolbar = findViewById(R.id.toolbarLayout)
+        onSetupTitle(toolbar.tvTitle)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
     override fun onSetupTitle(tvTitle: TextView) {
         toolbarLayout.tvTitle.text = DateUtils.getCurrentYearMonth()
-        toolbarLayout.tvTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
-        toolbarLayout.tvTitle.compoundDrawablePadding = 10
         toolbarLayout.tvTitle.setOnClickListener { chooseMonth() }
     }
 
