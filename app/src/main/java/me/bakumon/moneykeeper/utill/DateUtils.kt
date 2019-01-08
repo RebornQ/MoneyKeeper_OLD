@@ -386,4 +386,13 @@ object DateUtils {
             date2String(date, YEAR_MONTH_DAY_FORMAT)
         }
     }
+
+    data class Result(val startDate: Date, val endDate: Date)
+    fun test(): Result {
+        // 计算
+        // TODO
+
+        return Result(Date(), Date())
+    }
+
 }
