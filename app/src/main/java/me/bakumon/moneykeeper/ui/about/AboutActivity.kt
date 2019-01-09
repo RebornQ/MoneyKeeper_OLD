@@ -93,8 +93,7 @@ class AboutActivity : AbsAboutActivity(), OnRecommendedClickedListener, OnContri
             Constant.TG_GROUP,
             Constant.AUTHOR_EMAIL,
             Constant.URL_CHANGELOG,
-            Constant.APP_OPEN_SOURCE_URL,
-            Constant.URL_GREEN_ANDROID
+            Constant.APP_OPEN_SOURCE_URL
         )
         items.add(Card(linksText))
 
