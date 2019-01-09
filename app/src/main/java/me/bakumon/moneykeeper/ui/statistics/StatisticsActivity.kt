@@ -31,6 +31,7 @@ import me.bakumon.moneykeeper.ui.review.ReviewActivity
 import me.bakumon.moneykeeper.ui.statistics.bill.BillFragment
 import me.bakumon.moneykeeper.ui.statistics.reports.ReportsFragment
 import me.bakumon.moneykeeper.utill.DateUtils
+import me.bakumon.moneykeeper.utill.ToastUtils
 import java.util.*
 
 /**
@@ -58,7 +59,8 @@ class StatisticsActivity : AbsTwoTabActivity() {
 
     override fun onSetupTitle(tvTitle: TextView) {
         toolbarLayout.tvTitle.text = DateUtils.getCurrentYearMonth()
-        val (result, status) = DateUtils.test()
+        val (result, status, displayDate) = DateUtils.getCustomCurrentMonth()
+        ToastUtils.show(displayDate)
 
 //        toolbarLayout.tvTitle.setOnClickListener { chooseMonth() }
     }
