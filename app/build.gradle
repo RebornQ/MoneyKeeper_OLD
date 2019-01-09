@@ -28,6 +28,7 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+        manifestPlaceholders = [FABRIC_API_KEY: keystoreProperties['FABRIC_API_KEY']]
     }
     // MaterialDateTimePicker 库用到了 java8 的特性
     compileOptions {
