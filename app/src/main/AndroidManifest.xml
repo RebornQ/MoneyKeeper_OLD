@@ -40,7 +40,7 @@
             tools:ignore="GoogleAppIndexingWarning">
         <meta-data
                 android:name="io.fabric.ApiKey"
-                android:value="78cc0e1b5afde4c17c153efa4cf5bcb10265d7e1"/>
+                android:value="${FABRIC_API_KEY}"/>
         <activity-alias
                 android:name=".LauncherActivity"
                 android:targetActivity=".ui.LauncherActivity">

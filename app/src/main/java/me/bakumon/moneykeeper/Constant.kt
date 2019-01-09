@@ -27,7 +27,6 @@ object Constant {
     const val URL_CHANGELOG = "http://t.cn/E4cB8oC"
     const val AUTHOR_URL = "https://github.com/Bakumon"
     const val APP_OPEN_SOURCE_URL = "https://github.com/Bakumon/MoneyKeeper"
-    const val URL_GREEN_ANDROID = "https://green-android.org/"
 
     fun getUrlTucao(): String {
         val baseUrl = "https://support.qq.com/product/" + if (BuildConfig.DEBUG) "41006" else "41058"
