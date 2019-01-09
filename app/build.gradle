@@ -56,11 +56,13 @@ android {
             versionNameSuffix ".debug"
             applicationIdSuffix ".debug"
             resValue "string", "packageName", "me.bakumon.moneykeeper.debug"
+            resValue "string", "app_name", "那样记账ß"
         }
         release {
             // 签名
             signingConfig signingConfigs.release
             resValue "string", "packageName", "me.bakumon.moneykeeper"
+            resValue "string", "app_name", "那样记账"
             // Zipalign优化
             zipAlignEnabled true
             // 移除无用的resource文件
