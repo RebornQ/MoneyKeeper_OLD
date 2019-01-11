@@ -44,11 +44,11 @@ class TypeRecordsActivity : AbsTwoTabActivity() {
     override fun getTwoFragments(): ArrayList<Fragment> {
         val mRecordType = intent.getIntExtra(KEY_RECORD_TYPE, 0)
         val mRecordTypeId = intent.getIntExtra(KEY_RECORD_TYPE_ID, 0)
-        val mYear = intent.getIntExtra(KEY_YEAR, 0)
-        val mMonth = intent.getIntExtra(KEY_MONTH, 0)
+        val dateFrom = intent.getSerializableExtra(KEY_DATE_FROM) as Date
+        val dateTo = intent.getSerializableExtra(KEY_DATE_TO) as Date
 
-        val timeSortFragment = TypeRecordsByTimeFragment.newInstance(mRecordType, mRecordTypeId, mYear, mMonth)
-        val moneySortFragment = TypeRecordsByMoneyFragment.newInstance(mRecordType, mRecordTypeId, mYear, mMonth)
+        val timeSortFragment = TypeRecordsByTimeFragment.newInstance(mRecordType, mRecordTypeId, dateFrom, dateTo)
+        val moneySortFragment = TypeRecordsByMoneyFragment.newInstance(mRecordType, mRecordTypeId, dateFrom, dateTo)
 
         return arrayListOf(timeSortFragment, moneySortFragment)
     }
@@ -57,15 +57,15 @@ class TypeRecordsActivity : AbsTwoTabActivity() {
         private const val KEY_TYPE_NAME = "KEY_TYPE_NAME"
         private const val KEY_RECORD_TYPE = "KEY_RECORD_TYPE"
         private const val KEY_RECORD_TYPE_ID = "KEY_RECORD_TYPE_ID"
-        private const val KEY_YEAR = "KEY_YEAR"
-        private const val KEY_MONTH = "KEY_MONTH"
-        fun open(context: Context, name: String, recordType: Int, recordTypeId: Int, year: Int, month: Int) {
+        private const val KEY_DATE_FROM = "KEY_DATE_FROM"
+        private const val KEY_DATE_TO = "KEY_DATE_TO"
+        fun open(context: Context, name: String, recordType: Int, recordTypeId: Int, dateFrom: Date, dateTo: Date) {
             val intent = Intent(context, TypeRecordsActivity::class.java)
             intent.putExtra(KEY_TYPE_NAME, name)
             intent.putExtra(KEY_RECORD_TYPE, recordType)
             intent.putExtra(KEY_RECORD_TYPE_ID, recordTypeId)
-            intent.putExtra(KEY_YEAR, year)
-            intent.putExtra(KEY_MONTH, month)
+            intent.putExtra(KEY_DATE_FROM, dateFrom)
+            intent.putExtra(KEY_DATE_TO, dateTo)
             context.startActivity(intent)
         }
     }

@@ -24,7 +24,7 @@ import me.bakumon.moneykeeper.base.Resource
 import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
-import me.bakumon.moneykeeper.utill.DateUtils
+import java.util.*
 
 /**
  * 某一类型的记账记录
@@ -33,9 +33,13 @@ import me.bakumon.moneykeeper.utill.DateUtils
  */
 class TypeRecordsViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
 
-    fun getRecordForListWithTypes(sortType: Int, type: Int, typeId: Int, year: Int, month: Int): LiveData<List<RecordForList>> {
-        val dateFrom = DateUtils.getMonthStart(year, month)
-        val dateTo = DateUtils.getMonthEnd(year, month)
+    fun getRecordForListWithTypes(
+        sortType: Int,
+        type: Int,
+        typeId: Int,
+        dateFrom: Date,
+        dateTo: Date
+    ): LiveData<List<RecordForList>> {
         return if (sortType == 0) {
             mDataSource.getRangeRecordForListWithTypesByTypeId(dateFrom, dateTo, type, typeId)
         } else {
@@ -46,14 +50,14 @@ class TypeRecordsViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource
     fun deleteRecord(record: RecordForList): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.deleteRecord(record)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    liveData.value = Resource.create(true)
-                }
-                ) { throwable ->
-                    liveData.value = Resource.create(throwable)
-                })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                liveData.value = Resource.create(true)
+            }
+            ) { throwable ->
+                liveData.value = Resource.create(throwable)
+            })
         return liveData
     }
 }

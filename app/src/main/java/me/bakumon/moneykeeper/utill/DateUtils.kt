@@ -386,31 +386,4 @@ object DateUtils {
             date2String(date, YEAR_MONTH_DAY_FORMAT)
         }
     }
-
-    data class Result(val startDate: Date, val endDate: Date, val displayDate: String)
-
-    fun getCustomCurrentMonth(): Result {
-
-        val customStartDay = 1
-
-        if (customStartDay == 1) {
-            //
-            val calendar = Calendar.getInstance()
-            val displayDate = date2String(calendar.time, FORMAT)
-            val year = DateUtils.getCurrentYear()
-            val month = DateUtils.getCurrentMonth()
-            val startDate = DateUtils.getMonthStart(year, month)
-            val endDate = DateUtils.getMonthEnd(year, month)
-            return Result(startDate, endDate, displayDate)
-        } else if (customStartDay <= 28) {
-
-        }
-
-
-        val calendar = Calendar.getInstance()
-        val displayDate = date2String(calendar.time, FORMAT)
-
-        return Result(Date(), Date(), displayDate)
-    }
-
 }

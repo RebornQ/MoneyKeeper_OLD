@@ -31,19 +31,20 @@
                 android:src="@drawable/ic_left"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="6dp"
+                android:padding="5dp"
                 android:background="?android:actionBarItemBackground"
                 android:layout_height="wrap_content"/>
         <TextView
                 android:id="@+id/tvTitle"
                 style="@style/ToolBar.Title"
                 android:padding="2dp"
+                android:textSize="18sp"
                 tools:text="TITLE"/>
         <ImageView
                 android:id="@+id/ivRight"
                 android:layout_width="wrap_content"
                 android:src="@drawable/ic_right"
-                android:padding="6dp"
+                android:padding="5dp"
                 android:clickable="true"
                 android:background="?android:actionBarItemBackground"
                 android:focusable="true"
