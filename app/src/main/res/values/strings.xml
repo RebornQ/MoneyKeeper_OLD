@@ -168,6 +168,8 @@
     <string name="text_successive_record_tip">提示：长按首页添加按钮，连续记账</string>
     <string name="text_lock_record">锁定记录</string>
     <string name="text_last_asset">记录上次使用的资产账户</string>
+    <string name="text_custom">个性化</string>
+    <string name="text_start_day_of_month">月起始日</string>
     <string name="text_lock_record_off">记录可以编辑、删除</string>
     <string name="text_lock_record_on">记录不可以编辑、删除</string>
     <string name="text_manager">管理</string>

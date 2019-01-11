@@ -168,6 +168,8 @@
     <string name="text_successive_record_tip">Tip:Long press home add button, continuous accounting</string>
     <string name="text_lock_record">Lock Record</string>
     <string name="text_last_asset">Record the last used asset</string>
+    <string name="text_custom">Individuation</string>
+    <string name="text_start_day_of_month">Starting date of the month</string>
     <string name="text_lock_record_off">Records can be edited and deleted</string>
     <string name="text_lock_record_on">Records cannot be edited or deleted</string>
     <string name="text_manager">Manager</string>

@@ -70,6 +70,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+            android:title="@string/text_custom"
+            android:key="custom"
+            app:iconSpaceReserved="false">
+
+        <me.bakumon.moneykeeper.ui.settings.DayOfMonthPreference
+                android:key="monthStartDay"
+                android:title="@string/text_start_day_of_month"
+                android:defaultValue="1"
+                app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
             android:title="@string/text_manager"
             android:key="manager"
             app:iconSpaceReserved="false">
