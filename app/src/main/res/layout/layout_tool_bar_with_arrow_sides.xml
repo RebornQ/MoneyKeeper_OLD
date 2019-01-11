@@ -43,7 +43,7 @@
         <ImageView
                 android:id="@+id/ivRight"
                 android:layout_width="wrap_content"
-                android:src="@drawable/ic_right"
+                android:src="@drawable/selector_ic_right"
                 android:padding="5dp"
                 android:clickable="true"
                 android:background="?android:actionBarItemBackground"
