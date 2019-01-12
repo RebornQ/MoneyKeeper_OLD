@@ -41,19 +41,6 @@ class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet
         this.axisLeft.axisMinimum = 0f
         this.axisLeft.isEnabled = false
         this.axisRight.isEnabled = false
-        val xAxis = this.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
-        xAxis.textColor = ContextCompat.getColor(context, R.color.colorTextHint)
-        xAxis.labelCount = 5
-        xAxis.setValueFormatter { value, _ ->
-            val intValue = value.toInt()
-            if (intValue >= 0) {
-                intValue.toString() + context.getString(R.string.text_day)
-            } else {
-                ""
-            }
-        }
 
         val mv = BarChartMarkerView(context)
         mv.chartView = this
@@ -70,6 +57,21 @@ class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         val dateList = DateUtils.getRangeDate(dateFrom, dateTo)
         val barEntries = BarEntryConverter.getBarEntryList(dateList, daySumMoneyBeans)
+
+        // x 轴显示日期
+        val xAxis = this.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.textColor = ContextCompat.getColor(context, R.color.colorTextHint)
+        xAxis.axisMinimum = 0F
+        xAxis.setValueFormatter { value, _ ->
+            val intValue = value.toInt()
+            if (intValue >= 0 && intValue < dateList.size) {
+                DateUtils.date2MonthDay(dateList[intValue])
+            } else {
+                ""
+            }
+        }
 
         val set1: BarDataSet
         if (this.data != null && this.data.dataSetCount > 0) {
