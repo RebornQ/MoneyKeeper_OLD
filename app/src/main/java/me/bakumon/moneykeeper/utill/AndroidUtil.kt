@@ -59,6 +59,13 @@ object AndroidUtil {
      * 判断是否是简体中文环境
      */
     fun isZhRCN(): Boolean {
-        return "简体字" == App.instance.getString(R.string.text_zh)
+        return "简体" == App.instance.getString(R.string.text_i18n)
+    }
+
+    /**
+     * 判断是否是中文环境
+     */
+    fun isCN(): Boolean {
+        return "简体" == App.instance.getString(R.string.text_i18n) || "繁體" == App.instance.getString(R.string.text_i18n)
     }
 }

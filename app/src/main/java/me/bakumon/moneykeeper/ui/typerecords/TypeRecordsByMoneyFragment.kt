@@ -32,6 +32,7 @@ import me.bakumon.moneykeeper.widget.WidgetProvider
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.register
+import java.util.*
 
 /**
  * 某一类型记账记录
@@ -46,8 +47,9 @@ class TypeRecordsByMoneyFragment : BaseFragment() {
 
     private var mRecordType: Int = 0
     private var mRecordTypeId: Int = 0
-    private var mYear: Int = 0
-    private var mMonth: Int = 0
+
+    private lateinit var dateFrom: Date
+    private lateinit var dateTo: Date
 
     override val layoutId: Int
         get() = R.layout.layout_list
@@ -57,8 +59,8 @@ class TypeRecordsByMoneyFragment : BaseFragment() {
         if (bundle != null) {
             mRecordType = bundle.getInt(KEY_RECORD_TYPE)
             mRecordTypeId = bundle.getInt(KEY_RECORD_TYPE_ID)
-            mYear = bundle.getInt(KEY_YEAR)
-            mMonth = bundle.getInt(KEY_MONTH)
+            dateFrom = bundle.getSerializable(KEY_DATE_FROM) as Date
+            dateTo = bundle.getSerializable(KEY_DATE_TO) as Date
         }
 
         mAdapter = MultiTypeAdapter()
@@ -89,7 +91,7 @@ class TypeRecordsByMoneyFragment : BaseFragment() {
     }
 
     private fun getData() {
-        mViewModel.getRecordForListWithTypes(1, mRecordType, mRecordTypeId, mYear, mMonth).observe(this, Observer {
+        mViewModel.getRecordForListWithTypes(1, mRecordType, mRecordTypeId, dateFrom, dateTo).observe(this, Observer {
             if (it != null) {
                 setItems(it)
             }
@@ -110,16 +112,16 @@ class TypeRecordsByMoneyFragment : BaseFragment() {
     companion object {
         private const val KEY_RECORD_TYPE = "KEY_RECORD_TYPE"
         private const val KEY_RECORD_TYPE_ID = "KEY_RECORD_TYPE_ID"
-        private const val KEY_YEAR = "KEY_YEAR"
-        private const val KEY_MONTH = "KEY_MONTH"
+        private const val KEY_DATE_FROM = "KEY_DATE_FROM"
+        private const val KEY_DATE_TO = "KEY_DATE_TO"
 
-        fun newInstance(recordType: Int, recordTypeId: Int, year: Int, month: Int): TypeRecordsByMoneyFragment {
+        fun newInstance(recordType: Int, recordTypeId: Int, dateFrom: Date, dateTo: Date): TypeRecordsByMoneyFragment {
             val fragment = TypeRecordsByMoneyFragment()
             val bundle = Bundle()
             bundle.putInt(KEY_RECORD_TYPE, recordType)
             bundle.putInt(KEY_RECORD_TYPE_ID, recordTypeId)
-            bundle.putInt(KEY_YEAR, year)
-            bundle.putInt(KEY_MONTH, month)
+            bundle.putSerializable(KEY_DATE_FROM, dateFrom)
+            bundle.putSerializable(KEY_DATE_TO, dateTo)
             fragment.arguments = bundle
             return fragment
         }

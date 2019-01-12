@@ -21,7 +21,7 @@ import me.bakumon.moneykeeper.database.entity.SumMoneyBean
 import me.bakumon.moneykeeper.database.entity.TypeSumMoneyBean
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
-import me.bakumon.moneykeeper.utill.DateUtils
+import java.util.*
 
 /**
  * 统计-报表
@@ -30,15 +30,11 @@ import me.bakumon.moneykeeper.utill.DateUtils
  */
 class ReportsViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
 
-    fun getMonthSumMoney(year: Int, month: Int): LiveData<List<SumMoneyBean>> {
-        val dateFrom = DateUtils.getMonthStart(year, month)
-        val dateTo = DateUtils.getMonthEnd(year, month)
+    fun getMonthSumMoney(dateFrom: Date, dateTo: Date): LiveData<List<SumMoneyBean>> {
         return mDataSource.getMonthSumMoneyLiveData(dateFrom, dateTo)
     }
 
-    fun getTypeSumMoney(year: Int, month: Int, type: Int): LiveData<List<TypeSumMoneyBean>> {
-        val dateFrom = DateUtils.getMonthStart(year, month)
-        val dateTo = DateUtils.getMonthEnd(year, month)
+    fun getTypeSumMoney(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<TypeSumMoneyBean>> {
         return mDataSource.getTypeSumMoney(dateFrom, dateTo, type)
     }
 

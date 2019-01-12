@@ -18,17 +18,19 @@ package me.bakumon.moneykeeper.ui.statistics
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.activity_two_tab.*
-import kotlinx.android.synthetic.main.layout_tool_bar.view.*
+import kotlinx.android.synthetic.main.activity_statistics.*
+import kotlinx.android.synthetic.main.layout_tool_bar_with_arrow_sides.view.*
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.ui.common.AbsTwoTabActivity
 import me.bakumon.moneykeeper.ui.review.ReviewActivity
 import me.bakumon.moneykeeper.ui.statistics.bill.BillFragment
 import me.bakumon.moneykeeper.ui.statistics.reports.ReportsFragment
-import me.bakumon.moneykeeper.utill.DateUtils
+import me.bakumon.moneykeeper.utill.DateTimeUtil
 import java.util.*
 
 /**
@@ -40,14 +42,37 @@ class StatisticsActivity : AbsTwoTabActivity() {
 
     private lateinit var mBillFragment: BillFragment
     private lateinit var mReportsFragment: ReportsFragment
-    private var mCurrentYear = DateUtils.getCurrentYear()
-    private var mCurrentMonth = DateUtils.getCurrentMonth()
+
+    /**
+     * 自定义月份偏移
+     */
+    private var beforeOffset: Long = 0
+
+    override val layoutId: Int
+        get() = R.layout.activity_statistics
+
+    override fun onInitView(savedInstanceState: Bundle?) {
+        val toolbar: Toolbar = findViewById(R.id.toolbarLayout)
+        onSetupTitle(toolbar.tvTitle)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        toolbarLayout.ivRight.isEnabled = false
+        toolbar.ivLeft.setOnClickListener {
+            beforeOffset += 1
+            onChooseCustomMonth()
+        }
+        toolbar.ivRight.setOnClickListener {
+            beforeOffset -= 1
+            onChooseCustomMonth()
+        }
+    }
 
     override fun onSetupTitle(tvTitle: TextView) {
-        toolbarLayout.tvTitle.text = DateUtils.getCurrentYearMonth()
-        toolbarLayout.tvTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down, 0)
-        toolbarLayout.tvTitle.compoundDrawablePadding = 10
-        toolbarLayout.tvTitle.setOnClickListener { chooseMonth() }
+        beforeOffset = 0
+        val (_, _, displayDate: String) = DateTimeUtil.getCustomMonth(beforeOffset)
+        tvTitle.text = displayDate
     }
 
     override fun getTwoTabText(): ArrayList<String> {
@@ -55,9 +80,9 @@ class StatisticsActivity : AbsTwoTabActivity() {
     }
 
     override fun getTwoFragments(): ArrayList<Fragment> {
-        mBillFragment = BillFragment()
-        mReportsFragment = ReportsFragment()
-
+        val (startDate: Date, endDate: Date, _) = DateTimeUtil.getCustomMonth()
+        mBillFragment = BillFragment.newInstance(startDate, endDate)
+        mReportsFragment = ReportsFragment.newInstance(startDate, endDate)
         return arrayListOf(mBillFragment, mReportsFragment)
     }
 
@@ -72,20 +97,12 @@ class StatisticsActivity : AbsTwoTabActivity() {
         return super.onOptionsItemSelected(menuItem)
     }
 
-    private fun chooseMonth() {
-        toolbarLayout.tvTitle.isEnabled = false
-        val chooseMonthDialog = ChooseMonthDialog(this, mCurrentYear, mCurrentMonth)
-        chooseMonthDialog.mOnDismissListener = {
-            toolbarLayout.tvTitle.isEnabled = true
-        }
-        chooseMonthDialog.mOnChooseListener = { year, month ->
-            mCurrentYear = year
-            mCurrentMonth = month
-            toolbarLayout.tvTitle.text = DateUtils.getYearMonthFormatString(year, month)
-            mBillFragment.setYearMonth(year, month)
-            mReportsFragment.setYearMonth(year, month)
-        }
-        chooseMonthDialog.show()
+    private fun onChooseCustomMonth() {
+        toolbarLayout.ivRight.isEnabled = beforeOffset != 0L
+        val (startDate: Date, endDate: Date, displayDate: String) = DateTimeUtil.getCustomMonth(beforeOffset)
+        toolbarLayout.tvTitle.text = displayDate
+        mBillFragment.setMonthRange(startDate, endDate)
+        mReportsFragment.setMonthRange(startDate, endDate)
     }
 
     companion object {

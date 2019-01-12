@@ -17,7 +17,7 @@
 <resources>
     <!--<string name="app_name">那样记账</string>-->
     <!-- 测试是否是简体中文环境 -->
-    <string name="text_zh">简体字</string>
+    <string name="text_i18n">简体</string>
 
     <string name="toast_add_record_fail">记账失败，请重试</string>
     <string name="toast_modify_record_fail">记录修改失败</string>
@@ -146,6 +146,7 @@
     <string name="text_choose_year">选择年份</string>
     <string name="text_year">年</string>
     <string name="text_month">月</string>
+    <string name="text_month_tip">注：月份为自然月</string>
 
     <!-- 设置 -->
     <string name="text_setting">设置</string>
@@ -168,6 +169,8 @@
     <string name="text_successive_record_tip">提示：长按首页添加按钮，连续记账</string>
     <string name="text_lock_record">锁定记录</string>
     <string name="text_last_asset">记录上次使用的资产账户</string>
+    <string name="text_custom">个性化</string>
+    <string name="text_start_day_of_month">月起始日</string>
     <string name="text_lock_record_off">记录可以编辑、删除</string>
     <string name="text_lock_record_on">记录不可以编辑、删除</string>
     <string name="text_manager">管理</string>

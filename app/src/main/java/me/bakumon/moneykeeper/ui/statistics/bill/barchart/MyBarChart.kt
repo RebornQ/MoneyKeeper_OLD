@@ -29,7 +29,8 @@ import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.view.mpchartpatch.barchart.RoundBarChart
 import java.util.*
 
-class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : RoundBarChart(context, attrs, defStyle) {
+class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
+    RoundBarChart(context, attrs, defStyle) {
 
     init {
         this.setNoDataText("")
@@ -40,26 +41,13 @@ class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet
         this.axisLeft.axisMinimum = 0f
         this.axisLeft.isEnabled = false
         this.axisRight.isEnabled = false
-        val xAxis = this.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
-        xAxis.textColor = ContextCompat.getColor(context, R.color.colorTextHint)
-        xAxis.labelCount = 5
-        xAxis.setValueFormatter { value, _ ->
-            val intValue = value.toInt()
-            if (intValue >= 0) {
-                intValue.toString() + context.getString(R.string.text_day)
-            } else {
-                ""
-            }
-        }
 
         val mv = BarChartMarkerView(context)
         mv.chartView = this
         this.marker = mv
     }
 
-    fun setChartData(daySumMoneyBeans: List<DaySumMoneyBean>?, year: Int, month: Int) {
+    fun setChartData(daySumMoneyBeans: List<DaySumMoneyBean>?, dateFrom: Date, dateTo: Date) {
         if (daySumMoneyBeans == null || daySumMoneyBeans.isEmpty()) {
             this.visibility = View.INVISIBLE
             return
@@ -67,8 +55,23 @@ class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet
             this.visibility = View.VISIBLE
         }
 
-        val count = DateUtils.getDayCount(year, month)
-        val barEntries = BarEntryConverter.getBarEntryList(count, daySumMoneyBeans)
+        val dateList = DateUtils.getRangeDate(dateFrom, dateTo)
+        val barEntries = BarEntryConverter.getBarEntryList(dateList, daySumMoneyBeans)
+
+        // x 轴显示日期
+        val xAxis = this.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.textColor = ContextCompat.getColor(context, R.color.colorTextHint)
+        xAxis.axisMinimum = 0F
+        xAxis.setValueFormatter { value, _ ->
+            val intValue = value.toInt()
+            if (intValue >= 0 && intValue < dateList.size) {
+                DateUtils.date2MonthDay(dateList[intValue])
+            } else {
+                ""
+            }
+        }
 
         val set1: BarDataSet
         if (this.data != null && this.data.dataSetCount > 0) {

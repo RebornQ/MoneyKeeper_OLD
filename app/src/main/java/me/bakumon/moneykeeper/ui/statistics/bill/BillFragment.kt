@@ -29,12 +29,12 @@ import me.bakumon.moneykeeper.ui.common.BaseFragment
 import me.bakumon.moneykeeper.ui.common.Empty
 import me.bakumon.moneykeeper.ui.common.EmptyViewBinder
 import me.bakumon.moneykeeper.ui.home.RecordsViewBinder
-import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.utill.ToastUtils
 import me.bakumon.moneykeeper.widget.WidgetProvider
 import me.drakeet.multitype.Items
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.register
+import java.util.*
 
 /**
  * 统计-账单
@@ -44,9 +44,10 @@ import me.drakeet.multitype.register
 class BillFragment : BaseFragment() {
     private lateinit var mViewModel: BillViewModel
     private lateinit var adapter: MultiTypeAdapter
-    private var mYear: Int = DateUtils.getCurrentYear()
-    private var mMonth: Int = DateUtils.getCurrentMonth()
     private var mType: Int = RecordType.TYPE_OUTLAY
+
+    private lateinit var dateFrom: Date
+    private lateinit var dateTo: Date
 
     override val layoutId: Int
         get() = R.layout.fragment_bill
@@ -58,6 +59,9 @@ class BillFragment : BaseFragment() {
         adapter.register(RecordForList::class, RecordsViewBinder { deleteRecord(it) })
         adapter.register(Empty::class, EmptyViewBinder())
         rvRecordBill.adapter = adapter
+
+        dateFrom = arguments?.getSerializable(KEY_DATE_FROM) as Date
+        dateTo = arguments?.getSerializable(KEY_DATE_TO) as Date
 
         sumMoneyChooseView.setOnCheckedChangeListener {
             mType = it
@@ -76,15 +80,12 @@ class BillFragment : BaseFragment() {
     }
 
     /**
-     * 设置月份
+     * 设置日期范围
      * 父 activity 调用
      */
-    fun setYearMonth(year: Int, month: Int) {
-        if (year == mYear && month == mMonth) {
-            return
-        }
-        mYear = year
-        mMonth = month
+    fun setMonthRange(dateFrom: Date, dateTo: Date) {
+        this.dateFrom = dateFrom
+        this.dateTo = dateTo
         // 更新数据
         updateData()
     }
@@ -106,7 +107,7 @@ class BillFragment : BaseFragment() {
     }
 
     private fun getOrderData() {
-        mViewModel.getRecordForListWithTypes(mYear, mMonth, mType).observe(this, Observer {
+        mViewModel.getRecordForListWithTypes(dateFrom, dateTo, mType).observe(this, Observer {
             if (it != null) {
                 setItems(it)
             }
@@ -125,14 +126,27 @@ class BillFragment : BaseFragment() {
     }
 
     private fun getDaySumData() {
-        mViewModel.getDaySumMoney(mYear, mMonth, mType).observe(this, Observer {
-            barChart.setChartData(it, mYear, mMonth)
+        mViewModel.getDaySumMoney(dateFrom, dateTo, mType).observe(this, Observer {
+            barChart.setChartData(it, dateFrom, dateTo)
         })
     }
 
     private fun getMonthSumMoney() {
-        mViewModel.getMonthSumMoney(mYear, mMonth).observe(this, Observer {
+        mViewModel.getMonthSumMoney(dateFrom, dateTo).observe(this, Observer {
             sumMoneyChooseView.setSumMoneyBean(it)
         })
+    }
+
+    companion object {
+        private const val KEY_DATE_FROM = "KEY_DATE_FROM"
+        private const val KEY_DATE_TO = "KEY_DATE_TO"
+        fun newInstance(dateFrom: Date, dateTo: Date): BillFragment {
+            val fragment = BillFragment()
+            val bundle = Bundle()
+            bundle.putSerializable(KEY_DATE_FROM, dateFrom)
+            bundle.putSerializable(KEY_DATE_TO, dateTo)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

@@ -37,6 +37,7 @@ object OpenSourceListCreator {
         items.add(License("RxAndroid", "ReactiveX", License.APACHE_2, "https://github.com/ReactiveX/rxAndroid"))
 
         items.add(License("ProcessPhoenix", "JakeWharton", License.APACHE_2, "https://github.com/JakeWharton/ProcessPhoenix"))
+        items.add(License("ThreeTenABP", "JakeWharton", License.APACHE_2, "https://github.com/JakeWharton/ThreeTenABP"))
 
         items.add(License("retrofit", "square", License.APACHE_2, "https://github.com/square/retrofit"))
         items.add(License("okhttp", "square", License.APACHE_2, "https://github.com/square/okhttp"))

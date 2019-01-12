@@ -17,7 +17,7 @@
 <resources>
     <string name="app_name">那樣記賬</string>
     <!-- 测试是否是简体中文环境 -->
-    <string name="text_zh">簡體字</string>
+    <string name="text_i18n">繁體</string>
 
     <string name="toast_add_record_fail">記賬失敗，請重試</string>
     <string name="toast_modify_record_fail">記錄修改失敗</string>
@@ -146,6 +146,7 @@
     <string name="text_choose_year">選擇年份</string>
     <string name="text_year">年</string>
     <string name="text_month">月</string>
+    <string name="text_month_tip">注：月份為自然月</string>
 
     <!-- 设置 -->
     <string name="text_setting">設置</string>
@@ -168,6 +169,8 @@
     <string name="text_successive_record_tip">提示：長按首頁添加按鈕，連續記賬</string>
     <string name="text_lock_record">鎖定記錄</string>
     <string name="text_last_asset">記錄上次使用的資產賬戶</string>
+    <string name="text_custom">個性化</string>
+    <string name="text_start_day_of_month">月起始日</string>
     <string name="text_lock_record_off">記錄可以編輯、刪除</string>
     <string name="text_lock_record_on">記錄不可以編輯、刪除</string>
     <string name="text_manager">管理</string>

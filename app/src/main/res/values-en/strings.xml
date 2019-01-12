@@ -17,7 +17,7 @@
 <resources>
     <string name="app_name">ThatMoney</string>
     <!-- 测试是否是简体中文环境 -->
-    <string name="text_zh">Simplified Chinese</string>
+    <string name="text_i18n">English</string>
 
     <string name="toast_add_record_fail">Billing failed, please try again</string>
     <string name="toast_modify_record_fail">Failed to modify the record</string>
@@ -146,9 +146,10 @@
     <string name="text_choose_year">Select year</string>
     <string name="text_year" />
     <string name="text_month" />
+    <string name="text_month_tip">Note: Natural month</string>
 
     <!-- 设置 -->
-    <string name="text_setting">Setting</string>
+    <string name="text_setting">Settings</string>
     <string name="text_money">Bookkeeping</string>
     <string name="text_no_setting">no data</string>
     <string name="text_monty_budget">Monthly Budget</string>
@@ -168,6 +169,8 @@
     <string name="text_successive_record_tip">Tip:Long press home add button, continuous accounting</string>
     <string name="text_lock_record">Lock Record</string>
     <string name="text_last_asset">Record the last used asset</string>
+    <string name="text_custom">Individuation</string>
+    <string name="text_start_day_of_month">Start of the month</string>
     <string name="text_lock_record_off">Records can be edited and deleted</string>
     <string name="text_lock_record_on">Records cannot be edited or deleted</string>
     <string name="text_manager">Manager</string>

@@ -122,7 +122,15 @@ interface AppDataSource {
      *
      * @param record 记录对象
      */
-    fun updateRecord(oldMoney: BigDecimal, oldType: Int, type: Int, oldAssets: Assets?, assets: Assets?, record: Record, recordType: RecordType): Completable
+    fun updateRecord(
+        oldMoney: BigDecimal,
+        oldType: Int,
+        type: Int,
+        oldAssets: Assets?,
+        assets: Assets?,
+        record: Record,
+        recordType: RecordType
+    ): Completable
 
     /**
      * 删除一天记账记录
@@ -156,14 +164,24 @@ interface AppDataSource {
      *
      * @return 包含记录数据的 Flowable 对象
      */
-    fun getRangeRecordForListWithTypesByTypeId(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordForList>>
+    fun getRangeRecordForListWithTypesByTypeId(
+        dateFrom: Date,
+        dateTo: Date,
+        type: Int,
+        typeId: Int
+    ): LiveData<List<RecordForList>>
 
     /**
      * 获取某一类型某段时间的记账记录数据，money 排序
      *
      * @return 包含记录数据的 Flowable 对象
      */
-    fun getRecordForListWithTypesSortMoney(dateFrom: Date, dateTo: Date, type: Int, typeId: Int): LiveData<List<RecordForList>>
+    fun getRecordForListWithTypesSortMoney(
+        dateFrom: Date,
+        dateTo: Date,
+        type: Int,
+        typeId: Int
+    ): LiveData<List<RecordForList>>
 
     /**
      * 获取本月支出和收入总数
@@ -177,12 +195,9 @@ interface AppDataSource {
 
     /**
      * 获取某天的合计
-     *
-     * @param year  年
-     * @param month 月
      * @param type  类型
      */
-    fun getDaySumMoney(year: Int, month: Int, type: Int): LiveData<List<DaySumMoneyBean>>
+    fun getDaySumMoney(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<DaySumMoneyBean>>
 
     /**
      * 获取按类型汇总数据
@@ -263,7 +278,14 @@ interface AppDataSource {
     /**
      * 新增转账记录
      */
-    fun updateTransferRecord(oldMoney: BigDecimal, oldOutAssets: Assets, oldInAssets: Assets, outAssets: Assets, inAssets: Assets, transferRecord: AssetsTransferRecord): Completable
+    fun updateTransferRecord(
+        oldMoney: BigDecimal,
+        oldOutAssets: Assets,
+        oldInAssets: Assets,
+        outAssets: Assets,
+        inAssets: Assets,
+        transferRecord: AssetsTransferRecord
+    ): Completable
 
     /**
      * 获取转账记录

@@ -21,6 +21,7 @@ import android.app.Application
 import android.os.Bundle
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.answers.Answers
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
 
@@ -38,6 +39,7 @@ class App : Application(), Application.ActivityLifecycleCallbacks {
             return
         }
         LeakCanary.install(this)
+        AndroidThreeTen.init(this)
         // Normal app init code...
         // 初始化 Fabric
         Fabric.with(this, Crashlytics(), Answers())

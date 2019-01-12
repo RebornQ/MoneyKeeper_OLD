@@ -26,6 +26,7 @@ import me.bakumon.moneykeeper.database.AppDatabase
 import me.bakumon.moneykeeper.database.entity.*
 import me.bakumon.moneykeeper.ui.addtype.TypeImgBean
 import me.bakumon.moneykeeper.utill.BackupUtil
+import me.bakumon.moneykeeper.utill.DateTimeUtil
 import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.utill.ToastUtils
 import java.math.BigDecimal
@@ -386,9 +387,7 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
         return mAppDatabase.recordDao().getSumMoneyLiveData(dateFrom, dateTo)
     }
 
-    override fun getDaySumMoney(year: Int, month: Int, type: Int): LiveData<List<DaySumMoneyBean>> {
-        val dateFrom = DateUtils.getMonthStart(year, month)
-        val dateTo = DateUtils.getMonthEnd(year, month)
+    override fun getDaySumMoney(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<DaySumMoneyBean>> {
         return mAppDatabase.recordDao().getDaySumMoney(dateFrom, dateTo, type)
     }
 
@@ -407,8 +406,7 @@ class LocalAppDataSource(private val mAppDatabase: AppDatabase) : AppDataSource 
     }
 
     override fun getCurrentOutlay(): List<SumMoneyBean> {
-        val dateFrom = DateUtils.getCurrentMonthStart()
-        val dateTo = DateUtils.getCurrentMonthEnd()
+        val (dateFrom, dateTo) = DateTimeUtil.getCustomMonth()
         return mAppDatabase.recordDao().getSumMoney(dateFrom, dateTo)
     }
 

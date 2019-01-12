@@ -92,6 +92,7 @@ class HeadPageView @JvmOverloads constructor(context: Context, attrs: AttributeS
 
         val symbol = DefaultSPHelper.symbol
         val text = if (symbol.isBlank()) "" else "($symbol)"
+        // TODO 月支持收入 使用自定义月份范围
         tvLeftTitle.text = context.getText(R.string.text_month_outlay).toString() + text
         tvRightTitle.text = context.getText(R.string.text_month_remaining_budget).toString() + text
 

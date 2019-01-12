@@ -26,6 +26,7 @@ import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.SumMoneyBean
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
+import me.bakumon.moneykeeper.utill.DateTimeUtil
 
 /**
  * 主页 ViewModel
@@ -38,7 +39,10 @@ class HomeViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
         get() = mDataSource.getRecentRecords()
 
     val currentMonthSumMoney: LiveData<List<SumMoneyBean>>
-        get() = mDataSource.getCurrentMonthSumMoneyLiveData()
+        get() {
+            val (startDate, endDate) = DateTimeUtil.getCustomMonth()
+            return mDataSource.getMonthSumMoneyLiveData(startDate, endDate)
+        }
 
     fun initRecordTypes(): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()

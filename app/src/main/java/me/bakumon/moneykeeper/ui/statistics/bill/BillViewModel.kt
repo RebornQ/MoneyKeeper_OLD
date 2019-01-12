@@ -26,7 +26,7 @@ import me.bakumon.moneykeeper.database.entity.RecordForList
 import me.bakumon.moneykeeper.database.entity.SumMoneyBean
 import me.bakumon.moneykeeper.datasource.AppDataSource
 import me.bakumon.moneykeeper.ui.common.BaseViewModel
-import me.bakumon.moneykeeper.utill.DateUtils
+import java.util.*
 
 /**
  * 统计-账单
@@ -35,33 +35,29 @@ import me.bakumon.moneykeeper.utill.DateUtils
  */
 class BillViewModel(dataSource: AppDataSource) : BaseViewModel(dataSource) {
 
-    fun getRecordForListWithTypes(year: Int, month: Int, type: Int): LiveData<List<RecordForList>> {
-        val dateFrom = DateUtils.getMonthStart(year, month)
-        val dateTo = DateUtils.getMonthEnd(year, month)
+    fun getRecordForListWithTypes(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<RecordForList>> {
         return mDataSource.getRecordForListWithTypes(dateFrom, dateTo, type)
     }
 
-    fun getDaySumMoney(year: Int, month: Int, type: Int): LiveData<List<DaySumMoneyBean>> {
-        return mDataSource.getDaySumMoney(year, month, type)
+    fun getDaySumMoney(dateFrom: Date, dateTo: Date, type: Int): LiveData<List<DaySumMoneyBean>> {
+        return mDataSource.getDaySumMoney(dateFrom, dateTo, type)
     }
 
-    fun getMonthSumMoney(year: Int, month: Int): LiveData<List<SumMoneyBean>> {
-        val dateFrom = DateUtils.getMonthStart(year, month)
-        val dateTo = DateUtils.getMonthEnd(year, month)
+    fun getMonthSumMoney(dateFrom: Date, dateTo: Date): LiveData<List<SumMoneyBean>> {
         return mDataSource.getMonthSumMoneyLiveData(dateFrom, dateTo)
     }
 
     fun deleteRecord(record: RecordForList): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
         mDisposable.add(mDataSource.deleteRecord(record)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    liveData.value = Resource.create(true)
-                }
-                ) { throwable ->
-                    liveData.value = Resource.create(throwable)
-                })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                liveData.value = Resource.create(true)
+            }
+            ) { throwable ->
+                liveData.value = Resource.create(throwable)
+            })
         return liveData
     }
 }
