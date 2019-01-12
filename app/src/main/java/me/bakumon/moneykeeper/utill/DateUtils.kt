@@ -19,10 +19,12 @@ package me.bakumon.moneykeeper.utill
 import android.annotation.SuppressLint
 import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.R
+import org.threeten.bp.LocalDate
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 时间工具类
@@ -385,5 +387,40 @@ object DateUtils {
         } else {
             date2String(date, YEAR_MONTH_DAY_FORMAT)
         }
+    }
+
+    /**
+     * 获取日期范围
+     */
+    fun getRangeDate(dateFrom: Date, dateTo: Date): ArrayList<Date> {
+        val calFrom = Calendar.getInstance()
+        calFrom.time = dateFrom
+        val calTo = Calendar.getInstance()
+        calTo.time = dateTo
+
+        var localDateFrom =
+            LocalDate.of(calFrom.get(Calendar.YEAR), calFrom.get(Calendar.MONTH) + 1, calFrom.get(Calendar.DAY_OF_MONTH))
+        val localDateTo =
+            LocalDate.of(calTo.get(Calendar.YEAR), calTo.get(Calendar.MONTH) + 1, calTo.get(Calendar.DAY_OF_MONTH))
+
+        val result = ArrayList<Date>()
+
+        result.add(DateTimeUtil.localDate2Date(localDateFrom))
+
+        if (localDateFrom.isAfter(localDateTo)) {
+            return result
+        }
+
+        while (true) {
+            val localDateTemp = localDateFrom.plusDays(1)
+            if (localDateTemp != localDateTo) {
+                localDateFrom = localDateTemp
+                result.add(DateTimeUtil.localDate2Date(localDateTemp))
+            } else {
+                result.add(DateTimeUtil.localDate2Date(localDateTo))
+                break
+            }
+        }
+        return result
     }
 }

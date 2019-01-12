@@ -29,7 +29,8 @@ import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.view.mpchartpatch.barchart.RoundBarChart
 import java.util.*
 
-class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : RoundBarChart(context, attrs, defStyle) {
+class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
+    RoundBarChart(context, attrs, defStyle) {
 
     init {
         this.setNoDataText("")
@@ -59,7 +60,7 @@ class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet
         this.marker = mv
     }
 
-    fun setChartData(daySumMoneyBeans: List<DaySumMoneyBean>?, year: Int, month: Int) {
+    fun setChartData(daySumMoneyBeans: List<DaySumMoneyBean>?, dateFrom: Date, dateTo: Date) {
         if (daySumMoneyBeans == null || daySumMoneyBeans.isEmpty()) {
             this.visibility = View.INVISIBLE
             return
@@ -67,8 +68,8 @@ class MyBarChart @JvmOverloads constructor(context: Context, attrs: AttributeSet
             this.visibility = View.VISIBLE
         }
 
-        val count = DateUtils.getDayCount(year, month)
-        val barEntries = BarEntryConverter.getBarEntryList(count, daySumMoneyBeans)
+        val dateList = DateUtils.getRangeDate(dateFrom, dateTo)
+        val barEntries = BarEntryConverter.getBarEntryList(dateList, daySumMoneyBeans)
 
         val set1: BarDataSet
         if (this.data != null && this.data.dataSetCount > 0) {

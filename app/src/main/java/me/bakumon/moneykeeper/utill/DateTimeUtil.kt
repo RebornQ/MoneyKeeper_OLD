@@ -53,6 +53,10 @@ object DateTimeUtil {
         return Result(localDate2DateStart(start), localDate2DateEnd(end), getDisplayDate(start, end))
     }
 
+    fun localDate2Date(localDate: LocalDate): Date {
+        return localDate2DateStart(localDate)
+    }
+
     /**
      * LocalDate 转换为 Date
      * @return LocalDate 日期开始 time

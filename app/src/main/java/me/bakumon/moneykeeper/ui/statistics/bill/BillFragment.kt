@@ -29,7 +29,6 @@ import me.bakumon.moneykeeper.ui.common.BaseFragment
 import me.bakumon.moneykeeper.ui.common.Empty
 import me.bakumon.moneykeeper.ui.common.EmptyViewBinder
 import me.bakumon.moneykeeper.ui.home.RecordsViewBinder
-import me.bakumon.moneykeeper.utill.DateUtils
 import me.bakumon.moneykeeper.utill.ToastUtils
 import me.bakumon.moneykeeper.widget.WidgetProvider
 import me.drakeet.multitype.Items
@@ -45,8 +44,6 @@ import java.util.*
 class BillFragment : BaseFragment() {
     private lateinit var mViewModel: BillViewModel
     private lateinit var adapter: MultiTypeAdapter
-    private var mYear: Int = DateUtils.getCurrentYear()
-    private var mMonth: Int = DateUtils.getCurrentMonth()
     private var mType: Int = RecordType.TYPE_OUTLAY
 
     private lateinit var dateFrom: Date
@@ -130,8 +127,7 @@ class BillFragment : BaseFragment() {
 
     private fun getDaySumData() {
         mViewModel.getDaySumMoney(dateFrom, dateTo, mType).observe(this, Observer {
-            // TODO 柱形图自定义月份
-            barChart.setChartData(it, mYear, mMonth)
+            barChart.setChartData(it, dateFrom, dateTo)
         })
     }
 

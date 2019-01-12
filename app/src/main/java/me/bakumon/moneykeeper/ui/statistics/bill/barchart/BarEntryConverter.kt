@@ -18,6 +18,7 @@ package me.bakumon.moneykeeper.ui.statistics.bill.barchart
 
 import com.github.mikephil.charting.data.BarEntry
 import me.bakumon.moneykeeper.database.entity.DaySumMoneyBean
+import me.bakumon.moneykeeper.utill.DateUtils
 import java.math.BigDecimal
 import java.util.*
 
@@ -30,25 +31,26 @@ object BarEntryConverter {
     /**
      * 获取柱状图所需数据格式 BarEntry
      *
-     * @param count            生成的数据 list 大小
+     * @param dateList            日期
      * @param daySumMoneyBeans 包含日期和该日期汇总数据
-     * @return List<BarEntry>
-    </BarEntry> */
-    fun getBarEntryList(count: Int, daySumMoneyBeans: List<DaySumMoneyBean>?): List<BarEntry> {
+     * @return 柱形图所需数据
+     */
+    fun getBarEntryList(dateList: ArrayList<Date>, daySumMoneyBeans: List<DaySumMoneyBean>?): List<BarEntry> {
         val entryList = ArrayList<BarEntry>()
         if (daySumMoneyBeans != null && daySumMoneyBeans.isNotEmpty()) {
             val max = getMax(daySumMoneyBeans)
             var barEntry: BarEntry
-            for (i in 0 until count) {
+            for (i in 0 until dateList.size) {
                 for (j in daySumMoneyBeans.indices) {
-                    if (i + 1 == daySumMoneyBeans[j].time.date) {
+                    if (DateUtils.isSameDay(dateList[i], daySumMoneyBeans[j].time)) {
                         // 高度补偿
                         // 加上最大值的十分之一来调整每个柱形的高度，避免数据差距太大，小数据显示太低
-                        val y = max.divide(BigDecimal(10), 0, BigDecimal.ROUND_HALF_DOWN).add(daySumMoneyBeans[j].daySumMoney)
+                        val y = max.divide(BigDecimal(10), 0, BigDecimal.ROUND_HALF_DOWN)
+                            .add(daySumMoneyBeans[j].daySumMoney)
                         barEntry = BarEntry((i + 1).toFloat(), y.toFloat())
                         // 这里的 y 由于是 float，所以数值很大的话，还是会出现科学计数法
                         // 为了避免科学计数法显示,marker从data中取值
-                        barEntry.data = daySumMoneyBeans[j].daySumMoney
+                        barEntry.data = daySumMoneyBeans[j]
                         entryList.add(barEntry)
                     }
                 }

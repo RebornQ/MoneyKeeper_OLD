@@ -26,7 +26,9 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.MPPointF
 import me.bakumon.moneykeeper.DefaultSPHelper
 import me.bakumon.moneykeeper.R
+import me.bakumon.moneykeeper.database.entity.DaySumMoneyBean
 import me.bakumon.moneykeeper.utill.BigDecimalUtil
+import me.bakumon.moneykeeper.utill.DateUtils
 import java.math.BigDecimal
 
 /**
@@ -39,10 +41,17 @@ class BarChartMarkerView(context: Context) : MarkerView(context, R.layout.bar_ch
     private val tvContent: TextView = findViewById(R.id.tv_content)
 
     override fun refreshContent(e: Entry?, highlight: Highlight?) {
-        val content = e!!.x.toInt().toString() + context.getString(R.string.text_day) + " " + DefaultSPHelper.symbol + BigDecimalUtil.fen2Yuan(e.data as BigDecimal?)
-        tvContent.text = content
-        if (e.y > 0) {
-            tvContent.visibility = View.VISIBLE
+        val data = e?.data
+        if (data is DaySumMoneyBean) {
+            val date = DateUtils.date2MonthDay(data.time)
+            val money = DefaultSPHelper.symbol + BigDecimalUtil.fen2Yuan(data.daySumMoney)
+            val content = "$date $money"
+            tvContent.text = content
+            if (data.daySumMoney > BigDecimal(0)) {
+                tvContent.visibility = View.VISIBLE
+            } else {
+                tvContent.visibility = View.GONE
+            }
         } else {
             tvContent.visibility = View.GONE
         }
