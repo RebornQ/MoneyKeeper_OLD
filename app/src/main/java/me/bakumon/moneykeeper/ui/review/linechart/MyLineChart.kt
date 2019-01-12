@@ -17,11 +17,14 @@ package me.bakumon.moneykeeper.ui.review.linechart
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
+import me.bakumon.moneykeeper.App
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.database.entity.MonthSumMoneyBean
 
@@ -30,7 +33,14 @@ class MyLineChart @JvmOverloads constructor(context: Context, attrs: AttributeSe
     init {
         this.setNoDataText("")
         this.setScaleEnabled(false)
-        this.description.isEnabled = false
+
+        this.description.isEnabled = true
+        val description = Description()
+        description.text = App.instance.getString(R.string.text_month_tip)
+        description.textColor = ContextCompat.getColor(context, R.color.colorTextHint)
+        description.yOffset = -30F
+        this.description = description
+
         this.legend.isEnabled = true
         this.legend.textColor = ContextCompat.getColor(context, R.color.colorText)
         val marker = LineChartMarkerView(context)

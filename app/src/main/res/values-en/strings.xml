@@ -146,6 +146,7 @@
     <string name="text_choose_year">Select year</string>
     <string name="text_year" />
     <string name="text_month" />
+    <string name="text_month_tip">Note: Natural month</string>
 
     <!-- 设置 -->
     <string name="text_setting">Setting</string>

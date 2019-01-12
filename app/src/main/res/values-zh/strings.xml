@@ -146,6 +146,7 @@
     <string name="text_choose_year">选择年份</string>
     <string name="text_year">年</string>
     <string name="text_month">月</string>
+    <string name="text_month_tip">注：月份为自然月</string>
 
     <!-- 设置 -->
     <string name="text_setting">设置</string>
