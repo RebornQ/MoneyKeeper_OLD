@@ -60,20 +60,27 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         // 月预算
         val budgetPref: Preference = findPreference("budget")
-        budgetPref.setOnPreferenceClickListener {
+        budgetPref.setOnPreferenceChangeListener { _, _ ->
             // 更新 widget
             WidgetProvider.updateWidget(context!!)
             true
         }
         // 货币符号
         val symbolPreference: ListPreference = findPreference("symbol")
-        symbolPreference.setOnPreferenceClickListener {
+        symbolPreference.setOnPreferenceChangeListener { _, _ ->
             // 更新 widget
             WidgetProvider.updateWidget(context!!)
             true
         }
         symbolPreference.setSummaryProvider {
             symbolPreference.value + "（" + getString(R.string.text_content_symbol) + "）"
+        }
+        // 月起始日
+        val monthStartDayPref: Preference = findPreference("monthStartDay")
+        monthStartDayPref.setOnPreferenceChangeListener { _, _ ->
+            // 更新 widget
+            WidgetProvider.updateWidget(context!!)
+            true
         }
         // 锁屏模式
         val lockScreenPreference: Preference = findPreference("lockScreen")

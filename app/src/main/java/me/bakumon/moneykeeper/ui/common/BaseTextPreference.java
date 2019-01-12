@@ -134,6 +134,9 @@ public abstract class BaseTextPreference extends Preference {
         }
 
         notifyChanged();
+        if (getOnPreferenceChangeListener() != null) {
+            getOnPreferenceChangeListener().onPreferenceChange(this, text);
+        }
     }
 
     public String getText() {
