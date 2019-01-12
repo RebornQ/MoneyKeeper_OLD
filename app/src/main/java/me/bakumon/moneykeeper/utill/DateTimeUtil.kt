@@ -16,12 +16,13 @@
 
 package me.bakumon.moneykeeper.utill
 
+import me.bakumon.moneykeeper.DefaultSPHelper
 import org.threeten.bp.LocalDate
 import java.util.*
 
 /**
  * 日期时间工具类
- * 使用 java8 java.time API
+ * 使用 java8 java.time 包 API
  *
  * @author Bakumon https://bakumon.me
  */
@@ -33,15 +34,14 @@ object DateTimeUtil {
      * 获取自定义开始日期的月份范围
      */
     fun getCustomMonth(beforeOffset: Long = 0): Result {
-        // TODO 设置项
-        val customStartDay = 12
+        val customStartDay = DefaultSPHelper.startDayOfMonth.toInt()
 
         val today = LocalDate.now()
         val temp = LocalDate.of(today.year, today.month, customStartDay)
         val customStart = if (temp.isBefore(today) || temp.isEqual(today)) {
             temp
         } else {
-            temp.minusMonths(1)
+            temp.minusMonths(1L)
         }
 
         val start: LocalDate = customStart.minusMonths(beforeOffset)

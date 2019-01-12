@@ -18,18 +18,22 @@ package me.bakumon.moneykeeper.ui.settings
 import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.preference.Preference
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.customListAdapter
 import com.afollestad.materialdialogs.list.getRecyclerView
 import me.bakumon.moneykeeper.R
 import me.bakumon.moneykeeper.ui.common.BaseTextPreference
-import me.bakumon.moneykeeper.ui.home.FooterViewBinder
-import me.bakumon.moneykeeper.utill.BigDecimalUtil
+import me.bakumon.moneykeeper.utill.AndroidUtil
+import me.drakeet.multitype.ItemViewBinder
 import me.drakeet.multitype.MultiTypeAdapter
 import me.drakeet.multitype.register
-import java.util.ArrayList
 
 class DayOfMonthPreference : BaseTextPreference {
 
@@ -58,45 +62,30 @@ class DayOfMonthPreference : BaseTextPreference {
             dialog = MaterialDialog(context)
         }
         val adapter = MultiTypeAdapter()
-        adapter.register(String::class, FooterViewBinder())
-        adapter.items = arrayListOf(
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28"
-        )
+        adapter.register(DayForList::class, FooterViewBinder())
+
+        val list = ArrayList<DayForList>()
+        for (i in 1..28) {
+            list.add(DayForList(i.toString(), i.toString() == text))
+        }
+        adapter.items = list
         dialog!!.show {
-            title(text = "月起始日")
+            title(R.string.text_start_day_of_month)
             customListAdapter(adapter)
-            positiveButton {  }
-            negativeButton {  }
+            negativeButton { }
+            positiveButton {
+                adapter.items.forEach { item ->
+                    if (item is DayForList && item.isSelected) {
+                        text = item.day
+                        return@positiveButton
+                    }
+                }
+            }
         }
         val recyclerView = dialog!!.getRecyclerView()
         recyclerView?.layoutManager = GridLayoutManager(context, 7)
+        recyclerView?.clipToPadding = false
+        recyclerView?.setPadding(40, 0, 20, 0)
     }
 
     class SimpleSummaryProvider private constructor() : Preference.SummaryProvider<DayOfMonthPreference> {
@@ -105,7 +94,23 @@ class DayOfMonthPreference : BaseTextPreference {
             return if (TextUtils.isEmpty(preference.text)) {
                 preference.context.getString(R.string.text_no_setting)
             } else {
-                BigDecimalUtil.formatNum(preference.text)
+                getDisplayDay(preference)
+            }
+        }
+
+        private fun getDisplayDay(preference: DayOfMonthPreference): String {
+            return if (AndroidUtil.isCN()) {
+                preference.text + preference.context.getString(R.string.text_day)
+            } else {
+                if ("1" == preference.text || "21" == preference.text) {
+                    preference.text + "st"
+                } else if ("2" == preference.text || "22" == preference.text) {
+                    preference.text + "nd"
+                } else if ("3" == preference.text || "23" == preference.text) {
+                    preference.text + "rd"
+                } else {
+                    preference.text + "th"
+                }
             }
         }
 
@@ -122,4 +127,33 @@ class DayOfMonthPreference : BaseTextPreference {
                 }
         }
     }
+
+    class FooterViewBinder : ItemViewBinder<DayForList, FooterViewBinder.ViewHolder>() {
+
+        override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): ViewHolder {
+            val root = inflater.inflate(R.layout.layout_day, parent, false)
+            return ViewHolder(root)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, item: DayForList) {
+            holder.tvDay.text = item.day
+            holder.tvDay.isSelected = item.isSelected
+            holder.tvDay.setOnClickListener { setItemSelected(holder.adapterPosition) }
+        }
+
+        private fun setItemSelected(position: Int) {
+            adapter.items.forEachIndexed { index, item ->
+                if (item is DayForList) {
+                    item.isSelected = index == position
+                }
+            }
+            adapter.notifyDataSetChanged()
+        }
+
+        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val tvDay: TextView = itemView.findViewById(R.id.tv_day)
+        }
+    }
+
+    data class DayForList(val day: String, var isSelected: Boolean)
 }

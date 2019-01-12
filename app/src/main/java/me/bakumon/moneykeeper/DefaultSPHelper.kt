@@ -239,4 +239,17 @@ object DefaultSPHelper {
      */
     val isLastAssetByType: Boolean
         get() = TextUtils.equals(lastAsset, "byType")
+
+    /**
+     * 月起始日
+     */
+    val startDayOfMonth: String
+        get() {
+            val temp = PreferenceManager.getDefaultSharedPreferences(App.instance).getString("monthStartDay", "1")
+            return if (temp.isNullOrBlank()) {
+                ""
+            } else {
+                temp
+            }
+        }
 }

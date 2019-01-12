@@ -17,7 +17,7 @@
 <resources>
     <!--<string name="app_name">那样记账</string>-->
     <!-- 测试是否是简体中文环境 -->
-    <string name="text_zh">简体字</string>
+    <string name="text_i18n">简体</string>
 
     <string name="toast_add_record_fail">记账失败，请重试</string>
     <string name="toast_modify_record_fail">记录修改失败</string>

@@ -17,7 +17,7 @@
 <resources>
     <string name="app_name">ThatMoney</string>
     <!-- 测试是否是简体中文环境 -->
-    <string name="text_zh">Simplified Chinese</string>
+    <string name="text_i18n">English</string>
 
     <string name="toast_add_record_fail">Billing failed, please try again</string>
     <string name="toast_modify_record_fail">Failed to modify the record</string>
