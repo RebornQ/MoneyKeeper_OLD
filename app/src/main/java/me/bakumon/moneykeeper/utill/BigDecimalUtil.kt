@@ -33,7 +33,7 @@ object BigDecimalUtil {
 
     fun fen2YuanWithText(fenBD: BigDecimal?): String {
         return if (fenBD != null) {
-            if (App.instance.resources.configuration.locale.language == Locale.CHINESE.language) {
+            if (AndroidUtil.isCN()) {
                 val fenBDAbs = fenBD.abs()
                 // 中文
                 when {

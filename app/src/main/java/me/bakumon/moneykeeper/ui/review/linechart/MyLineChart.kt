@@ -38,7 +38,7 @@ class MyLineChart @JvmOverloads constructor(context: Context, attrs: AttributeSe
         val description = Description()
         description.text = App.instance.getString(R.string.text_month_tip)
         description.textColor = ContextCompat.getColor(context, R.color.colorTextHint)
-        description.yOffset = -30F
+        description.yOffset = -25F
         this.description = description
 
         this.legend.isEnabled = true

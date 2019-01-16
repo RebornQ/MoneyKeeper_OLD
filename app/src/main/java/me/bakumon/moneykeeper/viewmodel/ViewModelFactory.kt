@@ -68,14 +68,11 @@ class ViewModelFactory(private val mDataSource: AppDataSource) : ViewModelProvid
             modelClass.isAssignableFrom(ReportsViewModel::class.java) -> ReportsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(TypeRecordsViewModel::class.java) -> TypeRecordsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(ReviewViewModel::class.java) -> ReviewViewModel(mDataSource) as T
-//            modelClass.isAssignableFrom(SettingViewModel::class.java) -> SettingViewModel(mDataSource) as T
             modelClass.isAssignableFrom(OtherSettingsViewModel::class.java) -> OtherSettingsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(BackupViewModel::class.java) -> BackupViewModel(mDataSource) as T
-//            modelClass.isAssignableFrom(BackupViewModel::class.java) -> BackupViewModel(mDataSource) as T
             modelClass.isAssignableFrom(AssetsViewModel::class.java) -> AssetsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(AddAssetsViewModel::class.java) -> AddAssetsViewModel(mDataSource) as T
             modelClass.isAssignableFrom(AssetsDetailViewModel::class.java) -> AssetsDetailViewModel(mDataSource) as T
-//            modelClass.isAssignableFrom(TransferViewModel::class.java) -> TransferViewModel(mDataSource) as T
             modelClass.isAssignableFrom(ModifyListViewModel::class.java) -> ModifyListViewModel(mDataSource) as T
             modelClass.isAssignableFrom(TransferRecordViewModel::class.java) -> TransferRecordViewModel(mDataSource) as T
             modelClass.isAssignableFrom(OrderListViewModel::class.java) -> OrderListViewModel(mDataSource) as T
