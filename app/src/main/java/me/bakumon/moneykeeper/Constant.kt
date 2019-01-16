@@ -29,7 +29,7 @@ object Constant {
     const val APP_OPEN_SOURCE_URL = "https://github.com/Bakumon/MoneyKeeper"
 
     fun getUrlTucao(): String {
-        val baseUrl = "https://support.qq.com/product/" + if (BuildConfig.DEBUG) "41006" else "41058"
+        val baseUrl = "https://support.qq.com/product/41058"
         // clientVersion：app 版本，如 v3.3.2_26
         val clientVersion = BuildConfig.VERSION_NAME + "_" + BuildConfig.VERSION_CODE
         return "$baseUrl?clientVersion=$clientVersion"
